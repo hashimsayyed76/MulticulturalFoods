@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="flag images on index.html">
+      <change beforePath="$PROJECT_DIR$/frontend/html/India.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/India.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,6 +141,7 @@
       <workItem from="1749669320486" duration="1421000" />
       <workItem from="1749670761814" duration="949000" />
       <workItem from="1749671733403" duration="719000" />
+      <workItem from="1749672471413" duration="297000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -199,7 +199,47 @@
       <option name="project" value="LOCAL" />
       <updated>1749671993246</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="flag images">
+      <option name="closed" value="true" />
+      <created>1749672483242</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749672483242</updated>
+    </task>
+    <task id="LOCAL-00009" summary="flag images">
+      <option name="closed" value="true" />
+      <created>1749672488354</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1749672488354</updated>
+    </task>
+    <task id="LOCAL-00010" summary="flag images">
+      <option name="closed" value="true" />
+      <created>1749672490995</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1749672490995</updated>
+    </task>
+    <task id="LOCAL-00011" summary="flag images">
+      <option name="closed" value="true" />
+      <created>1749672501016</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1749672501016</updated>
+    </task>
+    <task id="LOCAL-00012" summary="flag images on index.html">
+      <option name="closed" value="true" />
+      <created>1749672604189</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1749672604189</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,6 +252,8 @@
     <MESSAGE value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
     <MESSAGE value="moved all files to the frontend folder for better project file structure." />
     <MESSAGE value="updated all stylesheet hyperlink references to updated directory." />
-    <option name="LAST_COMMIT_MESSAGE" value="updated all stylesheet hyperlink references to updated directory." />
+    <MESSAGE value="flag images" />
+    <MESSAGE value="flag images on index.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="flag images on index.html" />
   </component>
 </project>
