@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="moved all files to the frontend folder for better project file structure.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +45,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JavaScript Debug.askai.html.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -136,7 +139,7 @@
       <workItem from="1749609797885" duration="1132000" />
       <workItem from="1749666674033" duration="279000" />
       <workItem from="1749669320486" duration="1421000" />
-      <workItem from="1749670761814" duration="437000" />
+      <workItem from="1749670761814" duration="949000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -170,7 +173,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749671184361</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="moved all files to the frontend folder for better project file structure.">
+      <option name="closed" value="true" />
+      <created>1749671650391</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749671650391</updated>
+    </task>
+    <task id="LOCAL-00006" summary="moved all files to the frontend folder for better project file structure.">
+      <option name="closed" value="true" />
+      <created>1749671660185</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749671660185</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +200,7 @@
     <MESSAGE value="updated HTML and CSS for unified look across all pages." />
     <MESSAGE value="created AskAI and ForgotPassword HTML files for more functionality within prototype." />
     <MESSAGE value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
-    <option name="LAST_COMMIT_MESSAGE" value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
+    <MESSAGE value="moved all files to the frontend folder for better project file structure." />
+    <option name="LAST_COMMIT_MESSAGE" value="moved all files to the frontend folder for better project file structure." />
   </component>
 </project>
