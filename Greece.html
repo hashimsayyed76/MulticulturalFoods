@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greek Cuisine - Multicultural Foods</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html">🏠</a>
+    <a href="searchpage.html">🔍</a>
+    <a href="askai.html">🤖</a>
+  </div>
+
+  <div class="main-content">
+    <h2>Popular Greek Dishes 🇬🇷</h2>
+    <div class="dish-grid">
+      <div class="dish-card">
+        <img src="dishes/gyros.jpg" alt="Gyros">
+        <h4>Gyros</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/moussaka.jpg" alt="Moussaka">
+        <h4>Moussaka</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/souvlaki.jpg" alt="Souvlaki">
+        <h4>Souvlaki</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/greek_salad.jpg" alt="Greek Salad">
+        <h4>Greek Salad</h4>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .dish-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .dish-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</body>
+</html>
