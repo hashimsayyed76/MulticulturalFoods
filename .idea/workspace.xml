@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="food images for Italian Dishes">
-      <change beforePath="$PROJECT_DIR$/frontend/html/Greece.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Greece.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Thailand.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Thailand.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Turkey.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Turkey.html" afterDir="false" />
-    </list>
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="food images for Greek Dishes." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +139,7 @@
       <workItem from="1749669320486" duration="1421000" />
       <workItem from="1749670761814" duration="949000" />
       <workItem from="1749671733403" duration="719000" />
-      <workItem from="1749672471413" duration="655000" />
+      <workItem from="1749672471413" duration="962000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -289,7 +285,71 @@
       <option name="project" value="LOCAL" />
       <updated>1749673127495</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="food images for Italian Dishes">
+      <option name="closed" value="true" />
+      <created>1749673149570</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673149570</updated>
+    </task>
+    <task id="LOCAL-00020" summary="food images for Thailand and Mexican Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673236386</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673236386</updated>
+    </task>
+    <task id="LOCAL-00021" summary="food images for Turkish Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673338481</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673338481</updated>
+    </task>
+    <task id="LOCAL-00022" summary="food images for Greek Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673430899</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673430899</updated>
+    </task>
+    <task id="LOCAL-00023" summary="food images for Greek Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673432667</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673432667</updated>
+    </task>
+    <task id="LOCAL-00024" summary="food images for Greek Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673435057</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673435057</updated>
+    </task>
+    <task id="LOCAL-00025" summary="food images for Greek Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673435844</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673435844</updated>
+    </task>
+    <task id="LOCAL-00026" summary="food images for Greek Dishes.">
+      <option name="closed" value="true" />
+      <created>1749673435989</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673435989</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,6 +366,9 @@
     <MESSAGE value="flag images on index.html" />
     <MESSAGE value="food images for Indian Dishes" />
     <MESSAGE value="food images for Italian Dishes" />
-    <option name="LAST_COMMIT_MESSAGE" value="food images for Italian Dishes" />
+    <MESSAGE value="food images for Thailand and Mexican Dishes." />
+    <MESSAGE value="food images for Turkish Dishes." />
+    <MESSAGE value="food images for Greek Dishes." />
+    <option name="LAST_COMMIT_MESSAGE" value="food images for Greek Dishes." />
   </component>
 </project>
