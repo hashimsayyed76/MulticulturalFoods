@@ -1,0 +1,138 @@
+/* Updated Native UI Styles for MulticulturalFoods */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff8f6;
+  color: #333;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100vh;
+  width: 60px;
+  background-color: #242424;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  margin: 20px 0;
+  text-decoration: none;
+  color: white;
+  font-size: 22px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+  transform: scale(1.1);
+}
+
+.profile {
+  position: absolute;
+  bottom: 20px;
+}
+
+.main-content {
+  margin-left: 80px;
+  padding: 30px;
+  max-width: 1000px;
+}
+
+h1, h2, h3, h4 {
+  color: #2b2b2b;
+  margin-top: 0;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3a8c40;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+/* Specific page elements */
+.welcome-box,
+.info-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.popular-title {
+  margin-top: 40px;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+}
+
+.country button {
+  width: 100%;
+  background-color: #f5f5f5;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.country button img {
+  width: 40px;
+  height: auto;
+  margin-bottom: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.country button div {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.country button:hover {
+  background-color: #eee;
+}

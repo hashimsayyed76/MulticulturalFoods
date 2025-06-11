@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thai Cuisine - Multicultural Foods</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html">🏠</a>
+    <a href="searchpage.html">🔍</a>
+    <a href="askai.html">🤖</a>
+  </div>
+
+  <div class="main-content">
+    <h2>Popular Thai Dishes 🇹🇭</h2>
+    <div class="dish-grid">
+      <div class="dish-card">
+        <img src="dishes/pad_thai.jpg" alt="Pad Thai">
+        <h4>Pad Thai</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/green_curry.jpg" alt="Green Curry">
+        <h4>Green Curry</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/tom_yum.jpg" alt="Tom Yum Soup">
+        <h4>Tom Yum Soup</h4>
+      </div>
+      <div class="dish-card">
+        <img src="dishes/mango_sticky_rice.jpg" alt="Mango Sticky Rice">
+        <h4>Mango Sticky Rice</h4>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .dish-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .dish-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</body>
+</html>
