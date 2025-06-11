@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="init">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,12 +27,12 @@
     &quot;assignee&quot;: &quot;gle63&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/hashimsayyed76/MulticulturalFoods.git",
-    "accountId": "e3d6f574-cd1f-44b5-9906-69ff19c8bd7b"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods.git&quot;,
+    &quot;accountId&quot;: &quot;e3d6f574-cd1f-44b5-9906-69ff19c8bd7b&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -45,8 +43,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -136,6 +136,7 @@
       <workItem from="1749609797885" duration="1132000" />
       <workItem from="1749666674033" duration="279000" />
       <workItem from="1749669320486" duration="1421000" />
+      <workItem from="1749670761814" duration="437000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -145,7 +146,31 @@
       <option name="project" value="LOCAL" />
       <updated>1749610480227</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updated HTML and CSS for unified look across all pages.">
+      <option name="closed" value="true" />
+      <created>1749670796463</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749670796463</updated>
+    </task>
+    <task id="LOCAL-00003" summary="created AskAI and ForgotPassword HTML files for more functionality within prototype.">
+      <option name="closed" value="true" />
+      <created>1749670825958</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749670825958</updated>
+    </task>
+    <task id="LOCAL-00004" summary="created html pages for countries, with grid layouts highlighting each cuisine for better readability">
+      <option name="closed" value="true" />
+      <created>1749671184361</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749671184361</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,6 +178,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="updated HTML and CSS for unified look across all pages." />
+    <MESSAGE value="created AskAI and ForgotPassword HTML files for more functionality within prototype." />
+    <MESSAGE value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
+    <option name="LAST_COMMIT_MESSAGE" value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
   </component>
 </project>
