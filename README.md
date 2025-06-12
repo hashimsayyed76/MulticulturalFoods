@@ -34,13 +34,13 @@
 
 ## Technologies Used
 
-| Component        | Stack / Tool                      |
-|------------------|------------------------------------|
-| Language         | Java              |
-| AI Integration   | OpenAI ChatGPT API (restricted)    |
-| Backend (Optional) | Firebase or AWS (TBD)             |
-| Database         | SQL   |
-| IDE              | IntelliJ IDEA / Eclipse            |
+| Component        | Stack / Tool                    |
+|------------------|---------------------------------|
+| Language         | Java / JavaScript (Finalizing)  |
+| AI Integration   | OpenAI ChatGPT API (restricted) |
+| Backend (Optional) | Firebase or AWS (TBD)           |
+| Database         | SQL                             |
+| IDE              | IntelliJ IDEA / Eclipse         |
 
 ---
 
