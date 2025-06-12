@@ -48,7 +48,7 @@
 
 1. Clone the repository:
    ```
-   git clone https://github.com/gle63/multicultural-foods.git
+   git clone https://github.com/hashimsayyed76/multicultural-foods.git
 2. Open the project in your IDE of choice (IntelliJ recommended). 
 3. Run HomePage.java to launch the interface.
 4. (Optional) Configure backend with Firebase or AWS for data storage.
