@@ -4,79 +4,114 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Search - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <style>
-    .main-content {
-      margin-left: 100px;
-      padding: 2rem;
+    .search-wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
+
     .search-section {
       margin-bottom: 2rem;
     }
+
     .search-section h2 {
-      margin-bottom: 1rem;
+      font-size: 24px;
+      margin-bottom: 1.5rem;
     }
+
     .search-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .search-box input[type="text"] {
-      padding: 0.5rem;
+
+    .search-box input[type="text"],
+    .search-box select {
+      padding: 12px;
       flex: 1;
-      min-width: 250px;
+      min-width: 240px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
     }
+
     .search-box button {
-      padding: 0.5rem 1rem;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
       cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.3s ease;
     }
+
+    .search-box button:hover {
+      background-color: #3e9142;
+    }
+
     .results {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .search-wrapper {
+        margin: 20px;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="profile-icon">
-      <a href="login.html">👤</a>
-    </div>
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
+<div class="sidebar">
+  <div class="profile-icon">
+    <a href="login.html">👤</a>
   </div>
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
+</div>
 
-  <div class="main-content">
+<div class="main-content">
+  <div class="search-wrapper">
     <div class="search-section">
-      <h2>Search by Country</h2>
+      <h2>Search Multicultural Dishes</h2>
       <div class="search-box">
-        <input type="text" placeholder="Enter country name..." id="countrySearch" />
-        <button onclick="searchCountry()">Search</button>
+        <input type="text" id="unifiedSearch" placeholder="Enter keywords, dish name, or country...">
+        <select id="searchFilter">
+          <option value="">Filter by</option>
+          <option value="old">Old to New</option>
+          <option value="new">New to Old</option>
+          <option value="country">Country</option>
+          <option value="top">Top Rated</option>
+          <option value="contains">Contains</option>
+        </select>
+        <button onclick="performSearch()">Search</button>
       </div>
-      <div class="results" id="countryResults"></div>
-    </div>
-
-    <div class="search-section">
-      <h2>Find Recipes by Ingredients</h2>
-      <div class="search-box">
-        <input type="text" placeholder="Enter ingredients (e.g., chicken, rice)..." id="ingredientSearch" />
-        <button onclick="searchIngredients()">Search</button>
-      </div>
-      <div class="results" id="ingredientResults"></div>
+      <div class="results" id="searchResults"></div>
     </div>
   </div>
+</div>
 
-  <script>
-    function searchCountry() {
-      const query = document.getElementById("countrySearch").value;
-      document.getElementById("countryResults").innerText =
-        query ? `Results for "${query}" will appear here.` : "Please enter a country.";
+<script>
+  function performSearch() {
+    const query = document.getElementById("unifiedSearch").value.trim();
+    const filter = document.getElementById("searchFilter").value;
+
+    if (!query) {
+      document.getElementById("searchResults").innerText = "Please enter a search term.";
+      return;
     }
 
-    function searchIngredients() {
-      const query = document.getElementById("ingredientSearch").value;
-      document.getElementById("ingredientResults").innerText =
-        query ? `Recipes using: ${query}` : "Please enter ingredients.";
-    }
-  </script>
+    const filterMessage = filter ? ` using filter "${filter}"` : "";
+    document.getElementById("searchResults").innerText =
+            `Showing results for "${query}"${filterMessage}. (This is a placeholder result.)`;
+  }
+</script>
 </body>
 </html>
