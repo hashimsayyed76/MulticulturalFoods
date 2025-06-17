@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="updated UI elements, wrapped borders and improved look of the Ask AI tab, more modernizing.">
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="new and improved login page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/searchpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/searchpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +49,8 @@
   "keyToString": {
     "JavaScript Debug.Index.html.executor": "Run",
     "JavaScript Debug.askai.html.executor": "Run",
+    "JavaScript Debug.login.html.executor": "Run",
+    "JavaScript Debug.register.html.executor": "Run",
     "JavaScript Debug.searchpage.html.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -153,7 +156,7 @@
       <workItem from="1750136859188" duration="32000" />
       <workItem from="1750136907034" duration="8000" />
       <workItem from="1750137021607" duration="13000" />
-      <workItem from="1750167256144" duration="980000" />
+      <workItem from="1750167256144" duration="1624000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -395,7 +398,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750168242864</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="updated elements for searchpage to unify our new look with rounded borders along with a new filter dropdown.">
+      <option name="closed" value="true" />
+      <created>1750168324552</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1750168324552</updated>
+    </task>
+    <task id="LOCAL-00032" summary="new and improved login page">
+      <option name="closed" value="true" />
+      <created>1750168568338</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1750168568338</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,6 +437,8 @@
     <MESSAGE value="food images for Dishes." />
     <MESSAGE value="updates to readme" />
     <MESSAGE value="updated UI elements, wrapped borders and improved look of the Ask AI tab, more modernizing." />
-    <option name="LAST_COMMIT_MESSAGE" value="updated UI elements, wrapped borders and improved look of the Ask AI tab, more modernizing." />
+    <MESSAGE value="updated elements for searchpage to unify our new look with rounded borders along with a new filter dropdown." />
+    <MESSAGE value="new and improved login page" />
+    <option name="LAST_COMMIT_MESSAGE" value="new and improved login page" />
   </component>
 </project>
