@@ -3,89 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
+  <title>Multicultural Foods - Home</title>
+  <link rel="stylesheet" href="/frontend/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      color: #333;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 70px;
+      background: #1f1f2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .sidebar a {
+      margin: 25px 0;
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar a:hover {
+      transform: scale(1.2);
+      color: #ffd369;
+    }
+
+    .main-content {
+      margin-left: 90px;
+      padding: 40px;
+      max-width: 1200px;
+    }
+
+    .hero-section {
+      background: url('/frontend/images/hero_bg.jpg') center/cover no-repeat;
+      height: 300px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+      font-size: 42px;
+      font-weight: 600;
+    }
+
+    .welcome-box {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+    }
+
+    .country-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .country-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .country-card img {
+      width: 50px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .country-card h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
-    <div class="profile-icon">
-      <a href="login.html">👤</a>
-    </div>
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
+    <a href="login.html" title="Profile">👤</a>
+    <a href="index.html" title="Home">🏠</a>
+    <a href="searchpage.html" title="Search">🔍</a>
+    <a href="askai.html" title="Ask AI">🤖</a>
   </div>
 
   <div class="main-content">
-    <div class="top-bar">
-        <a href="searchpage.html">
-            <button class="search-button">Search Culture</button>
-        </a>
+    <div class="hero-section">
+      <h1>Welcome to Multicultural Foods 🌍</h1>
     </div>
 
-    <h2>Welcome to MulticulturalFoods</h2>
     <div class="welcome-box">
-      <p>
-        <strong>Discover the rich flavors of the world right from your screen.</strong>
-        MulticulturalFoods is a mobile-first web app designed to introduce you to culturally significant dishes from all around the globe. Whether you're looking to try something new, learn the history behind your favorite meals, or expand your cooking skills, this app connects food with culture in an easy and interactive way.
-      </p>
+      <h2>Explore Recipes from Around the World</h2>
+      <p>Discover traditional dishes and cultural insights from countries around the globe. Click a country below to view its popular foods.</p>
     </div>
 
-    <div class="info-box">
-      <h3>Why Multicultural Foods Matter</h3>
-      <p>
-        Food is more than something we eat—it tells stories about where people come from and what they believe in. Trying foods from different cultures helps us understand and respect others better. It’s a fun and tasty way to learn about the world.
-      </p>
-      <p>
-        <strong>What You Can Do with This App</strong><br>
-        MulticulturalFoods lets you explore recipes from all over the world. You can:
-        <ul>
-          <li>Browse dishes by country or ingredients</li>
-          <li>Learn the history and meaning behind each recipe</li>
-          <li>Ask our food-only AI chatbot for cooking help or tips</li>
-          <li>Save your favorite meals and update your profile</li>
-        </ul>
-        Whether you’re curious about new flavors or want to learn more about different cultures, this app is a great place to start. Let your taste buds travel the world—one dish at a time!
-      </p>
-    </div>
-
-    <h4 class="popular-title">Most Popular Countries</h4>
+    <h3>🌐 Popular Cuisines</h3>
     <div class="countries-grid">
-      <div class="country">
-        <button onclick="location.href='india.html'">
-          <img src="/frontend/flags/india.png" alt="India Flag" />
-          <div>India</div>
-        </button>
+      <div class="country-card">
+        <a href="greek.html">
+          <img src="/frontend/icons/greece.png" alt="Greek">
+          <h4>Greek</h4>
+        </a>
       </div>
-      <div class="country">
-        <button onclick="location.href='italy.html'">
-          <img src="/frontend/flags/italy.png" alt="Italy Flag" />
-          <div>Italy</div>
-        </button>
+      <div class="country-card">
+        <a href="indian.html">
+          <img src="/frontend/icons/india.png" alt="Indian">
+          <h4>Indian</h4>
+        </a>
       </div>
-      <div class="country">
-        <button onclick="location.href='mexico.html'">
-          <img src="/frontend/flags/mexico.png" alt="Mexico Flag" />
-          <div>Mexico</div>
-        </button>
+      <div class="country-card">
+        <a href="mexican.html">
+          <img src="/frontend/icons/mexico.png" alt="Mexican">
+          <h4>Mexican</h4>
+        </a>
       </div>
-      <div class="country">
-        <button onclick="location.href='thailand.html'">
-          <img src="/frontend/flags/thailand.png" alt="Thailand Flag" />
-          <div>Thailand</div>
-        </button>
+      <div class="country-card">
+        <a href="japanese.html">
+          <img src="/frontend/icons/japan.png" alt="Japanese">
+          <h4>Japanese</h4>
+        </a>
       </div>
-      <div class="country">
-        <button onclick="location.href='turkey.html'">
-          <img src="/frontend/flags/turkey.png" alt="Turkey Flag" />
-          <div>Turkey</div>
-        </button>
+      <div class="country-card">
+        <a href="italian.html">
+          <img src="/frontend/icons/italy.png" alt="Italian">
+          <h4>Italian</h4>
+        </a>
       </div>
-      <div class="country">
-        <button onclick="location.href='greece.html'">
-          <img src="/frontend/flags/greece.png" alt="Greece Flag" />
-          <div>Greece</div>
-        </button>
+      <div class="country-card">
+        <a href="chinese.html">
+          <img src="/frontend/icons/china.png" alt="Chinese">
+          <h4>Chinese</h4>
+        </a>
       </div>
     </div>
   </div>
