@@ -4,16 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ask AI - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .ask-ai-wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .ask-ai-wrapper h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .ask-ai-wrapper label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .ask-ai-wrapper textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: vertical;
+      margin-bottom: 20px;
+    }
+
+    .ask-ai-wrapper button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .ask-ai-wrapper button:hover {
+      background-color: #3e9142;
+    }
+
+    .ai-response {
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      border-left: 6px solid #4CAF50;
+    }
+
+    .ai-response p {
+      margin: 10px 0 0;
+    }
+
+    @media (max-width: 768px) {
+      .ask-ai-wrapper {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="sidebar">
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
-  </div>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
+</div>
 
-  <div class="main-content">
+<div class="main-content">
+  <div class="ask-ai-wrapper">
     <h2>Ask Our Food AI 🍽️</h2>
     <form id="ask-form">
       <label for="question">What would you like to know about food today?</label>
@@ -21,33 +87,29 @@
       <button type="submit">Ask AI</button>
     </form>
 
-    <div class="ai-response" id="response-box" style="margin-top: 20px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+    <div class="ai-response" id="response-box">
       <strong>AI Response:</strong>
       <p id="ai-output">Your answer will appear here after submission.</p>
     </div>
   </div>
+</div>
 
-  <script>
-    document.getElementById("ask-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const question = document.getElementById("question").value;
+<script>
+  document.getElementById("ask-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const question = document.getElementById("question").value;
 
-      // Basic check for non-food input (for demo)
-      const nonFoodWords = ["weather", "age", "birthday", "name", "location"];
-      const lower = question.toLowerCase();
-      const invalid = nonFoodWords.some(word => lower.includes(word));
+    const nonFoodWords = ["weather", "age", "birthday", "name", "location"];
+    const lower = question.toLowerCase();
+    const invalid = nonFoodWords.some(word => lower.includes(word));
 
-      const output = document.getElementById("ai-output");
-      if (invalid) {
-        output.innerText = "Sorry, but I am trained to only assist with food-related questions and concerns. If this was a food-related question, please try again.";
-      } else {
-        output.innerText = `Searching for a food answer to: "${question}"... (This is a placeholder for API response)`;
-      }
-    });
-  </script>
+    const output = document.getElementById("ai-output");
+    if (invalid) {
+      output.innerText = "Sorry, but I am trained to only assist with food-related questions and concerns. If this was a food-related question, please try again.";
+    } else {
+      output.innerText = `Searching for a food answer to: "${question}"... (This is a placeholder for API response)`;
+    }
+  });
+</script>
 </body>
 </html>
