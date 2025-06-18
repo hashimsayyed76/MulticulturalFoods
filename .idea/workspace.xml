@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="new register page">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="reverted changes on askai.html due to inconsistencies." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -420,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750169136521</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="reverted changes on askai.html due to inconsistencies.">
+      <option name="closed" value="true" />
+      <created>1750276057346</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1750276057346</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,6 +452,7 @@
     <MESSAGE value="updated elements for searchpage to unify our new look with rounded borders along with a new filter dropdown." />
     <MESSAGE value="new and improved login page" />
     <MESSAGE value="new register page" />
-    <option name="LAST_COMMIT_MESSAGE" value="new register page" />
+    <MESSAGE value="reverted changes on askai.html due to inconsistencies." />
+    <option name="LAST_COMMIT_MESSAGE" value="reverted changes on askai.html due to inconsistencies." />
   </component>
 </project>
