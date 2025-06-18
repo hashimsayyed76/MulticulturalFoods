@@ -14,18 +14,15 @@
       border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
-
     .ask-ai-wrapper h2 {
       font-size: 28px;
       margin-bottom: 20px;
     }
-
     .ask-ai-wrapper label {
       font-weight: bold;
       display: block;
       margin-bottom: 10px;
     }
-
     .ask-ai-wrapper textarea {
       width: 100%;
       padding: 15px;
@@ -35,7 +32,6 @@
       resize: vertical;
       margin-bottom: 20px;
     }
-
     .ask-ai-wrapper button {
       background-color: #4CAF50;
       color: white;
@@ -46,11 +42,9 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .ask-ai-wrapper button:hover {
       background-color: #3e9142;
     }
-
     .ai-response {
       background-color: #f9f9f9;
       border-radius: 12px;
@@ -58,11 +52,9 @@
       margin-top: 30px;
       border-left: 6px solid #4CAF50;
     }
-
     .ai-response p {
       margin: 10px 0 0;
     }
-
     @media (max-width: 768px) {
       .ask-ai-wrapper {
         margin: 20px;
@@ -108,7 +100,7 @@
       output.innerText = "Thinking...";
 
       try {
-        const response = await fetch("http://localhost:5000/askai", {
+        const response = await fetch("http://127.0.0.1:5000/ask-ai", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
