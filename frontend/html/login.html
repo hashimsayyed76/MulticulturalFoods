@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
+  <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
     .login-wrapper {
       display: flex;
@@ -13,30 +13,26 @@
       height: 100vh;
       width: 100%;
     }
-
     .login-box {
       background: #fff;
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       max-width: 400px;
       width: 100%;
     }
-
     .login-box h2 {
       text-align: center;
       margin-bottom: 20px;
       font-size: 24px;
     }
-
     .login-box label {
       display: block;
       font-weight: bold;
       margin-bottom: 8px;
     }
-
-    .login-box input[type="email"],
-    .login-box input[type="password"] {
+    .login-box input[type='email'],
+    .login-box input[type='password'] {
       width: 100%;
       padding: 12px;
       margin-bottom: 16px;
@@ -44,32 +40,27 @@
       border: 1px solid #ccc;
       font-size: 15px;
     }
-
     .login-box button {
       width: 100%;
       padding: 12px;
       border-radius: 8px;
       font-size: 16px;
-      background-color: #4CAF50;
+      background-color: #4caf50;
       color: white;
       border: none;
       cursor: pointer;
     }
-
     .login-box button:hover {
       background-color: #3e9142;
     }
-
     .login-box p {
       text-align: center;
       margin-top: 10px;
     }
-
     .login-box a {
-      color: #4CAF50;
+      color: #4caf50;
       text-decoration: none;
     }
-
     .login-box a:hover {
       text-decoration: underline;
     }
@@ -87,12 +78,12 @@
     <div class="login-box">
       <h2>Welcome to Multicultural Foods!</h2>
       <p style="text-align:center;">Please log in to access all features:</p>
-      <form action="" method="post">
+      <form id="loginForm">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
+        <input type="email" name="email" id="email" required />
 
         <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" required />
 
         <button type="submit">Login</button>
       </form>
@@ -101,5 +92,26 @@
     </div>
   </div>
 </div>
+
+<script>
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // TODO: Replace this with real authentication (API call)
+    // For now, accept any input as valid login
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (email && password) {
+      // Set login status in localStorage
+      localStorage.setItem('loggedIn', 'true');
+      // Redirect to home page (index.html)
+      window.location.href = 'index.html';
+    } else {
+      alert('Please enter valid email and password.');
+    }
+  });
+</script>
 </body>
 </html>
