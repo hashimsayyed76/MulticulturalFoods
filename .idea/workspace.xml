@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="new register page">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
-    </list>
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="new register page" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,7 +51,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "implement-ai",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -156,6 +153,7 @@
       <workItem from="1750136907034" duration="8000" />
       <workItem from="1750137021607" duration="13000" />
       <workItem from="1750167256144" duration="2380000" />
+      <workItem from="1750220500235" duration="331000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
