@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Favorites - Multicultural Foods</title>
+    <link rel="stylesheet" href="/frontend/css/style.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 70px;
+            background: #1f1f2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .sidebar a {
+            margin: 25px 0;
+            font-size: 24px;
+            color: #f0f0f0;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .sidebar a:hover {
+            color: #ffd369;
+            transform: scale(1.2);
+            transition: 0.3s ease;
+        }
+        .main-content {
+            margin-left: 90px;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 28px;
+            text-align: center;
+        }
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+        .favorite-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+        .favorite-card:hover {
+            transform: translateY(-5px);
+        }
+        .favorite-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+        .favorite-info {
+            padding: 12px 15px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #222;
+        }
+        .heart-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 28px;
+            color: #e63946;
+            cursor: pointer;
+            background: rgba(230, 57, 70, 0.9);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px #e63946;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <a href="index.html" title="Home" aria-label="Home">🏠</a>
+    <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
+    <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+</div>
+
+<main class="main-content" role="main">
+    <h2>Your Favorite Dishes ❤️</h2>
+    <div class="favorites-grid" id="favoritesGrid">
+        <!-- Favorite dish cards will be inserted here dynamically -->
+    </div>
+</main>
+
+<script>
+    // Map dish IDs to info: name and image path
+    const dishData = {
+        gyros: {
+            name: "Gyros",
+            img: "/frontend/dishes/gyros.jpg"
+        },
+        moussaka: {
+            name: "Moussaka",
+            img: "/frontend/dishes/moussaka.jpg"
+        },
+        souvlaki: {
+            name: "Souvlaki",
+            img: "/frontend/dishes/souvlaki.jpg"
+        },
+        greek_salad: {
+            name: "Greek Salad",
+            img: "/frontend/dishes/greek_salad.jpg"
+        }
+        // Add more dishes if you want, matching the IDs from other pages
+    };
+
+    const favoritesGrid = document.getElementById('favoritesGrid');
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    function renderFavorites() {
+        favoritesGrid.innerHTML = '';
+        if (favorites.length === 0) {
+            favoritesGrid.innerHTML = `<p style="text-align:center; font-size: 18px; color:#555;">You have no favorite dishes yet. Go add some! ❤️</p>`;
+            return;
+        }
+
+        favorites.forEach(id => {
+            if (!dishData[id]) return; // Skip unknown IDs
+
+            const card = document.createElement('div');
+            card.className = 'favorite-card';
+
+            card.innerHTML = `
+          <img src="${dishData[id].img}" alt="${dishData[id].name}" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dishData[id].name} from favorites">❤️</div>
+          <div class="favorite-info">${dishData[id].name}</div>
+        `;
+
+            // Remove favorite on heart click
+            card.querySelector('.heart-icon').addEventListener('click', () => {
+                favorites = favorites.filter(favId => favId !== id);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                renderFavorites();
+            });
+
+            card.querySelector('.heart-icon').addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.querySelector('.heart-icon').click();
+                }
+            });
+
+            favoritesGrid.appendChild(card);
+        });
+    }
+
+    renderFavorites();
+</script>
+</body>
+</html>

@@ -64,14 +64,58 @@
     .login-box a:hover {
       text-decoration: underline;
     }
+
+    /* Disabled sidebar link style */
+    .sidebar a.disabled {
+      pointer-events: none;   /* Disable click */
+      color: #aaa;            /* Grey out text */
+      cursor: default;        /* Remove pointer cursor */
+      opacity: 0.6;           /* Slightly faded */
+      text-decoration: none;  /* Remove underline on hover */
+    }
+    /* Tooltip container */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 180px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 6px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%; /* show above the icon */
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 13px;
+    }
+
+    /* Show tooltip on hover */
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
   </style>
 </head>
 <body>
 <div class="sidebar">
   <a href="index.html">🏠</a>
   <a href="searchpage.html">🔍</a>
-  <a href="askai.html">🤖</a>
+  <a href="askai.html" class="disabled tooltip">🤖
+    <span class="tooltiptext">Please log in to use the AI feature.</span>
+  </a>
+
 </div>
+
 
 <div class="main-content">
   <div class="login-wrapper">

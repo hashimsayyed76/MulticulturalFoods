@@ -130,11 +130,12 @@
       background: #1f1f2e;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      width: 180px;
+      width: 200px;
       display: none;
       flex-direction: column;
-      padding: 5px 0;
+      padding: 10px 0;
       z-index: 1500;
+      box-sizing: border-box;
     }
 
     #profileDropdown button {
@@ -142,10 +143,11 @@
       border: none;
       color: #f0f0f0;
       font-size: 14px;
-      padding: 10px 15px;
-      text-align: left;
+      padding: 12px 20px;
+      text-align: center;
       cursor: pointer;
       transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
     }
 
     #profileDropdown button:hover {
@@ -268,6 +270,7 @@
   <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
     <button id="changePhotoBtn" role="menuitem">Change Profile Picture</button>
     <button id="removePhotoBtn" role="menuitem">Remove Profile Picture</button>
+    <button id="favoritesBtn" role="menuitem">Favorites</button>
     <button id="settingsBtn" role="menuitem">Settings</button>
     <button id="logoutBtn" role="menuitem">Logout</button>
   </div>
@@ -326,6 +329,7 @@
   const profileDropdown = document.getElementById('profileDropdown');
   const changePhotoBtn = document.getElementById('changePhotoBtn');
   const removePhotoBtn = document.getElementById('removePhotoBtn');
+  const favoritesBtn = document.getElementById('favoritesBtn');
   const uploadInput = document.getElementById('uploadInput');
   const defaultProfileIcon = '👤';
   const askAIButton = document.querySelector('.sidebar a[title="Ask AI"]');
@@ -345,7 +349,6 @@
       welcomeBox.innerHTML += `<p>Welcome, ${displayName}!</p>`;
     }
 
-    // Optionally: dark mode handling, if you implement that
     if (localStorage.getItem('darkMode') === 'true') {
       document.body.classList.add('dark-mode');
     }
@@ -357,7 +360,6 @@
     profileBtn.setAttribute('aria-expanded', !isVisible);
   });
 
-  // Close dropdown on outside click
   document.addEventListener('click', (e) => {
     if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
       profileDropdown.style.display = 'none';
@@ -398,15 +400,18 @@
     updateAskAIButton();
   });
 
+  favoritesBtn.addEventListener('click', () => {
+    profileDropdown.style.display = 'none';
+    window.location.href = 'favorites.html'; // Redirect to favorites page
+  });
+
   document.getElementById('settingsBtn').addEventListener('click', () => {
     profileDropdown.style.display = 'none';
     window.location.href = 'settings.html';
   });
 
-  // Add logout functionality placeholder - implement as needed
   document.getElementById('logoutBtn').addEventListener('click', () => {
     profileDropdown.style.display = 'none';
-    // Example: Clear user data and reload or redirect to login page
     localStorage.clear();
     alert('Logged out.');
     window.location.href = 'login.html';
