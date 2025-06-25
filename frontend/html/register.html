@@ -5,107 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+  
+  <!--<script src="/frontend/js/auth.js"></script>-->
   <style>
-    .register-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100%;
+    .register-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    .register-box {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 450px;
-      width: 100%;
+    .form-group {
+      margin-bottom: 15px;
     }
-
-    .register-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .register-box label {
+    .form-group label {
       display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
-
-    .register-box input[type="text"],
-    .register-box input[type="email"],
-    .register-box input[type="password"],
-    .register-box input[type="date"] {
+    .form-group input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
+      padding: 8px;
+      box-sizing: border-box;
     }
-
-    .register-box button {
+    .submit-btn {
       width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 16px;
+      padding: 10px;
       background-color: #4CAF50;
       color: white;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
-    }
-
-    .register-box button:hover {
-      background-color: #3e9142;
-    }
-
-    .register-box p {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .register-box a {
-      color: #4CAF50;
-      text-decoration: none;
-    }
-
-    .register-box a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.2.0/dist/amazon-cognito-identity.min.js"></script>
+<script>
+// EMERGENCY AUTH SETUP - WORKS WITHOUT auth.js
+console.log("⚠️ USING EMERGENCY AUTH SCRIPT");
+const poolData = {
+  UserPoolId: 'us-east-1_nc5a3662T',
+  ClientId: '2r4s79barmmqe7anjn3bgqsus'
+};
+const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+window.auth = {
+  registerUser: (email, password) => new Promise((resolve, reject) => {
+    const attributeList = [
+      new AmazonCognitoIdentity.CognitoUserAttribute({ 
+        Name: 'email', 
+        Value: email 
+      })
+    ];
+    userPool.signUp(email, password, attributeList, null, (err, result) => {
+      err ? reject(err.message || JSON.stringify(err)) : resolve(result);
+    });
+  })
+};
+</script>-->
+
 <body>
-<div class="sidebar">
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html">🤖</a>
-</div>
+  <div class="sidebar">
+    <a href="index.html">🏠</a>
+    <a href="searchpage.html">🔍</a>
+    <a href="askai.html" class="disabled">🤖</a>
+  </div>
 
-<div class="main-content">
-  <div class="register-wrapper">
-    <div class="register-box">
+  <div class="main-content">
+    <div class="register-container">
       <h2>Create an Account</h2>
-      <form action="" method="post">
-        <label for="fullname">Full Name:</label>
-        <input type="text" name="fullname" id="fullname" required>
-
-        <label for="dob">Date of Birth:</label>
-        <input type="date" name="dob" id="dob" required>
-
-        <label for="email">Email Address:</label>
-        <input type="email" name="email" id="email" required>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-
-        <button type="submit">Register</button>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullname">Full Name:</label>
+          <input type="text" id="fullname" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" required minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" required>
+        </div>
+        <button type="submit" class="submit-btn">Register</button>
       </form>
-      <p>Already have an account? <a href="login.html">Login here</a>.</p>
+      <p>Already have an account? <a href="login.html">Login here</a></p>
     </div>
   </div>
-</div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const fullname = document.getElementById("fullname").value;
+      const dob = document.getElementById("dob").value;
+
+      try {
+        await auth.registerUser(fullname, dob, email, password);
+        alert('Registration successful! Please check your email to verify your account.');
+        window.location.href = 'login.html';
+      } catch (error) {
+        alert(error.message || 'Registration failed. Please try again.');
+        console.error('Registration error:', error);
+      }
+    });
+  </script>
+  <script>
+  document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const fullname = document.getElementById("fullname").value;
+    const dob = document.getElementById("dob").value;
+
+    try {
+      await auth.registerUser(fullname, dob, email, password);
+      alert('Registration successful! Please check your email to verify.');
+      window.location.href = 'login.html';
+    } catch (error) {
+      alert(`Registration failed: ${error}`);
+    }
+  });
+</script>
 </body>
 </html>

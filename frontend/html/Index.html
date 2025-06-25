@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multicultural Foods - Home</title>
-  <link rel="stylesheet" href="/frontend/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+
+
   <style>
     body {
       margin: 0;
@@ -259,24 +262,64 @@
     .info-box li {
       margin-bottom: 8px;
     }
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .auth-buttons button {
+      padding: 8px 16px;
+    }
   </style>
 </head>
+
+<script>
+  // ADD THIS NEW CODE:
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!auth.isUserLoggedIn() && !window.location.pathname.includes('login.html')) {
+      window.location.href = 'login.html';
+    }
+    
+    // Update UI for logged-in users
+    const user = auth.getCurrentUser();
+    if (user) {
+      const welcomeElement = document.querySelector('.welcome-user');
+      if (welcomeElement) {
+        welcomeElement.textContent = `Welcome, ${user.email}`;
+      }
+    }
+  });
+</script>
+<script>
+  // ADD THIS if you have a logout button:
+  document.getElementById('logoutBtn')?.addEventListener('click', function() {
+    auth.logoutUser();
+    window.location.href = 'login.html';
+  });
+</script>
 <body>
+
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
   <div id="logoContainer" aria-label="Main logo">
     <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
   </div>
   <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
   <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
-    <button id="changePhotoBtn" role="menuitem">Change Profile Picture</button>
-    <button id="removePhotoBtn" role="menuitem">Remove Profile Picture</button>
-    <button id="favoritesBtn" role="menuitem">Favorites</button>
-    <button id="settingsBtn" role="menuitem">Settings</button>
-    <button id="logoutBtn" role="menuitem">Logout</button>
+    <div id="loggedInOptions">
+      <button id="changePhotoBtn" role="menuitem">Change Profile Picture</button>
+      <button id="removePhotoBtn" role="menuitem">Remove Profile Picture</button>
+      <button id="favoritesBtn" role="menuitem">Favorites</button>
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    <div id="loggedOutOptions" style="display:none;">
+      <button id="loginBtnMenu" role="menuitem">Login</button>
+      <button id="registerBtnMenu" role="menuitem">Register</button>
+    </div>
   </div>
   <a href="index.html" title="Home" aria-label="Home">🏠</a>
   <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
-  <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+  <a href="askai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI">🤖</a>
 </div>
 
 
@@ -321,10 +364,25 @@
     <div class="country-card"><a href="turkey.html"><img src="/frontend/flags/turkey.png" alt="Turkish flag" /><h4>Turkish</h4></a></div>
   </div>
 </main>
-
 <input type="file" id="uploadInput" accept=".jpg,.jpeg" style="display:none" />
 
 <script>
+  // Auth state management
+  function checkAuthState() {
+    const isLoggedIn = isUserLoggedIn(); // From auth.js
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    document.getElementById('loggedInOptions').style.display = isLoggedIn ? 'flex' : 'none';
+    document.getElementById('loggedOutOptions').style.display = isLoggedIn ? 'none' : 'flex';
+    document.getElementById('askAiLink').className = isLoggedIn ? '' : 'disabled';
+    
+    if (isLoggedIn) {
+      const user = JSON.parse(localStorage.getItem('cognitoUser'));
+      document.querySelector('.welcome-box').innerHTML += `<p>Welcome, ${user.email}!</p>`;
+    }
+  }
+
+  // Profile picture handlers (your existing code)
   const profileBtn = document.getElementById('profileBtn');
   const profileDropdown = document.getElementById('profileDropdown');
   const changePhotoBtn = document.getElementById('changePhotoBtn');
@@ -332,105 +390,33 @@
   const favoritesBtn = document.getElementById('favoritesBtn');
   const uploadInput = document.getElementById('uploadInput');
   const defaultProfileIcon = '👤';
-  const askAIButton = document.querySelector('.sidebar a[title="Ask AI"]');
 
+  // Navigation handlers
+  document.getElementById('loginBtnMenu').addEventListener('click', () => {
+    window.location.href = 'login.html';
+  });
+
+  document.getElementById('registerBtnMenu').addEventListener('click', () => {
+    window.location.href = 'register.html';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    logoutUser(); // From auth.js
+    window.location.href = 'index.html';
+  });
+
+  // Initialize
   window.addEventListener('DOMContentLoaded', () => {
+    checkAuthState();
+    
+    // Your existing profile picture code
     const savedImage = localStorage.getItem('profileImage');
     if (savedImage) {
       profileBtn.innerHTML = `<img src="${savedImage}" alt="Profile Photo" />`;
     } else {
       profileBtn.textContent = defaultProfileIcon;
     }
-    updateAskAIButton();
-
-    const displayName = localStorage.getItem('displayName');
-    if (displayName) {
-      const welcomeBox = document.querySelector('.welcome-box');
-      welcomeBox.innerHTML += `<p>Welcome, ${displayName}!</p>`;
-    }
-
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark-mode');
-    }
   });
-
-  profileBtn.addEventListener('click', () => {
-    const isVisible = profileDropdown.style.display === 'flex';
-    profileDropdown.style.display = isVisible ? 'none' : 'flex';
-    profileBtn.setAttribute('aria-expanded', !isVisible);
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-      profileDropdown.style.display = 'none';
-      profileBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  changePhotoBtn.addEventListener('click', () => {
-    uploadInput.click();
-    profileDropdown.style.display = 'none';
-  });
-
-  uploadInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file && (file.type === 'image/jpeg' || file.type === 'image/jpg')) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64Data = e.target.result;
-        profileBtn.innerHTML = `<img src="${base64Data}" alt="Profile Photo" />`;
-        localStorage.setItem('profileImage', base64Data);
-        alert(`Uploaded profile photo: ${file.name}`);
-        updateAskAIButton();
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert('Only JPEG files are supported.');
-      uploadInput.value = '';
-    }
-    profileDropdown.style.display = 'none';
-  });
-
-  removePhotoBtn.addEventListener('click', () => {
-    profileBtn.textContent = defaultProfileIcon;
-    localStorage.removeItem('profileImage');
-    uploadInput.value = '';
-    alert('Profile picture removed.');
-    profileDropdown.style.display = 'none';
-    updateAskAIButton();
-  });
-
-  favoritesBtn.addEventListener('click', () => {
-    profileDropdown.style.display = 'none';
-    window.location.href = 'favorites.html'; // Redirect to favorites page
-  });
-
-  document.getElementById('settingsBtn').addEventListener('click', () => {
-    profileDropdown.style.display = 'none';
-    window.location.href = 'settings.html';
-  });
-
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    profileDropdown.style.display = 'none';
-    localStorage.clear();
-    alert('Logged out.');
-    window.location.href = 'login.html';
-  });
-
-  function updateAskAIButton() {
-    const isLoggedIn = !!localStorage.getItem('profileImage');
-    if (!isLoggedIn) {
-      askAIButton.classList.add('disabled', 'tooltip');
-      askAIButton.setAttribute('data-tooltip', 'Please log in to use the AI function');
-      askAIButton.setAttribute('aria-disabled', 'true');
-      askAIButton.tabIndex = -1;
-    } else {
-      askAIButton.classList.remove('disabled', 'tooltip');
-      askAIButton.removeAttribute('data-tooltip');
-      askAIButton.setAttribute('aria-disabled', 'false');
-      askAIButton.tabIndex = 0;
-    }
-  }
 </script>
 </body>
 </html>
