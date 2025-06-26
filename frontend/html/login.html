@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="/frontend/css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
   <script src="/frontend/js/auth.js"></script>
+  
+   <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      loginUser(email, password)
+        .then(() => window.location.href = "index.html")
+        .catch(err => alert(err.message || "Login failed"));
+    });
+  </script>
+  
   <style>
     .login-container {
       max-width: 400px;
@@ -79,15 +91,6 @@
   });
 </script>
 
-  <!--script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      loginUser(email, password)
-        .then(() => window.location.href = "index.html")
-        .catch(err => alert(err.message || "Login failed"));
-    });-->
-  </script>
+ 
 </body>
 </html>

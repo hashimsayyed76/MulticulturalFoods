@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity-min.js"></script>
   <script src="/frontend/js/auth.js"></script>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity-min.js"></script>
+  <script src="/frontend/js/auth.js"></script>
+
   <!--<script src="/frontend/js/auth.js"></script>-->
   <style>
     .register-container {
@@ -41,31 +44,6 @@
     }
   </style>
 </head>
-
-<!--<script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.2.0/dist/amazon-cognito-identity.min.js"></script>
-<script>
-// EMERGENCY AUTH SETUP - WORKS WITHOUT auth.js
-console.log("⚠️ USING EMERGENCY AUTH SCRIPT");
-const poolData = {
-  UserPoolId: 'us-east-1_nc5a3662T',
-  ClientId: '2r4s79barmmqe7anjn3bgqsus'
-};
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-window.auth = {
-  registerUser: (email, password) => new Promise((resolve, reject) => {
-    const attributeList = [
-      new AmazonCognitoIdentity.CognitoUserAttribute({ 
-        Name: 'email', 
-        Value: email 
-      })
-    ];
-    userPool.signUp(email, password, attributeList, null, (err, result) => {
-      err ? reject(err.message || JSON.stringify(err)) : resolve(result);
-    });
-  })
-};
-</script>-->
 
 <body>
   <div class="sidebar">
@@ -101,40 +79,43 @@ window.auth = {
   </div>
 
   <script>
+    // Verify Cognito is loaded
+    console.log("Cognito available:", typeof AmazonCognitoIdentity !== 'undefined');
+
     document.getElementById("registerForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       
+      // Verify auth is available
+      if (!window.auth) {
+        console.error("Auth not loaded");
+        alert("System error - please refresh the page");
+        return;
+      }
+
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const fullname = document.getElementById("fullname").value;
       const dob = document.getElementById("dob").value;
 
+      const attributeList = [
+        new AmazonCognitoIdentity.CognitoUserAttribute({
+          Name: 'name', Value: fullname
+        }),
+        new AmazonCognitoIdentity.CognitoUserAttribute({
+          Name: 'birthdate', Value: dob
+        })
+      ];
+
       try {
-        await auth.registerUser(fullname, dob, email, password);
-        alert('Registration successful! Please check your email to verify your account.');
+        console.log("Attempting registration...");
+        await window.auth.registerUser(email, password, attributeList);
+        alert('Registration successful! Please check your email to verify.');
         window.location.href = 'login.html';
       } catch (error) {
-        alert(error.message || 'Registration failed. Please try again.');
-        console.error('Registration error:', error);
+        console.error("Registration failed:", error);
+        alert('Registration failed: ' + error.message);
       }
     });
   </script>
-  <script>
-  document.getElementById("registerForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const fullname = document.getElementById("fullname").value;
-    const dob = document.getElementById("dob").value;
-
-    try {
-      await auth.registerUser(fullname, dob, email, password);
-      alert('Registration successful! Please check your email to verify.');
-      window.location.href = 'login.html';
-    } catch (error) {
-      alert(`Registration failed: ${error}`);
-    }
-  });
-</script>
 </body>
 </html>
