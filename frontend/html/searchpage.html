@@ -15,37 +15,89 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
     }
 
-    .search-wrapper {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 70px;
+      background: #1f1f2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
     }
-    .search-section {
-      margin-bottom: 2rem;
-    }
-    .search-section h2 {
+
+    .sidebar a,
+    .sidebar .profile-icon a {
+      margin: 25px 0;
       font-size: 24px;
-      margin-bottom: 1.5rem;
+      color: #f0f0f0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      user-select: none;
+      transition: transform 0.2s ease;
     }
+
+    .sidebar a:hover {
+      transform: scale(1.2);
+      color: #ffd369;
+    }
+
+    .sidebar a.disabled {
+      color: #888 !important;
+      pointer-events: none;
+      opacity: 0.5;
+      filter: grayscale(100%);
+      cursor: default;
+    }
+
+    .main-content {
+      margin-left: 90px;
+      padding: 40px 20px;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      min-height: 80vh;
+      margin-top: 40px;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 28px;
+    }
+
     .search-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
+
     .search-box input[type="text"],
     .search-box select {
       padding: 12px;
       flex: 1;
-      min-width: 240px;
+      min-width: 180px;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 15px;
     }
+
     .search-box button {
       padding: 12px 20px;
       border: none;
@@ -55,192 +107,245 @@
       cursor: pointer;
       font-size: 15px;
       transition: background-color 0.3s ease;
+      min-width: 110px;
     }
+
     .search-box button:hover {
       background-color: #3e9142;
     }
+
     .results {
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
+
     .dish-item {
-      padding: 12px;
+      display: flex;
+      gap: 15px;
+      padding: 12px 0;
       border-bottom: 1px solid #ddd;
+      align-items: center;
     }
+
     .dish-item:last-child {
       border-bottom: none;
     }
+
+    .dish-image {
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .dish-info {
+      flex: 1;
+    }
+
     .dish-name {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 4px;
     }
+
     .dish-meta {
       font-size: 14px;
       color: #555;
       margin-bottom: 6px;
     }
-    @media (max-width: 768px) {
-      .search-wrapper {
-        margin: 20px;
-        padding: 20px;
-      }
-    }
-    /* Disabled sidebar link style */
-    .sidebar a.disabled {
-      pointer-events: none;   /* Disable click */
-      color: #aaa;            /* Grey out text */
-      cursor: default;        /* Remove pointer cursor */
-      opacity: 0.6;           /* Slightly faded */
-      text-decoration: none;  /* Remove underline on hover */
+
+    .dish-desc {
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
 <body>
-<div class="sidebar">
-  <div class="profile-icon">
-    <a href="login.html">👤</a>
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div class="profile-icon" aria-label="User Profile">
+    <a href="login.html" title="Login">👤</a>
   </div>
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html" class="disabled">🤖</a> <!-- Disabled Ask AI -->
+  <a href="index.html" title="Home" aria-label="Home">🏠</a>
+  <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
+  <a href="askai.html" title="Ask AI" aria-label="Ask AI" class="disabled" tabindex="-1" aria-disabled="true">🤖</a>
 </div>
 
-<div class="main-content">
-  <div class="search-wrapper">
-    <div class="search-section">
-      <h2>Search Multicultural Dishes</h2>
-      <div class="search-box">
-        <input type="text" id="unifiedSearch" placeholder="Enter keywords, dish name, or country..." />
-        <select id="searchFilter">
-          <option value="">Filter by</option>
-          <option value="country">Country</option>
-          <option value="top">Top Rated</option>
-          <option value="contains">Contains</option>
-        </select>
-
-        <button onclick="performSearch()">Search</button>
-      </div>
-      <div class="results" id="searchResults"></div>
-    </div>
+<main class="main-content" role="main">
+  <h2>Search Multicultural Dishes</h2>
+  <div class="search-box" role="search">
+    <input type="text" id="searchInput" placeholder="Enter country or keywords..." aria-label="Search input" />
+    <select id="searchFilter" aria-label="Search filter">
+      <option value="">Select filter</option>
+      <option value="country">Country</option>
+      <option value="top">Top Rated</option>
+      <option value="contains">Contains</option>
+    </select>
+    <button id="searchBtn" aria-label="Perform search">Search</button>
   </div>
-</div>
+
+  <div id="searchResults" aria-live="polite"></div>
+</main>
 
 <script>
-  // Sample data for dishes
-  const dishes = [
+  // Sample local data for Top Rated and Contains searches
+  const localDishes = [
     {
       name: "Sushi",
+      category: "Seafood",
       country: "Japan",
-      dateAdded: "2023-01-10",
       rating: 4.9,
-      description: "Delicious vinegared rice with seafood or vegetables."
+      description: "Delicious vinegared rice with seafood or vegetables.",
+      image: "https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg"
     },
     {
       name: "Tacos",
+      category: "Miscellaneous",
       country: "Mexico",
-      dateAdded: "2022-10-05",
       rating: 4.7,
-      description: "Corn or wheat tortilla folded with fillings like meat, beans, and salsa."
+      description: "Corn or wheat tortilla folded with fillings like meat, beans, and salsa.",
+      image: "https://www.themealdb.com/images/media/meals/txn6pq1619493755.jpg"
     },
     {
       name: "Paella",
+      category: "Seafood",
       country: "Spain",
-      dateAdded: "2021-05-15",
       rating: 4.5,
-      description: "Rice dish with saffron, vegetables, seafood, and meat."
+      description: "Rice dish with saffron, vegetables, seafood, and meat.",
+      image: "https://www.themealdb.com/images/media/meals/uyqrrv1511553350.jpg"
     },
     {
       name: "Biryani",
+      category: "Chicken",
       country: "India",
-      dateAdded: "2023-03-20",
       rating: 4.8,
-      description: "Spiced rice with meat or vegetables cooked together."
+      description: "Spiced rice with meat or vegetables cooked together.",
+      image: "https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg"
     },
     {
       name: "Baklava",
+      category: "Dessert",
       country: "Turkey",
-      dateAdded: "2020-12-01",
       rating: 4.3,
-      description: "Sweet layered pastry with nuts and honey."
+      description: "Sweet layered pastry with nuts and honey.",
+      image: "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
     },
     {
       name: "Poutine",
+      category: "Side",
       country: "Canada",
-      dateAdded: "2022-06-30",
       rating: 4.1,
-      description: "French fries topped with cheese curds and gravy."
+      description: "French fries topped with cheese curds and gravy.",
+      image: "https://www.themealdb.com/images/media/meals/uuyrrx1487327597.jpg"
     }
   ];
 
-  function performSearch() {
-    const query = document.getElementById("unifiedSearch").value.trim().toLowerCase();
-    const filter = document.getElementById("searchFilter").value;
-    const resultsDiv = document.getElementById("searchResults");
+  const searchInput = document.getElementById('searchInput');
+  const searchFilter = document.getElementById('searchFilter');
+  const searchResults = document.getElementById('searchResults');
+  const searchBtn = document.getElementById('searchBtn');
 
-    if (!query) {
-      resultsDiv.innerText = "Please enter a search term.";
+  // Fetch meals by country (area)
+  async function fetchMealsByCountry(country) {
+    try {
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(country)}`);
+      const data = await res.json();
+      return data.meals || [];
+    } catch (e) {
+      console.error('Failed to fetch meals by country', e);
+      return [];
+    }
+  }
+
+  // Fetch meal details by id (to get description etc)
+  async function fetchMealDetails(id) {
+    try {
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = await res.json();
+      if (data.meals && data.meals.length > 0) return data.meals[0];
+      else return null;
+    } catch (e) {
+      console.error('Failed to fetch meal details', e);
+      return null;
+    }
+  }
+
+  // Render meals with details
+  async function renderMeals(meals) {
+    if (!meals.length) {
+      searchResults.innerHTML = `<p>No results found.</p>`;
       return;
     }
 
-    // Filter dishes by search query matching name, country or description
-    let filteredDishes = dishes.filter(dish => {
-      const searchableText = (dish.name + " " + dish.country + " " + dish.description).toLowerCase();
-      if (filter === "contains") {
-        // strict substring match anywhere in text
-        return searchableText.includes(query);
-      } else {
-        // normal search: match query in name or country or description
-        return searchableText.indexOf(query) !== -1;
+    // For meals from API (which only have name, idMeal, and thumbnail), fetch details
+    const detailedMeals = await Promise.all(meals.map(async meal => {
+      if (meal.idMeal) {
+        const details = await fetchMealDetails(meal.idMeal);
+        return details || meal;
       }
-    });
+      return meal; // for local data with full info
+    }));
 
-    if (filteredDishes.length === 0) {
-      resultsDiv.innerText = `No results found for "${query}".`;
+    searchResults.innerHTML = detailedMeals.map(meal => `
+        <div class="dish-item" tabindex="0">
+          <img src="${meal.strMealThumb || meal.image || 'https://via.placeholder.com/90'}" alt="${meal.strMeal || meal.name}" class="dish-image" />
+          <div class="dish-info">
+            <div class="dish-name">${meal.strMeal || meal.name}</div>
+            <div class="dish-meta">Category: ${meal.strCategory || meal.category || 'Unknown'} | Country: ${meal.strArea || meal.country || 'Unknown'}</div>
+            <div class="dish-desc">${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : (meal.description || 'No description available.')}</div>
+          </div>
+        </div>
+      `).join('');
+  }
+
+  async function performSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+    const filter = searchFilter.value;
+
+    searchResults.innerHTML = ''; // clear old results
+
+    if (!filter) {
+      searchResults.innerHTML = '<p>Please select a filter.</p>';
       return;
     }
 
-    // Apply sorting based on filter
-    switch(filter) {
-      case "old":
-        filteredDishes.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
-        break;
-      case "new":
-        filteredDishes.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        break;
-      case "country":
-        filteredDishes.sort((a, b) => a.country.localeCompare(b.country));
-        break;
-      case "top":
-        filteredDishes.sort((a, b) => b.rating - a.rating);
-        break;
-      case "contains":
-        // no additional sorting for contains filter
-        break;
-      default:
-        // no sorting if no filter or unknown filter
-        break;
+    if (filter !== 'top' && !query) {
+      searchResults.innerHTML = '<p>Please enter a search term.</p>';
+      return;
     }
 
-    // Render results as HTML list
-    resultsDiv.innerHTML = filteredDishes.map(dish => `
-        <div class="dish-item">
-          <div class="dish-name">${dish.name}</div>
-          <div class="dish-meta">Country: ${dish.country} | Added: ${dish.dateAdded} | Rating: ${dish.rating}</div>
-          <div class="dish-desc">${dish.description}</div>
-        </div>
-      `).join("");
+    if (filter === 'top') {
+      // Show local top rated sorted by rating desc
+      const sorted = localDishes.slice().sort((a,b) => b.rating - a.rating);
+      await renderMeals(sorted);
+    } else if (filter === 'country') {
+      // Fetch meals from API by country filter
+      const mealsByCountry = await fetchMealsByCountry(query);
+      if (!mealsByCountry.length) {
+        searchResults.innerHTML = `<p>No meals found for country "${query}".</p>`;
+        return;
+      }
+      await renderMeals(mealsByCountry);
+    } else if (filter === 'contains') {
+      // Search locally by substring in any text field
+      const filtered = localDishes.filter(d =>
+              d.name.toLowerCase().includes(query) ||
+              d.country.toLowerCase().includes(query) ||
+              d.category.toLowerCase().includes(query) ||
+              d.description.toLowerCase().includes(query)
+      );
+      if (!filtered.length) {
+        searchResults.innerHTML = `<p>No results found containing "${query}".</p>`;
+        return;
+      }
+      await renderMeals(filtered);
+    }
   }
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
-<script src="../js/auth.js"></script>
-<script>
-  if (!isUserLoggedIn()) {
-    alert("Please log in or register to access this page.");
-    window.location.href = "login.html";
-  }
-</script>
 
-
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') performSearch();
+  });
+</script>
 </body>
 </html>
-
