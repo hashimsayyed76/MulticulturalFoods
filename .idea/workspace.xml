@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="new register page" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/forgotpassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/forgotpassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/register.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,8 +36,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods.git&quot;,
-    &quot;accountId&quot;: &quot;e3d6f574-cd1f-44b5-9906-69ff19c8bd7b&quot;
+    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods&quot;,
+    &quot;accountId&quot;: &quot;871d4a90-c917-4c23-abd9-c1a8b2f76fc6&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -127,8 +134,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
       </set>
     </attachedChunks>
   </component>
@@ -153,7 +160,7 @@
       <workItem from="1750136907034" duration="8000" />
       <workItem from="1750137021607" duration="13000" />
       <workItem from="1750167256144" duration="2380000" />
-      <workItem from="1750220500235" duration="331000" />
+      <workItem from="1750553929298" duration="2708000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -419,11 +426,38 @@
       <option name="project" value="LOCAL" />
       <updated>1750169136521</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="reverted changes on askai.html due to inconsistencies.">
+      <option name="closed" value="true" />
+      <created>1750276057346</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1750276057346</updated>
+    </task>
+    <task id="LOCAL-00035" summary="removed clutter in files">
+      <option name="closed" value="true" />
+      <created>1750276195812</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1750276195812</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
@@ -445,6 +479,9 @@
     <MESSAGE value="updated elements for searchpage to unify our new look with rounded borders along with a new filter dropdown." />
     <MESSAGE value="new and improved login page" />
     <MESSAGE value="new register page" />
-    <option name="LAST_COMMIT_MESSAGE" value="new register page" />
+    <MESSAGE value="reverted changes on askai.html due to inconsistencies." />
+    <MESSAGE value="removed clutter in files" />
+    <MESSAGE value="changes made for register.html for better ui look." />
+    <option name="LAST_COMMIT_MESSAGE" value="changes made for register.html for better ui look." />
   </component>
 </project>
