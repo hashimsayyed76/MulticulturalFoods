@@ -18,7 +18,6 @@
       font-family: 'Poppins', sans-serif;
       color: #333;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
@@ -33,7 +32,6 @@
       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
       z-index: 1000;
     }
-
     .sidebar a,
     .sidebar .profile-icon a {
       margin: 25px 0;
@@ -50,12 +48,10 @@
       user-select: none;
       transition: transform 0.2s ease;
     }
-
     .sidebar a:hover {
       transform: scale(1.2);
       color: #ffd369;
     }
-
     .sidebar a.disabled {
       color: #888 !important;
       pointer-events: none;
@@ -63,7 +59,6 @@
       filter: grayscale(100%);
       cursor: default;
     }
-
     .main-content {
       margin-left: 90px;
       padding: 40px 20px;
@@ -74,20 +69,17 @@
       min-height: 80vh;
       margin-top: 40px;
     }
-
     h2 {
       margin-bottom: 1.5rem;
       font-weight: 600;
       font-size: 28px;
     }
-
     .search-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
-
     .search-box input[type="text"],
     .search-box select {
       padding: 12px;
@@ -97,7 +89,6 @@
       border: 1px solid #ccc;
       font-size: 15px;
     }
-
     .search-box button {
       padding: 12px 20px;
       border: none;
@@ -109,15 +100,12 @@
       transition: background-color 0.3s ease;
       min-width: 110px;
     }
-
     .search-box button:hover {
       background-color: #3e9142;
     }
-
     .results {
       margin-top: 1rem;
     }
-
     .dish-item {
       display: flex;
       gap: 15px;
@@ -125,11 +113,9 @@
       border-bottom: 1px solid #ddd;
       align-items: center;
     }
-
     .dish-item:last-child {
       border-bottom: none;
     }
-
     .dish-image {
       width: 90px;
       height: 90px;
@@ -138,23 +124,19 @@
       object-fit: cover;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-
     .dish-info {
       flex: 1;
     }
-
     .dish-name {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 4px;
     }
-
     .dish-meta {
       font-size: 14px;
       color: #555;
       margin-bottom: 6px;
     }
-
     .dish-desc {
       font-size: 14px;
       color: #666;
@@ -188,63 +170,6 @@
 </main>
 
 <script>
-  // Sample local data for Top Rated and Contains searches
-  const localDishes = [
-    {
-      name: "Sushi",
-      category: "Seafood",
-      country: "Japan",
-      rating: 4.9,
-      description: "Delicious vinegared rice with seafood or vegetables.",
-      image: "https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg"
-    },
-    {
-      name: "Tacos",
-      category: "Miscellaneous",
-      country: "Mexico",
-      rating: 4.7,
-      description: "Corn or wheat tortilla folded with fillings like meat, beans, and salsa.",
-      image: "https://www.themealdb.com/images/media/meals/txn6pq1619493755.jpg"
-    },
-    {
-      name: "Paella",
-      category: "Seafood",
-      country: "Spain",
-      rating: 4.5,
-      description: "Rice dish with saffron, vegetables, seafood, and meat.",
-      image: "https://www.themealdb.com/images/media/meals/uyqrrv1511553350.jpg"
-    },
-    {
-      name: "Biryani",
-      category: "Chicken",
-      country: "India",
-      rating: 4.8,
-      description: "Spiced rice with meat or vegetables cooked together.",
-      image: "https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg"
-    },
-    {
-      name: "Baklava",
-      category: "Dessert",
-      country: "Turkey",
-      rating: 4.3,
-      description: "Sweet layered pastry with nuts and honey.",
-      image: "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
-    },
-    {
-      name: "Poutine",
-      category: "Side",
-      country: "Canada",
-      rating: 4.1,
-      description: "French fries topped with cheese curds and gravy.",
-      image: "https://www.themealdb.com/images/media/meals/uuyrrx1487327597.jpg"
-    }
-  ];
-
-  const searchInput = document.getElementById('searchInput');
-  const searchFilter = document.getElementById('searchFilter');
-  const searchResults = document.getElementById('searchResults');
-  const searchBtn = document.getElementById('searchBtn');
-
   // Fetch meals by country (area)
   async function fetchMealsByCountry(country) {
     try {
@@ -257,7 +182,19 @@
     }
   }
 
-  // Fetch meal details by id (to get description etc)
+  // Search meals by name containing keyword (API's search endpoint)
+  async function searchMealsByName(keyword) {
+    try {
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`);
+      const data = await res.json();
+      return data.meals || [];
+    } catch (e) {
+      console.error('Failed to search meals by name', e);
+      return [];
+    }
+  }
+
+  // Fetch meal details by id (for full info)
   async function fetchMealDetails(id) {
     try {
       const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -270,80 +207,102 @@
     }
   }
 
-  // Render meals with details
+  // Render meals with full info
   async function renderMeals(meals) {
     if (!meals.length) {
-      searchResults.innerHTML = `<p>No results found.</p>`;
+      document.getElementById('searchResults').innerHTML = `<p>No results found.</p>`;
       return;
     }
 
-    // For meals from API (which only have name, idMeal, and thumbnail), fetch details
+    // If meals are from 'filter.php' endpoint, they lack description so fetch details
     const detailedMeals = await Promise.all(meals.map(async meal => {
       if (meal.idMeal) {
         const details = await fetchMealDetails(meal.idMeal);
         return details || meal;
       }
-      return meal; // for local data with full info
+      return meal; // already detailed
     }));
 
-    searchResults.innerHTML = detailedMeals.map(meal => `
-        <div class="dish-item" tabindex="0">
-          <img src="${meal.strMealThumb || meal.image || 'https://via.placeholder.com/90'}" alt="${meal.strMeal || meal.name}" class="dish-image" />
-          <div class="dish-info">
-            <div class="dish-name">${meal.strMeal || meal.name}</div>
-            <div class="dish-meta">Category: ${meal.strCategory || meal.category || 'Unknown'} | Country: ${meal.strArea || meal.country || 'Unknown'}</div>
-            <div class="dish-desc">${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : (meal.description || 'No description available.')}</div>
-          </div>
+    document.getElementById('searchResults').innerHTML = detailedMeals.map(meal => `
+      <div class="dish-item" tabindex="0">
+        <img src="${meal.strMealThumb || 'https://via.placeholder.com/90'}" alt="${meal.strMeal}" class="dish-image" />
+        <div class="dish-info">
+          <div class="dish-name">${meal.strMeal}</div>
+          <div class="dish-meta">Category: ${meal.strCategory || 'Unknown'} | Country: ${meal.strArea || 'Unknown'}</div>
+          <div class="dish-desc">${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : 'No description available.'}</div>
         </div>
-      `).join('');
+      </div>
+    `).join('');
+  }
+
+  // For Top Rated - since no rating info in API, we'll just show some popular categories/meals
+  async function loadTopRated() {
+    // Let's fetch popular categories and show meals from one of them (e.g., 'Seafood')
+    try {
+      const catRes = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+      const catData = await catRes.json();
+      if (!catData.meals) return [];
+
+      // Pick 'Seafood' category or first category as example top rated
+      const seafoodCat = catData.meals.find(c => c.strCategory.toLowerCase() === 'seafood') || catData.meals[0];
+
+      // Fetch meals from that category
+      const mealsRes = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(seafoodCat.strCategory)}`);
+      const mealsData = await mealsRes.json();
+      return mealsData.meals || [];
+    } catch (e) {
+      console.error('Failed to load top rated meals', e);
+      return [];
+    }
   }
 
   async function performSearch() {
-    const query = searchInput.value.trim().toLowerCase();
-    const filter = searchFilter.value;
-
-    searchResults.innerHTML = ''; // clear old results
+    const query = document.getElementById('searchInput').value.trim();
+    const filter = document.getElementById('searchFilter').value;
+    const resultsDiv = document.getElementById('searchResults');
+    resultsDiv.innerHTML = '';
 
     if (!filter) {
-      searchResults.innerHTML = '<p>Please select a filter.</p>';
+      resultsDiv.innerHTML = '<p>Please select a filter.</p>';
       return;
     }
 
     if (filter !== 'top' && !query) {
-      searchResults.innerHTML = '<p>Please enter a search term.</p>';
+      resultsDiv.innerHTML = '<p>Please enter a search term.</p>';
       return;
     }
 
-    if (filter === 'top') {
-      // Show local top rated sorted by rating desc
-      const sorted = localDishes.slice().sort((a,b) => b.rating - a.rating);
-      await renderMeals(sorted);
-    } else if (filter === 'country') {
-      // Fetch meals from API by country filter
-      const mealsByCountry = await fetchMealsByCountry(query);
-      if (!mealsByCountry.length) {
-        searchResults.innerHTML = `<p>No meals found for country "${query}".</p>`;
+    if (filter === 'country') {
+      // Fetch meals by country
+      const meals = await fetchMealsByCountry(query);
+      if (meals.length === 0) {
+        resultsDiv.innerHTML = `<p>No meals found for country "${query}".</p>`;
         return;
       }
-      await renderMeals(mealsByCountry);
+      await renderMeals(meals);
+
     } else if (filter === 'contains') {
-      // Search locally by substring in any text field
-      const filtered = localDishes.filter(d =>
-              d.name.toLowerCase().includes(query) ||
-              d.country.toLowerCase().includes(query) ||
-              d.category.toLowerCase().includes(query) ||
-              d.description.toLowerCase().includes(query)
-      );
-      if (!filtered.length) {
-        searchResults.innerHTML = `<p>No results found containing "${query}".</p>`;
+      // Search meals by name containing keyword
+      const meals = await searchMealsByName(query);
+      if (meals.length === 0) {
+        resultsDiv.innerHTML = `<p>No meals found containing "${query}".</p>`;
         return;
       }
-      await renderMeals(filtered);
+      await renderMeals(meals);
+
+    } else if (filter === 'top') {
+      // Show top rated meals (example: seafood category meals)
+      const meals = await loadTopRated();
+      if (meals.length === 0) {
+        resultsDiv.innerHTML = `<p>No top rated meals found.</p>`;
+        return;
+      }
+      await renderMeals(meals);
     }
   }
 
-  searchBtn.addEventListener('click', performSearch);
-  searchInput.addEventListener('keydown', e => {
+  document.getElementById('searchBtn').addEventListener('click', performSearch);
+  document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') performSearch();
   });
 </script>
