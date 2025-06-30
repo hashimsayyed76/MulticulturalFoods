@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multicultural Foods - Home</title>
-  <link rel="stylesheet" href="/frontend/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/frontend/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
+  <script src="/frontend/js/auth.js"></script>
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      background: linear-gradient(120deg, rgba(253, 251, 251, 0.7), rgba(235, 237, 238, 0.7)), url('/frontend/dishes/FoodsBackground.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #333;
     }
 
@@ -26,20 +28,124 @@
       align-items: center;
       padding-top: 20px;
       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-      z-index: 100;
+      z-index: 1000;
     }
 
-    .sidebar a {
-      margin: 25px 0;
-      text-decoration: none;
+    #profileBtn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      font-size: 28px;
       color: #f0f0f0;
-      font-size: 24px;
-      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
 
-    .sidebar a:hover {
+    .sidebar a,
+    .sidebar button {
+      margin: 25px 0;
+      font-size: 24px;
+      color: #f0f0f0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sidebar a:hover:not(.disabled),
+    .sidebar button:hover {
       transform: scale(1.2);
       color: #ffd369;
+    }
+
+    .sidebar a.disabled {
+      color: #888 !important;
+      pointer-events: none;
+      opacity: 0.5;
+      filter: grayscale(100%);
+      cursor: default;
+    }
+
+    .sidebar a.tooltip::after,
+    .sidebar a.tooltip::before {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .sidebar a.tooltip:hover::after,
+    .sidebar a.tooltip:hover::before {
+      opacity: 1;
+    }
+
+    .sidebar a.tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-size: 13px;
+      white-space: nowrap;
+      z-index: 2000;
+    }
+
+    .sidebar a.tooltip::before {
+      content: "";
+      position: absolute;
+      bottom: 115%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+      z-index: 2000;
+    }
+
+    #profileDropdown {
+      position: absolute;
+      top: 60px;
+      left: 135%;
+      transform: translateX(-50%);
+      background: #1f1f2e;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      padding: 10px 0;
+      z-index: 1500;
+      box-sizing: border-box;
+    }
+
+    #profileDropdown button {
+      background: none;
+      border: none;
+      color: #f0f0f0;
+      font-size: 14px;
+      padding: 12px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    #profileDropdown button:hover {
+      background-color: #2d2d3a;
+      transform: translateX(3px);
     }
 
     .main-content {
@@ -49,46 +155,53 @@
       flex-direction: column;
       align-items: center;
       width: calc(100% - 90px);
-      min-height: 100vh;
-      overflow-y: auto;
     }
 
     .hero-section {
-      width: 100%;
-      border-radius: 20px;
       background: white;
       padding: 40px 20px;
-      margin-bottom: 20px;
+      border-radius: 20px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      width: 100%;
       text-align: center;
     }
-
 
     .hero-section h1 {
       font-size: 36px;
       font-weight: 600;
+      margin: 0;
       color: #1f1f1f;
+    }
+
+    .welcome-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    #logoContainer {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: default;
+    }
+
+    #logoContainer img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     h3 {
       font-size: 20px;
       text-align: center;
-      margin: 20px 0 10px;
-    }
-
-    .welcome-box {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      margin-bottom: 30px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .welcome-box h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
+      margin: 20px 0;
     }
 
     .countries-grid {
@@ -96,7 +209,6 @@
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 20px;
       width: 100%;
-      margin-top: 10px;
     }
 
     .country-card {
@@ -104,7 +216,7 @@
       border-radius: 10px;
       padding: 15px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       transition: transform 0.2s;
     }
 
@@ -114,82 +226,144 @@
 
     .country-card img {
       width: 50px;
-      height: auto;
       margin-bottom: 10px;
     }
 
-    .country-card h4 {
-      margin: 0;
-      font-size: 16px;
-      color: #444;
+    .info-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
 
-    h3 {
-      width: 100%;
-      text-align: center;
-      font-size: 20px;
-      margin-top: 10px;
-      margin-bottom: 20px;
+    .info-box p,
+    .info-box ul {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .info-box ul {
+      padding-left: 20px;
+    }
+
+    .info-box li {
+      margin-bottom: 8px;
     }
   </style>
 </head>
 <body>
-<div class="sidebar">
-  <a href="login.html" title="Profile">👤</a>
-  <a href="index.html" title="Home">🏠</a>
-  <a href="searchpage.html" title="Search">🔍</a>
-  <a href="askai.html" title="Ask AI">🤖</a>
+
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div id="logoContainer" aria-label="Main logo">
+    <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
+  </div>
+  
+  <!-- Updated Profile Section (without photo functionality) -->
+  <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+  <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+    <button id="settingsBtn" role="menuitem">Settings</button>
+    <button id="logoutBtn" role="menuitem">Logout</button>
+  </div>
+  
+  <a href="index.html" title="Home" aria-label="Home">🏠</a>
+  <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
+  <a href="askai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
+  <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
 </div>
 
-<div class="main-content">
-  <div class="hero-section">
+<main class="main-content" role="main">
+  <section class="hero-section">
     <h1>Welcome to Multicultural Foods 🌍</h1>
-  </div>
+  </section>
 
-  <div class="welcome-box">
+  <section class="info-section">
+    <h3>🍽️ Why Multicultural Foods Matter</h3>
+    <div class="info-box">
+      <p>Food is more than something we eat—it tells stories about where people come from and what they believe in...</p>
+    </div>
+
+    <h3>📲 What You Can Do with This App</h3>
+    <div class="info-box">
+      <ul>
+        <li>Browse dishes by country or ingredients</li>
+        <li>Learn the history and meaning behind each recipe</li>
+        <li>Ask our food-only AI chatbot for cooking help or tips</li>
+        <li>Save your favorite meals and update your profile</li>
+      </ul>
+    </div>
+
+    <div class="info-box">
+      <p><strong>MulticulturalFoods</strong> is a web-based app designed to introduce you to culturally significant dishes from around the globe.</p>
+    </div>
+  </section>
+
+  <section class="welcome-box">
     <h2>Explore Recipes from Around the World</h2>
-    <p>Discover traditional dishes and cultural insights from countries around the globe. Click a country below to view its popular foods.</p>
-  </div>
+    <p>Click a country below to view its popular foods.</p>
+  </section>
 
-  <h3>🌐 Popular Cuisines</h3>
+  <h3>🌐 Our Developers' Favorite Cuisines</h3>
   <div class="countries-grid">
-    <div class="country-card">
-      <a href="greece.html">
-        <img src="/frontend/flags/greece.png" alt="Greek">
-        <h4>Greek</h4>
-      </a>
-    </div>
-    <div class="country-card">
-      <a href="india.html">
-        <img src="/frontend/flags/india.png" alt="Indian">
-        <h4>Indian</h4>
-      </a>
-    </div>
-    <div class="country-card">
-      <a href="italy.html">
-        <img src="/frontend/flags/italy.png" alt="Italian">
-        <h4>Mexican</h4>
-      </a>
-    </div>
-    <div class="country-card">
-      <a href="mexico.html">
-        <img src="/frontend/flags/mexico.png" alt="Mexican">
-        <h4>Japanese</h4>
-      </a>
-    </div>
-    <div class="country-card">
-      <a href="thailand.html">
-        <img src="/frontend/flags/thailand.png" alt="Thai">
-        <h4>Italian</h4>
-      </a>
-    </div>
-    <div class="country-card">
-      <a href="turkey.html">
-        <img src="/frontend/flags/turkey.png" alt="Turkish">
-        <h4>Chinese</h4>
-      </a>
-    </div>
+    <div class="country-card"><a href="greece.html"><img src="/frontend/flags/greece.png" alt="Greek flag" /><h4>Greek</h4></a></div>
+    <div class="country-card"><a href="india.html"><img src="/frontend/flags/india.png" alt="Indian flag" /><h4>Indian</h4></a></div>
+    <div class="country-card"><a href="italy.html"><img src="/frontend/flags/italy.png" alt="Italian flag" /><h4>Italian</h4></a></div>
+    <div class="country-card"><a href="mexico.html"><img src="/frontend/flags/mexico.png" alt="Mexican flag" /><h4>Mexican</h4></a></div>
+    <div class="country-card"><a href="thailand.html"><img src="/frontend/flags/thailand.png" alt="Thai flag" /><h4>Thai</h4></a></div>
+    <div class="country-card"><a href="turkey.html"><img src="/frontend/flags/turkey.png" alt="Turkish flag" /><h4>Turkish</h4></a></div>
   </div>
-</div>
+</main>
+
+<script>
+  // Profile dropdown functionality
+  const profileBtn = document.getElementById('profileBtn');
+  const profileDropdown = document.getElementById('profileDropdown');
+  
+  profileBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+    profileBtn.setAttribute('aria-expanded', !isExpanded);
+    profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function() {
+    profileBtn.setAttribute('aria-expanded', 'false');
+    profileDropdown.style.display = 'none';
+  });
+
+  // Auth state management
+  function checkAuthState() {
+    const isLoggedIn = auth.isUserLoggedIn();
+    
+    // Update UI based on login state
+    document.getElementById('askAiLink').classList.toggle('disabled', !isLoggedIn);
+    document.getElementById('favorites').classList.toggle('disabled', !isLoggedIn);
+    
+    if (isLoggedIn) {
+      const user = auth.getCurrentUser();
+      const welcomeElement = document.querySelector('.welcome-box');
+      if (welcomeElement && !welcomeElement.querySelector('.welcome-user')) {
+        welcomeElement.innerHTML += `<p class="welcome-user">Welcome, ${user.email}!</p>`;
+      }
+    }
+  }
+
+  // Navigation handlers
+  document.getElementById('settingsBtn').addEventListener('click', function() {
+    window.location.href = 'settings.html';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    auth.logoutUser();
+    window.location.href = 'login.html';
+  });
+
+  // Initialize
+  window.addEventListener('DOMContentLoaded', function() {
+    checkAuthState();
+  });
+</script>
 </body>
 </html>

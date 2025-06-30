@@ -14,6 +14,13 @@
       border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, rgba(253, 251, 251, 0.7), rgba(235, 237, 238, 0.7)), url('/frontend/dishes/FoodsBackground.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
     .ask-ai-wrapper h2 {
       font-size: 28px;
       margin-bottom: 20px;
@@ -64,64 +71,74 @@
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
-  </div>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
+</div>
 
-  <div class="main-content">
-    <div class="ask-ai-wrapper">
-      <h2>Ask Our Food AI 🍽️</h2>
-      <form id="ask-form">
-        <label for="question">What would you like to know about food today?</label>
-        <textarea id="question" name="question" rows="5" placeholder="Disclaimer: Anything related to food, culture, and recipes, feel free to ask anything!" required></textarea>
-        <button type="submit">Ask AI</button>
-      </form>
+<div class="main-content">
+  <div class="ask-ai-wrapper">
+    <h2>Ask Our Food AI 🍽️</h2>
+    <form id="ask-form">
+      <label for="question">What would you like to know about food today?</label>
+      <textarea id="question" name="question" rows="5" placeholder="Disclaimer: Anything related to food, culture, and recipes, feel free to ask anything!" required></textarea>
+      <button type="submit">Ask AI</button>
+    </form>
 
-      <div class="ai-response" id="response-box">
-        <strong>AI Response:</strong>
-        <p id="ai-output">Your answer will appear here after submission.</p>
-      </div>
+    <div class="ai-response" id="response-box">
+      <strong>AI Response:</strong>
+      <p id="ai-output">Your answer will appear here after submission.</p>
     </div>
   </div>
+</div>
 
-  <script>
-    document.getElementById("ask-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const question = document.getElementById("question").value.trim();
-      const output = document.getElementById("ai-output");
+<script>
+  document.getElementById("ask-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const question = document.getElementById("question").value.trim();
+    const output = document.getElementById("ai-output");
 
-      if (!question) {
-        output.innerText = "Please enter a food-related question.";
-        return;
+    if (!question) {
+      output.innerText = "Please enter a food-related question.";
+      return;
+    }
+
+    output.innerText = "Thinking...";
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/ask-ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question })
+      });
+
+      const data = await response.json();
+
+      if (data.answer) {
+        output.innerText = data.answer;
+      } else if (data.error) {
+        output.innerText = "Error from AI: " + data.error;
+      } else {
+        output.innerText = "Unexpected response from AI.";
       }
-
-      output.innerText = "Thinking...";
-
-      try {
-        const response = await fetch("http://127.0.0.1:5000/ask-ai", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ question })
-        });
-
-        const data = await response.json();
-
-        if (data.answer) {
-          output.innerText = data.answer;
-        } else if (data.error) {
-          output.innerText = "Error from AI: " + data.error;
-        } else {
-          output.innerText = "Unexpected response from AI.";
-        }
-      } catch (err) {
-        output.innerText = "Failed to contact AI server. Is the Flask server running?";
-        console.error(err);
-      }
-    });
-  </script>
+    } catch (err) {
+      output.innerText = "Failed to contact AI server. Is the Flask server running?";
+      console.error(err);
+    }
+  });
+</script>
 </body>
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  if (!isUserLoggedIn()) {
+    alert("Please log in or register to access this page.");
+    window.location.href = "login.html";
+  }
+</script>
+

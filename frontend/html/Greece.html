@@ -1,40 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Greek Cuisine - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
-</head>
-<body>
-  <div class="sidebar">
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
-  </div>
-
-  <div class="main-content">
-    <h2>Popular Greek Dishes 🇬🇷</h2>
-    <div class="dish-grid">
-      <div class="dish-card">
-        <img src="/frontend/dishes/gyros.jpg" alt="Gyros">
-        <h4>Gyros</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/moussaka.jpg" alt="Moussaka">
-        <h4>Moussaka</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/souvlaki.jpg" alt="Souvlaki">
-        <h4>Souvlaki</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/greek_salad.jpg" alt="Greek Salad">
-        <h4>Greek Salad</h4>
-      </div>
-    </div>
-  </div>
-
+  <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
     .dish-grid {
       display: grid;
@@ -48,6 +18,8 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 15px;
       text-align: center;
+      position: relative;
+      user-select: none;
     }
     .dish-card img {
       width: 100%;
@@ -56,6 +28,113 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
+    .heart-icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 28px;
+      color: #bbb;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .heart-icon.favorited {
+      color: #e63946;
+      background: rgba(230, 57, 70, 0.9);
+      box-shadow: 0 0 8px #e63946;
+    }
+    .heart-icon:hover {
+      color: #e63946;
+      transform: scale(1.2);
+    }
   </style>
+</head>
+<body>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
+  <a href="favorites.html">❤️</a>
+</div>
+
+<div class="main-content">
+  <h2>Popular Greek Dishes 🇬🇷</h2>
+  <div class="dish-grid" id="dishGrid">
+    <div class="dish-card" data-id="gyros">
+      <img src="/frontend/dishes/gyros.jpg" alt="Gyros" />
+      <span class="heart-icon" role="button" tabindex="0" aria-label="Add Gyros to favorites">♡</span>
+      <h4>Gyros</h4>
+    </div>
+    <div class="dish-card" data-id="moussaka">
+      <img src="/frontend/dishes/moussaka.jpg" alt="Moussaka" />
+      <span class="heart-icon" role="button" tabindex="0" aria-label="Add Moussaka to favorites">♡</span>
+      <h4>Moussaka</h4>
+    </div>
+    <div class="dish-card" data-id="souvlaki">
+      <img src="/frontend/dishes/souvlaki.jpg" alt="Souvlaki" />
+      <span class="heart-icon" role="button" tabindex="0" aria-label="Add Souvlaki to favorites">♡</span>
+      <h4>Souvlaki</h4>
+    </div>
+    <div class="dish-card" data-id="greek_salad">
+      <img src="/frontend/dishes/greek_salad.jpg" alt="Greek Salad" />
+      <span class="heart-icon" role="button" tabindex="0" aria-label="Add Greek Salad to favorites">♡</span>
+      <h4>Greek Salad</h4>
+    </div>
+  </div>
+</div>
+
+<script>
+  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+  const dishGrid = document.getElementById('dishGrid');
+  const hearts = dishGrid.querySelectorAll('.heart-icon');
+
+  function updateHeartUI() {
+    hearts.forEach(heart => {
+      const dishId = heart.parentElement.getAttribute('data-id');
+      if (favorites.includes(dishId)) {
+        heart.textContent = '❤️';
+        heart.classList.add('favorited');
+        heart.setAttribute('aria-label', `Remove ${dishId} from favorites`);
+      } else {
+        heart.textContent = '♡';
+        heart.classList.remove('favorited');
+        heart.setAttribute('aria-label', `Add ${dishId} to favorites`);
+      }
+    });
+  }
+
+  hearts.forEach(heart => {
+    heart.addEventListener('click', () => {
+      const dishId = heart.parentElement.getAttribute('data-id');
+      const index = favorites.indexOf(dishId);
+
+      if (index > -1) {
+        favorites.splice(index, 1);
+      } else {
+        favorites.push(dishId);
+      }
+
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      updateHeartUI();
+    });
+
+    heart.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        heart.click();
+      }
+    });
+  });
+
+  updateHeartUI();
+</script>
 </body>
 </html>
