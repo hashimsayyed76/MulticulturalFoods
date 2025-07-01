@@ -4,307 +4,208 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Search - Multicultural Foods</title>
-  <link rel="stylesheet" href="../css/style.css" />
   <style>
     body {
-      background-image: url('/frontend/dishes/SearchDish.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
       font-family: 'Poppins', sans-serif;
-      color: #333;
+      background: #f8f8f8;
     }
+
     .sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh;
       width: 70px;
+      height: 100vh;
       background: #1f1f2e;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-top: 20px;
-      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
     }
-    .sidebar a,
-    .sidebar .profile-icon a {
-      margin: 25px 0;
+
+    .sidebar a {
+      margin: 20px 0;
       font-size: 24px;
-      color: #f0f0f0;
-      background: none;
-      border: none;
-      cursor: pointer;
+      color: white;
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      user-select: none;
-      transition: transform 0.2s ease;
+      transition: 0.3s;
     }
+
     .sidebar a:hover {
-      transform: scale(1.2);
       color: #ffd369;
+      transform: scale(1.2);
     }
-    .sidebar a.disabled {
-      color: #888 !important;
-      pointer-events: none;
-      opacity: 0.5;
-      filter: grayscale(100%);
-      cursor: default;
-    }
+
     .main-content {
       margin-left: 90px;
-      padding: 40px 20px;
-      max-width: 900px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      min-height: 80vh;
-      margin-top: 40px;
+      padding: 30px;
+      max-width: 1000px;
     }
+
     h2 {
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-      font-size: 28px;
+      margin-bottom: 20px;
     }
+
     .search-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
-    .search-box input[type="text"],
+
+    .search-box input,
     .search-box select {
-      padding: 12px;
-      flex: 1;
-      min-width: 180px;
-      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
       border: 1px solid #ccc;
-      font-size: 15px;
+      border-radius: 8px;
     }
+
+    .search-box input[disabled] {
+      background: #eee;
+      color: #999;
+    }
+
     .search-box button {
-      padding: 12px 20px;
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
       border: none;
       border-radius: 8px;
-      background-color: #4CAF50;
-      color: white;
       cursor: pointer;
-      font-size: 15px;
-      transition: background-color 0.3s ease;
-      min-width: 110px;
     }
-    .search-box button:hover {
-      background-color: #3e9142;
-    }
-    .results {
-      margin-top: 1rem;
-    }
+
     .dish-item {
       display: flex;
-      gap: 15px;
-      padding: 12px 0;
-      border-bottom: 1px solid #ddd;
       align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+      cursor: pointer;
     }
-    .dish-item:last-child {
-      border-bottom: none;
-    }
-    .dish-image {
+
+    .dish-item img {
       width: 90px;
       height: 90px;
-      flex-shrink: 0;
-      border-radius: 12px;
+      border-radius: 10px;
       object-fit: cover;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+
     .dish-info {
       flex: 1;
     }
+
     .dish-name {
       font-weight: bold;
       font-size: 18px;
-      margin-bottom: 4px;
     }
+
     .dish-meta {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 6px;
-    }
-    .dish-desc {
       font-size: 14px;
       color: #666;
     }
   </style>
 </head>
 <body>
-<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-  <div class="profile-icon" aria-label="User Profile">
-    <a href="login.html" title="Login">👤</a>
-  </div>
-  <a href="index.html" title="Home" aria-label="Home">🏠</a>
-  <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
-  <a href="askai.html" title="Ask AI" aria-label="Ask AI" class="disabled" tabindex="-1" aria-disabled="true">🤖</a>
+<div class="sidebar">
+  <a href="login.html">👤</a>
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html" class="disabled">🤖</a>
 </div>
 
-<main class="main-content" role="main">
-  <h2>Search Multicultural Dishes</h2>
-  <div class="search-box" role="search">
-    <input type="text" id="searchInput" placeholder="Enter country or keywords..." aria-label="Search input" />
-    <select id="searchFilter" aria-label="Search filter">
-      <option value="">Select filter</option>
+<div class="main-content">
+  <h2>Search Dishes</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Type keyword or leave blank..." />
+    <select id="searchFilter">
+      <option value="">Select Filter</option>
       <option value="country">Country</option>
-      <option value="top">Top Rated</option>
+      <option value="category">Category</option>
       <option value="contains">Contains</option>
     </select>
-    <button id="searchBtn" aria-label="Perform search">Search</button>
+    <select id="dynamicSelect">
+      <option value="">Select Option</option>
+    </select>
+    <button onclick="performSearch()">Search</button>
   </div>
 
-  <div id="searchResults" aria-live="polite"></div>
-</main>
+  <div id="searchResults"></div>
+</div>
 
 <script>
-  // Fetch meals by country (area)
-  async function fetchMealsByCountry(country) {
-    try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(country)}`);
+  const filterType = document.getElementById("searchFilter");
+  const dynamicSelect = document.getElementById("dynamicSelect");
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  // Disable or enable search input based on filter type
+  filterType.addEventListener("change", async () => {
+    const selectedFilter = filterType.value;
+    dynamicSelect.innerHTML = `<option value="">Select Option</option>`;
+    searchInput.disabled = (selectedFilter === "country" || selectedFilter === "category");
+    searchInput.value = ""; // clear input on change
+
+    let url = "";
+    if (selectedFilter === "country") {
+      url = "https://www.themealdb.com/api/json/v1/1/list.php?a=list";
+    } else if (selectedFilter === "category") {
+      url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
+    }
+
+    if (url) {
+      const res = await fetch(url);
       const data = await res.json();
-      return data.meals || [];
-    } catch (e) {
-      console.error('Failed to fetch meals by country', e);
-      return [];
+      const items = data.meals || [];
+      items.forEach(item => {
+        const val = item.strArea || item.strCategory;
+        const opt = document.createElement("option");
+        opt.value = val;
+        opt.textContent = val;
+        dynamicSelect.appendChild(opt);
+      });
     }
-  }
-
-  // Search meals by name containing keyword (API's search endpoint)
-  async function searchMealsByName(keyword) {
-    try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`);
-      const data = await res.json();
-      return data.meals || [];
-    } catch (e) {
-      console.error('Failed to search meals by name', e);
-      return [];
-    }
-  }
-
-  // Fetch meal details by id (for full info)
-  async function fetchMealDetails(id) {
-    try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const data = await res.json();
-      if (data.meals && data.meals.length > 0) return data.meals[0];
-      else return null;
-    } catch (e) {
-      console.error('Failed to fetch meal details', e);
-      return null;
-    }
-  }
-
-  // Render meals with full info
-  async function renderMeals(meals) {
-    if (!meals.length) {
-      document.getElementById('searchResults').innerHTML = `<p>No results found.</p>`;
-      return;
-    }
-
-    // If meals are from 'filter.php' endpoint, they lack description so fetch details
-    const detailedMeals = await Promise.all(meals.map(async meal => {
-      if (meal.idMeal) {
-        const details = await fetchMealDetails(meal.idMeal);
-        return details || meal;
-      }
-      return meal; // already detailed
-    }));
-
-    document.getElementById('searchResults').innerHTML = detailedMeals.map(meal => `
-      <div class="dish-item" tabindex="0">
-        <img src="${meal.strMealThumb || 'https://via.placeholder.com/90'}" alt="${meal.strMeal}" class="dish-image" />
-        <div class="dish-info">
-          <div class="dish-name">${meal.strMeal}</div>
-          <div class="dish-meta">Category: ${meal.strCategory || 'Unknown'} | Country: ${meal.strArea || 'Unknown'}</div>
-          <div class="dish-desc">${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : 'No description available.'}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // For Top Rated - since no rating info in API, we'll just show some popular categories/meals
-  async function loadTopRated() {
-    // Let's fetch popular categories and show meals from one of them (e.g., 'Seafood')
-    try {
-      const catRes = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-      const catData = await catRes.json();
-      if (!catData.meals) return [];
-
-      // Pick 'Seafood' category or first category as example top rated
-      const seafoodCat = catData.meals.find(c => c.strCategory.toLowerCase() === 'seafood') || catData.meals[0];
-
-      // Fetch meals from that category
-      const mealsRes = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(seafoodCat.strCategory)}`);
-      const mealsData = await mealsRes.json();
-      return mealsData.meals || [];
-    } catch (e) {
-      console.error('Failed to load top rated meals', e);
-      return [];
-    }
-  }
+  });
 
   async function performSearch() {
-    const query = document.getElementById('searchInput').value.trim();
-    const filter = document.getElementById('searchFilter').value;
-    const resultsDiv = document.getElementById('searchResults');
-    resultsDiv.innerHTML = '';
+    searchResults.innerHTML = "Loading...";
+    let query = searchInput.value.trim();
+    let filter = filterType.value;
+    let selectedOption = dynamicSelect.value;
 
-    if (!filter) {
-      resultsDiv.innerHTML = '<p>Please select a filter.</p>';
+    let fetchURL = "";
+    if (filter === "country" && selectedOption) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(selectedOption)}`;
+    } else if (filter === "category" && selectedOption) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(selectedOption)}`;
+    } else if (filter === "contains" && query) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`;
+    } else {
+      searchResults.innerHTML = "<p>Please provide valid input.</p>";
       return;
     }
 
-    if (filter !== 'top' && !query) {
-      resultsDiv.innerHTML = '<p>Please enter a search term.</p>';
+    const res = await fetch(fetchURL);
+    const data = await res.json();
+    const meals = data.meals || [];
+
+    if (meals.length === 0) {
+      searchResults.innerHTML = "<p>No results found.</p>";
       return;
     }
 
-    if (filter === 'country') {
-      // Fetch meals by country
-      const meals = await fetchMealsByCountry(query);
-      if (meals.length === 0) {
-        resultsDiv.innerHTML = `<p>No meals found for country "${query}".</p>`;
-        return;
-      }
-      await renderMeals(meals);
-
-    } else if (filter === 'contains') {
-      // Search meals by name containing keyword
-      const meals = await searchMealsByName(query);
-      if (meals.length === 0) {
-        resultsDiv.innerHTML = `<p>No meals found containing "${query}".</p>`;
-        return;
-      }
-      await renderMeals(meals);
-
-    } else if (filter === 'top') {
-      // Show top rated meals (example: seafood category meals)
-      const meals = await loadTopRated();
-      if (meals.length === 0) {
-        resultsDiv.innerHTML = `<p>No top rated meals found.</p>`;
-        return;
-      }
-      await renderMeals(meals);
-    }
+    searchResults.innerHTML = meals.map(meal => `
+        <div class="dish-item" onclick="window.location.href='dish.html?idMeal=${meal.idMeal}'">
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+          <div class="dish-info">
+            <div class="dish-name">${meal.strMeal}</div>
+            <div class="dish-meta">Meal ID: ${meal.idMeal}</div>
+          </div>
+        </div>
+      `).join('');
   }
-
-  document.getElementById('searchBtn').addEventListener('click', performSearch);
-  document.getElementById('searchInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') performSearch();
-  });
 </script>
 </body>
 </html>

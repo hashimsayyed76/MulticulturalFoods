@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="meal api being implmnted">
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="meal api being implmnted (some countries missing)">
+      <change afterPath="$PROJECT_DIR$/frontend/html/dish.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Greece.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Greece.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/India.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/India.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Italy.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Italy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Mexico.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Mexico.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Thailand.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Thailand.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/Turkey.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Turkey.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/favorites.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/html/searchpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/searchpage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -448,7 +456,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751323410873</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="meal api being implmnted (some countries missing)">
+      <option name="closed" value="true" />
+      <created>1751324387044</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1751324387044</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -500,6 +516,7 @@
     <MESSAGE value="reverted changes on askai.html due to inconsistencies." />
     <MESSAGE value="removed clutter in files" />
     <MESSAGE value="meal api being implmnted" />
-    <option name="LAST_COMMIT_MESSAGE" value="meal api being implmnted" />
+    <MESSAGE value="meal api being implmnted (some countries missing)" />
+    <option name="LAST_COMMIT_MESSAGE" value="meal api being implmnted (some countries missing)" />
   </component>
 </project>
