@@ -2,73 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Greek Cuisine - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f9f9f9;
       margin: 0;
-      padding: 20px;
-      color: #333;
+      background: #f4f4f4;
     }
+
     .sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh;
       width: 70px;
+      height: 100vh;
       background: #1f1f2e;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-top: 20px;
-      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
     }
+
     .sidebar a {
-      margin: 25px 0;
+      margin: 20px 0;
       font-size: 24px;
-      color: #f0f0f0;
+      color: white;
       text-decoration: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      transition: 0.3s;
     }
+
     .sidebar a:hover {
       color: #ffd369;
       transform: scale(1.2);
-      transition: 0.3s ease;
     }
+
     .main-content {
       margin-left: 90px;
+      padding: 30px;
     }
+
+    #goBackBtn {
+      margin-bottom: 15px;
+      padding: 8px 16px;
+      background-color: #1f1f2e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    #goBackBtn:hover {
+      background-color: #44475a;
+    }
+
     h2 {
-      font-weight: 600;
-      font-size: 28px;
       margin-bottom: 20px;
-      text-align: center;
     }
+
     .dish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
+
     .dish-card {
       background-color: #fff;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
-      position: relative;
-      user-select: none;
       cursor: pointer;
-      transition: transform 0.15s ease;
+      position: relative;
+      transition: transform 0.2s;
+      user-select: none;
     }
+
     .dish-card:hover {
       transform: translateY(-5px);
     }
+
     .dish-card img {
       width: 100%;
       height: 140px;
@@ -76,20 +91,16 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
-    .dish-card h4 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 18px;
-    }
+
     .heart-icon {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
       font-size: 28px;
       color: #bbb;
       cursor: pointer;
-      transition: color 0.3s ease;
       user-select: none;
+      transition: color 0.3s ease;
       background: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
       width: 36px;
@@ -98,140 +109,118 @@
       align-items: center;
       justify-content: center;
     }
+
     .heart-icon.favorited {
       color: #e63946;
       background: rgba(230, 57, 70, 0.9);
       box-shadow: 0 0 8px #e63946;
     }
+
     .heart-icon:hover {
       color: #e63946;
       transform: scale(1.2);
     }
-    .loading-text {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 50px;
-      color: #666;
-    }
-
   </style>
 </head>
 <body>
-<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-  <a href="index.html" title="Home" aria-label="Home">🏠</a>
-  <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
-  <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
-  <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
 </div>
 
 <div class="main-content">
+  <button id="goBackBtn">← Go Back</button>
   <h2>Popular Greek Dishes 🇬🇷</h2>
-  <div id="dishGrid" class="dish-grid">
-    <p class="loading-text">Loading dishes...</p>
-  </div>
+  <div class="dish-grid" id="greekDishes"></div>
 </div>
 
 <script>
-  const dishGrid = document.getElementById('dishGrid');
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  const favoritesKey = 'favorites';
+  let favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
 
-  function updateHeartUI(heart, dishId) {
-    if (favorites.includes(dishId)) {
-      heart.textContent = '❤️';
-      heart.classList.add('favorited');
-      heart.setAttribute('aria-label', `Remove ${dishId} from favorites`);
-    } else {
-      heart.textContent = '♡';
-      heart.classList.remove('favorited');
-      heart.setAttribute('aria-label', `Add ${dishId} to favorites`);
-    }
+  function saveFavorites() {
+    localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  function toggleFavorite(dishId, heart) {
-    const index = favorites.indexOf(dishId);
+  function isFavorited(idMeal) {
+    return favorites.some(fav => fav.idMeal === idMeal);
+  }
+
+  function toggleFavorite(dish) {
+    const index = favorites.findIndex(fav => fav.idMeal === dish.idMeal);
     if (index > -1) {
       favorites.splice(index, 1);
     } else {
-      favorites.push(dishId);
+      favorites.push(dish);
     }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    updateHeartUI(heart, dishId);
+    saveFavorites();
   }
 
-  async function loadGreekDishes() {
-    dishGrid.innerHTML = '<p class="loading-text">Loading dishes...</p>';
-
+  async function fetchGreekDishes() {
     try {
       const res = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a=Greek');
       const data = await res.json();
-      if (!data.meals || data.meals.length === 0) {
-        dishGrid.innerHTML = '<p class="loading-text">No dishes found.</p>';
-        return;
-      }
+      const dishes = data.meals || [];
 
-      dishGrid.innerHTML = ''; // clear loading
+      const container = document.getElementById('greekDishes');
+      if (!container) return;
 
-      data.meals.forEach(meal => {
+      container.innerHTML = '';
+
+      dishes.forEach(dish => {
         const card = document.createElement('div');
         card.className = 'dish-card';
-        card.setAttribute('data-id', meal.idMeal);
 
-        // Heart icon
+        card.onclick = (e) => {
+          if (!e.target.classList.contains('heart-icon')) {
+            window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+          }
+        };
+
         const heart = document.createElement('span');
         heart.className = 'heart-icon';
+        heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+        if (isFavorited(dish.idMeal)) {
+          heart.classList.add('favorited');
+        }
         heart.setAttribute('role', 'button');
         heart.setAttribute('tabindex', '0');
-        heart.setAttribute('aria-label', `Add ${meal.strMeal} to favorites`);
+        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
 
-        updateHeartUI(heart, meal.idMeal);
-
-        heart.addEventListener('click', (e) => {
-          e.stopPropagation(); // prevent card click event
-          toggleFavorite(meal.idMeal, heart);
+        heart.addEventListener('click', (event) => {
+          event.stopPropagation();
+          toggleFavorite(dish);
+          heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+          heart.classList.toggle('favorited');
+          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
         });
 
-        heart.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
+        heart.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
             heart.click();
           }
         });
 
-        // Dish image and title link
-        const link = document.createElement('a');
-        link.href = `dish.html?id=${meal.idMeal}`;
-        link.style.textDecoration = 'none';
-        link.style.color = 'inherit';
-        link.tabIndex = -1; // avoid duplicate tab stops (heart icon is separate)
-
-        const img = document.createElement('img');
-        img.src = meal.strMealThumb;
-        img.alt = meal.strMeal;
-
-        const title = document.createElement('h4');
-        title.textContent = meal.strMeal;
-
-        link.appendChild(img);
-        link.appendChild(title);
-
+        card.innerHTML = `
+            <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
+            <h4>${dish.strMeal}</h4>
+          `;
         card.appendChild(heart);
-        card.appendChild(link);
-
-        // Clicking the card (except heart) goes to dish.html detail
-        card.addEventListener('click', () => {
-          window.location.href = `dish.html?id=${meal.idMeal}`;
-        });
-
-        dishGrid.appendChild(card);
+        container.appendChild(card);
       });
-
-    } catch (err) {
-      dishGrid.innerHTML = '<p class="loading-text">Failed to load dishes. Please try again later.</p>';
-      console.error(err);
+    } catch (error) {
+      document.getElementById('greekDishes').innerHTML = "<p>Could not load dishes. Please try again later.</p>";
+      console.error('Error fetching Greek dishes:', error);
     }
   }
 
-  loadGreekDishes();
+  document.getElementById('goBackBtn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+
+  window.addEventListener('DOMContentLoaded', fetchGreekDishes);
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mexican Cuisine - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
@@ -11,7 +11,6 @@
       margin: 0;
       background: #f4f4f4;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
@@ -24,7 +23,6 @@
       align-items: center;
       padding-top: 20px;
     }
-
     .sidebar a {
       margin: 20px 0;
       font-size: 24px;
@@ -32,42 +30,50 @@
       text-decoration: none;
       transition: 0.3s;
     }
-
     .sidebar a:hover {
       color: #ffd369;
       transform: scale(1.2);
     }
-
     .main-content {
       margin-left: 90px;
       padding: 30px;
     }
-
+    #goBackBtn {
+      margin-bottom: 15px;
+      padding: 8px 16px;
+      background-color: #1f1f2e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    #goBackBtn:hover {
+      background-color: #44475a;
+    }
     h2 {
       margin-bottom: 20px;
     }
-
     .dish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
-
     .dish-card {
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
-      position: relative;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      position: relative;
+      transition: transform 0.2s;
+      user-select: none;
     }
-
     .dish-card:hover {
-      transform: scale(1.03);
+      transform: translateY(-5px);
     }
-
     .dish-card img {
       width: 100%;
       height: 140px;
@@ -75,23 +81,31 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
-
     .heart-icon {
       position: absolute;
       top: 10px;
       right: 10px;
-      font-size: 22px;
+      font-size: 28px;
       color: #bbb;
-      background: white;
-      border-radius: 50%;
-      padding: 6px;
       cursor: pointer;
       user-select: none;
       transition: color 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
     .heart-icon.favorited {
       color: #e63946;
+      background: rgba(230, 57, 70, 0.9);
+      box-shadow: 0 0 8px #e63946;
+    }
+    .heart-icon:hover {
+      color: #e63946;
+      transform: scale(1.2);
     }
   </style>
 </head>
@@ -100,31 +114,34 @@
   <a href="index.html">🏠</a>
   <a href="searchpage.html">🔍</a>
   <a href="askai.html">🤖</a>
-  <a href="favorites.html">❤️</a>
 </div>
 
 <div class="main-content">
+  <button id="goBackBtn">← Go Back</button>
   <h2>Popular Mexican Dishes 🇲🇽</h2>
   <div class="dish-grid" id="mexicanDishes"></div>
 </div>
 
 <script>
-  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  const favoritesKey = 'favorites';
+  let favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
 
-  function isFavorited(idMeal) {
-    return favorites.some(dish => dish.idMeal === idMeal);
+  function saveFavorites() {
+    localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  function toggleFavorite(dish, heartIcon) {
-    const index = favorites.findIndex(item => item.idMeal === dish.idMeal);
+  function isFavorited(idMeal) {
+    return favorites.some(fav => fav.idMeal === idMeal);
+  }
+
+  function toggleFavorite(dish) {
+    const index = favorites.findIndex(fav => fav.idMeal === dish.idMeal);
     if (index > -1) {
       favorites.splice(index, 1);
     } else {
       favorites.push(dish);
     }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    heartIcon.classList.toggle('favorited');
-    heartIcon.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+    saveFavorites();
   }
 
   async function fetchMexicanDishes() {
@@ -134,30 +151,49 @@
       const dishes = data.meals || [];
 
       const container = document.getElementById('mexicanDishes');
+      if (!container) return;
+
       container.innerHTML = '';
 
       dishes.forEach(dish => {
         const card = document.createElement('div');
         card.className = 'dish-card';
 
+        card.onclick = (e) => {
+          if (!e.target.classList.contains('heart-icon')) {
+            window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+          }
+        };
+
         const heart = document.createElement('span');
         heart.className = 'heart-icon';
         heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
-        if (isFavorited(dish.idMeal)) heart.classList.add('favorited');
+        if (isFavorited(dish.idMeal)) {
+          heart.classList.add('favorited');
+        }
+        heart.setAttribute('role', 'button');
+        heart.setAttribute('tabindex', '0');
+        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
 
-        heart.addEventListener('click', (e) => {
-          e.stopPropagation();
-          toggleFavorite(dish, heart);
+        heart.addEventListener('click', (event) => {
+          event.stopPropagation();
+          toggleFavorite(dish);
+          heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+          heart.classList.toggle('favorited');
+          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
         });
 
-        card.addEventListener('click', () => {
-          window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+        heart.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            heart.click();
+          }
         });
 
         card.innerHTML = `
-          <img src="${dish.strMealThumb}" alt="${dish.strMeal}" />
-          <h4>${dish.strMeal}</h4>
-        `;
+            <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
+            <h4>${dish.strMeal}</h4>
+          `;
         card.appendChild(heart);
         container.appendChild(card);
       });
@@ -166,6 +202,10 @@
       console.error('Error fetching Mexican dishes:', error);
     }
   }
+
+  document.getElementById('goBackBtn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
 
   window.addEventListener('DOMContentLoaded', fetchMexicanDishes);
 </script>
