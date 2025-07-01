@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/html/favorites.html" afterDir="false" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="meal api being implmnted">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Greece.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Greece.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/html/searchpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/searchpage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +19,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="implement-ai" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,12 +30,12 @@
     &quot;assignee&quot;: &quot;gle63&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/hashimsayyed76/MulticulturalFoods",
-    "accountId": "871d4a90-c917-4c23-abd9-c1a8b2f76fc6"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods.git&quot;,
+    &quot;accountId&quot;: &quot;871d4a90-c917-4c23-abd9-c1a8b2f76fc6&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -58,7 +54,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;umersbranch&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -69,6 +65,17 @@
   }
 }</component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="MulticulturalFoods" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="MulticulturalFoods" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="MulticulturalFoods" />
       <option name="ENV_FILES" value="" />
@@ -119,17 +126,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="MulticulturalFoods" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="MulticulturalFoods" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -161,6 +157,8 @@
       <workItem from="1750137021607" duration="13000" />
       <workItem from="1750167256144" duration="2380000" />
       <workItem from="1750553929298" duration="2708000" />
+      <workItem from="1750977293192" duration="158000" />
+      <workItem from="1750977463846" duration="449000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -442,7 +440,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750276195812</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="meal api being implmnted">
+      <option name="closed" value="true" />
+      <created>1751323410873</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1751323410873</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -453,7 +459,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="umersbranch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -481,6 +499,7 @@
     <MESSAGE value="new register page" />
     <MESSAGE value="reverted changes on askai.html due to inconsistencies." />
     <MESSAGE value="removed clutter in files" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed clutter in files" />
+    <MESSAGE value="meal api being implmnted" />
+    <option name="LAST_COMMIT_MESSAGE" value="meal api being implmnted" />
   </component>
 </project>

@@ -103,6 +103,9 @@
 </head>
 <body>
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo" style="width: 60px; height: 60px; margin-bottom: 15px; overflow: hidden; border-radius: 12px; cursor: default;">
+        <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+    </div>
     <a href="index.html" title="Home" aria-label="Home">🏠</a>
     <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
     <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
@@ -111,33 +114,10 @@
 
 <main class="main-content" role="main">
     <h2>Your Favorite Dishes ❤️</h2>
-    <div class="favorites-grid" id="favoritesGrid">
-        <!-- Favorite dish cards will be inserted here dynamically -->
-    </div>
+    <div class="favorites-grid" id="favoritesGrid"></div>
 </main>
 
 <script>
-    // Map dish IDs to info: name and image path
-    const dishData = {
-        gyros: {
-            name: "Gyros",
-            img: "/frontend/dishes/gyros.jpg"
-        },
-        moussaka: {
-            name: "Moussaka",
-            img: "/frontend/dishes/moussaka.jpg"
-        },
-        souvlaki: {
-            name: "Souvlaki",
-            img: "/frontend/dishes/souvlaki.jpg"
-        },
-        greek_salad: {
-            name: "Greek Salad",
-            img: "/frontend/dishes/greek_salad.jpg"
-        }
-        // Add more dishes if you want, matching the IDs from other pages
-    };
-
     const favoritesGrid = document.getElementById('favoritesGrid');
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -148,25 +128,26 @@
             return;
         }
 
-        favorites.forEach(id => {
-            if (!dishData[id]) return; // Skip unknown IDs
+        favorites.forEach(dish => {
+            if (!dish || !dish.strMeal || !dish.strMealThumb || !dish.idMeal) return;
 
             const card = document.createElement('div');
             card.className = 'favorite-card';
 
             card.innerHTML = `
-          <img src="${dishData[id].img}" alt="${dishData[id].name}" />
-          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dishData[id].name} from favorites">❤️</div>
-          <div class="favorite-info">${dishData[id].name}</div>
+          <img src="${dish.strMealThumb}" alt="${dish.strMeal}" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dish.strMeal} from favorites">❤️</div>
+          <div class="favorite-info">${dish.strMeal}</div>
         `;
 
-            // Remove favorite on heart click
+            // Remove from favorites on heart click
             card.querySelector('.heart-icon').addEventListener('click', () => {
-                favorites = favorites.filter(favId => favId !== id);
+                favorites = favorites.filter(f => f.idMeal !== dish.idMeal);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 renderFavorites();
             });
 
+            // Keyboard accessibility
             card.querySelector('.heart-icon').addEventListener('keydown', e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();

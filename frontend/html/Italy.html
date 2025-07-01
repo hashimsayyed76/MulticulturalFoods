@@ -1,54 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Italian Cuisine - Multicultural Foods</title>
-  <link rel="stylesheet" href="/frontend/css/style.css">
-</head>
-<body>
-  <div class="sidebar">
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html">🤖</a>
-  </div>
-
-  <div class="main-content">
-    <h2>Popular Italian Dishes 🇮🇹</h2>
-    <div class="dish-grid">
-      <div class="dish-card">
-        <img src="/frontend/dishes/spaghetti.jpg" alt="Spaghetti Carbonara">
-        <h4>Spaghetti Carbonara</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/lasagna.jpg" alt="Lasagna">
-        <h4>Lasagna</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/margherita_pizza.jpg" alt="Margherita Pizza">
-        <h4>Margherita Pizza</h4>
-      </div>
-      <div class="dish-card">
-        <img src="/frontend/dishes/risotto.jpg" alt="Risotto">
-        <h4>Risotto</h4>
-      </div>
-    </div>
-  </div>
-
+  <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 70px;
+      height: 100vh;
+      background: #1f1f2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      margin: 20px 0;
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #ffd369;
+      transform: scale(1.2);
+    }
+
+    .main-content {
+      margin-left: 90px;
+      padding: 30px;
+    }
+
+    #goBackBtn {
+      margin-bottom: 15px;
+      padding: 8px 16px;
+      background-color: #1f1f2e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    #goBackBtn:hover {
+      background-color: #44475a;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
     .dish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
-      margin-top: 20px;
     }
+
     .dish-card {
       background-color: #fff;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s;
+      user-select: none;
     }
+
+    .dish-card:hover {
+      transform: translateY(-5px);
+    }
+
     .dish-card img {
       width: 100%;
       height: 140px;
@@ -56,6 +91,136 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
+
+    .heart-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 28px;
+      color: #bbb;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-icon.favorited {
+      color: #e63946;
+      background: rgba(230, 57, 70, 0.9);
+      box-shadow: 0 0 8px #e63946;
+    }
+
+    .heart-icon:hover {
+      color: #e63946;
+      transform: scale(1.2);
+    }
   </style>
+</head>
+<body>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html">🤖</a>
+</div>
+
+<div class="main-content">
+  <button id="goBackBtn">← Go Back</button>
+  <h2>Popular Italian Dishes 🇮🇹</h2>
+  <div class="dish-grid" id="italianDishes"></div>
+</div>
+
+<script>
+  const favoritesKey = 'favorites';
+  let favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
+
+  function saveFavorites() {
+    localStorage.setItem(favoritesKey, JSON.stringify(favorites));
+  }
+
+  function isFavorited(idMeal) {
+    return favorites.some(fav => fav.idMeal === idMeal);
+  }
+
+  function toggleFavorite(dish) {
+    const index = favorites.findIndex(fav => fav.idMeal === dish.idMeal);
+    if (index > -1) {
+      favorites.splice(index, 1);
+    } else {
+      favorites.push(dish);
+    }
+    saveFavorites();
+  }
+
+  async function fetchItalianDishes() {
+    try {
+      const res = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a=Italian');
+      const data = await res.json();
+      const dishes = data.meals || [];
+
+      const container = document.getElementById('italianDishes');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      dishes.forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'dish-card';
+
+        card.onclick = (e) => {
+          if (!e.target.classList.contains('heart-icon')) {
+            window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+          }
+        };
+
+        const heart = document.createElement('span');
+        heart.className = 'heart-icon';
+        heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+        if (isFavorited(dish.idMeal)) {
+          heart.classList.add('favorited');
+        }
+        heart.setAttribute('role', 'button');
+        heart.setAttribute('tabindex', '0');
+        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+
+        heart.addEventListener('click', (event) => {
+          event.stopPropagation();
+          toggleFavorite(dish);
+          heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
+          heart.classList.toggle('favorited');
+          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+        });
+
+        heart.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            heart.click();
+          }
+        });
+
+        card.innerHTML = `
+            <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
+            <h4>${dish.strMeal}</h4>
+          `;
+        card.appendChild(heart);
+        container.appendChild(card);
+      });
+    } catch (error) {
+      document.getElementById('italianDishes').innerHTML = "<p>Could not load dishes. Please try again later.</p>";
+      console.error('Error fetching Italian dishes:', error);
+    }
+  }
+
+  document.getElementById('goBackBtn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+
+  window.addEventListener('DOMContentLoaded', fetchItalianDishes);
+</script>
 </body>
 </html>
