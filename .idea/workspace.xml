@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/html/favorites.html" afterDir="false" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/Greece.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Greece.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/html/searchpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/searchpage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +32,17 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods&quot;,
-    &quot;accountId&quot;: &quot;871d4a90-c917-4c23-abd9-c1a8b2f76fc6&quot;
+    &quot;url&quot;: &quot;https://github.com/hashimsayyed76/MulticulturalFoods.git&quot;,
+    &quot;accountId&quot;: &quot;e3d6f574-cd1f-44b5-9906-69ff19c8bd7b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2yLNGJGTgWZZ2MXzddXtzmWAoi0" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,7 +57,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;implement-ai&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -134,8 +133,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
       </set>
     </attachedChunks>
   </component>
@@ -161,6 +160,11 @@
       <workItem from="1750137021607" duration="13000" />
       <workItem from="1750167256144" duration="2380000" />
       <workItem from="1750553929298" duration="2708000" />
+      <workItem from="1751486260511" duration="20000" />
+      <workItem from="1751489578681" duration="1018000" />
+      <workItem from="1751941119060" duration="274000" />
+      <workItem from="1751941410253" duration="404000" />
+      <workItem from="1752010306955" duration="1530000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -442,7 +446,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750276195812</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="init">
+      <option name="closed" value="true" />
+      <created>1751412164644</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1751412164644</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -460,7 +472,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init" />
     <MESSAGE value="updated HTML and CSS for unified look across all pages." />
     <MESSAGE value="created AskAI and ForgotPassword HTML files for more functionality within prototype." />
     <MESSAGE value="created html pages for countries, with grid layouts highlighting each cuisine for better readability" />
@@ -481,6 +492,7 @@
     <MESSAGE value="new register page" />
     <MESSAGE value="reverted changes on askai.html due to inconsistencies." />
     <MESSAGE value="removed clutter in files" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed clutter in files" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
