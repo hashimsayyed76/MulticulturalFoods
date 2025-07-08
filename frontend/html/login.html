@@ -5,19 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
-  <script src="/frontend/js/auth.js"></script>
-
-   <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      loginUser(email, password)
-        .then(() => window.location.href = "index.html")
-        .catch(err => alert(err.message || "Login failed"));
-    });
-  </script>
 
   <style>
     .login-container {
@@ -51,6 +38,7 @@
     }
   </style>
 </head>
+
 <body>
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
   <div id="logoContainer" aria-label="Main logo" style="width: 60px; height: 60px; margin-bottom: 15px; overflow: hidden; border-radius: 12px; cursor: default;">
@@ -59,42 +47,57 @@
   <a href="index.html" title="Home" aria-label="Home">🏠</a>
 </div>
 
-
-  <div class="main-content">
-    <div class="login-container">
-      <h2>Login</h2>
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" required>
-        </div>
-        <button type="submit" class="submit-btn">Login</button>
-      </form>
-      <p>Don't have an account? <a href="register.html">Register here</a></p>
-      <p><a href="forgotpassword.html">Forgot password?</a></p>
-    </div>
+<div class="main-content">
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+    <p>Don't have an account? <a href="register.html">Register here</a></p>
+    <p><a href="forgotpassword.html">Forgot password?</a></p>
   </div>
+</div>
 
-<script>
-  // REPLACE just this part with:
-  document.getElementById("loginForm").addEventListener("submit", async function(e) {
+<!-- Firebase Web SDK & Config -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+    authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+    projectId: "multiculturalfoods-8f667",
+    storageBucket: "multiculturalfoods-8f667.appspot.com",
+    messagingSenderId: "935323823874",
+    appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+    measurementId: "G-JNVQVF2CJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Handle Login
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     try {
-      await auth.loginUser(email, password);
-      window.location.href = 'index.html';
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Login successful!");
+      window.location.href = "index.html";
     } catch (error) {
-      alert(`Login failed: ${error}`);
+      alert("Login failed: " + error.message);
     }
   });
 </script>
-
-
 </body>
 </html>
