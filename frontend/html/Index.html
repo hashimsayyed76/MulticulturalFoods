@@ -273,7 +273,7 @@
 
 <main class="main-content" role="main">
   <section class="hero-section">
-    <h1>Welcome to Multicultural Foods 🌍</h1>
+    <h1 id="mainWelcomeText">Welcome to Multicultural Foods 🌍</h1>
   </section>
 
   <section class="info-section">
@@ -368,8 +368,10 @@
 
       // Show welcome
       const welcomeElement = document.querySelector('.welcome-box');
-      if (welcomeElement && !welcomeElement.querySelector('.welcome-user')) {
-        welcomeElement.innerHTML += `<p class="welcome-user">Welcome, ${user.displayName || user.email}!</p>`;
+      const headerText = document.getElementById("mainWelcomeText");
+      if (headerText) {
+        const name = user.displayName || user.email;
+        headerText.textContent = `Welcome to Multicultural Foods, ${name}! 🌍`;
       }
 
       // Add Settings + Logout buttons
