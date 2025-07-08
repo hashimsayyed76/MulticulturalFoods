@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multicultural Foods - Home</title>
   <link rel="stylesheet" href="/frontend/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
-  <script src="/frontend/js/auth.js"></script>
   <style>
     body {
       margin: 0;
@@ -315,8 +313,26 @@
   </div>
 </main>
 
-<script>
-  // Profile dropdown functionality
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+    authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+    projectId: "multiculturalfoods-8f667",
+    storageBucket: "multiculturalfoods-8f667.appspot.com",
+    messagingSenderId: "935323823874",
+    appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+    measurementId: "G-JNVQVF2CJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const askAiLink = document.getElementById("askAiLink");
+
+  // UI Setup
   const profileBtn = document.getElementById('profileBtn');
   const profileDropdown = document.getElementById('profileDropdown');
 
@@ -327,43 +343,59 @@
     profileDropdown.style.display = isExpanded ? 'none' : 'flex';
   });
 
-  // Close dropdown when clicking outside
   document.addEventListener('click', function() {
     profileBtn.setAttribute('aria-expanded', 'false');
     profileDropdown.style.display = 'none';
   });
 
-  // Auth state management
-  function checkAuthState() {
-    const isLoggedIn = auth.isUserLoggedIn();
-
-    // Update UI based on login state
-    document.getElementById('askAiLink').classList.toggle('disabled', !isLoggedIn);
-    document.getElementById('favorites').classList.toggle('disabled', !isLoggedIn);
-
-    if (isLoggedIn) {
-      const user = auth.getCurrentUser();
-      const welcomeElement = document.querySelector('.welcome-box');
-      if (welcomeElement && !welcomeElement.querySelector('.welcome-user')) {
-        welcomeElement.innerHTML += `<p class="welcome-user">Welcome, ${user.email}!</p>`;
-      }
-    }
-  }
-
-  // Navigation handlers
-  document.getElementById('settingsBtn').addEventListener('click', function() {
+  document.getElementById('settingsBtn').addEventListener('click', () => {
     window.location.href = 'settings.html';
   });
 
-  document.getElementById('logoutBtn').addEventListener('click', function() {
-    auth.logoutUser();
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
     window.location.href = 'login.html';
   });
 
-  // Initialize
-  window.addEventListener('DOMContentLoaded', function() {
-    checkAuthState();
+  // Firebase auth state listener
+  onAuthStateChanged(auth, (user) => {
+    const profileDropdown = document.getElementById("profileDropdown");
+    profileDropdown.innerHTML = ""; // Clear existing buttons
+
+    if (user) {
+      // Logged in view
+      askAiLink.classList.remove("disabled");
+
+      // Show welcome
+      const welcomeElement = document.querySelector('.welcome-box');
+      if (welcomeElement && !welcomeElement.querySelector('.welcome-user')) {
+        welcomeElement.innerHTML += `<p class="welcome-user">Welcome, ${user.displayName || user.email}!</p>`;
+      }
+
+      // Add Settings + Logout buttons
+      const settingsBtn = document.createElement("button");
+      settingsBtn.textContent = "Settings";
+      settingsBtn.addEventListener("click", () => window.location.href = "settings.html");
+
+      const logoutBtn = document.createElement("button");
+      logoutBtn.textContent = "Logout";
+      logoutBtn.addEventListener("click", async () => {
+        await signOut(auth);
+        window.location.href = "login.html";
+      });
+
+      profileDropdown.appendChild(settingsBtn);
+      profileDropdown.appendChild(logoutBtn);
+    } else {
+      // Logged out view
+      askAiLink.classList.add("disabled");
+
+      const loginBtn = document.createElement("button");
+      loginBtn.textContent = "Login";
+      loginBtn.addEventListener("click", () => window.location.href = "login.html");
+
+      profileDropdown.appendChild(loginBtn);
+    }
   });
+
 </script>
-</body>
-</html>
