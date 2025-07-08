@@ -5,13 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity-min.js"></script>
-  <script src="/frontend/js/auth.js"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity-min.js"></script>
-  <script src="/frontend/js/auth.js"></script>
-
-  <!--<script src="/frontend/js/auth.js"></script>-->
   <style>
     .register-container {
       max-width: 400px;
@@ -46,76 +39,75 @@
 </head>
 
 <body>
-  <div class="sidebar">
-    <a href="index.html">🏠</a>
-    <a href="searchpage.html">🔍</a>
-    <a href="askai.html" class="disabled">🤖</a>
+<div class="sidebar">
+  <a href="index.html">🏠</a>
+  <a href="searchpage.html">🔍</a>
+  <a href="askai.html" class="disabled">🤖</a>
+</div>
+
+<div class="main-content">
+  <div class="register-container">
+    <h2>Create an Account</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required minlength="8">
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+      </div>
+      <button type="submit" class="submit-btn">Register</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
+</div>
 
-  <div class="main-content">
-    <div class="register-container">
-      <h2>Create an Account</h2>
-      <form id="registerForm">
-        <div class="form-group">
-          <label for="fullname">Full Name:</label>
-          <input type="text" id="fullname" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" required minlength="8">
-        </div>
-        <div class="form-group">
-          <label for="dob">Date of Birth:</label>
-          <input type="date" id="dob" required>
-        </div>
-        <button type="submit" class="submit-btn">Register</button>
-      </form>
-      <p>Already have an account? <a href="login.html">Login here</a></p>
-    </div>
-  </div>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 
-  <script>
-    // Verify Cognito is loaded
-    console.log("Cognito available:", typeof AmazonCognitoIdentity !== 'undefined');
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+    authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+    projectId: "multiculturalfoods-8f667",
+    storageBucket: "multiculturalfoods-8f667.firebasestorage.app",
+    messagingSenderId: "935323823874",
+    appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+    measurementId: "G-JNVQVF2CJF"
+  };
 
-    document.getElementById("registerForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      
-      // Verify auth is available
-      if (!window.auth) {
-        console.error("Auth not loaded");
-        alert("System error - please refresh the page");
-        return;
-      }
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const fullname = document.getElementById("fullname").value;
-      const dob = document.getElementById("dob").value;
+  document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-      const attributeList = [
-        new AmazonCognitoIdentity.CognitoUserAttribute({
-          Name: 'name', Value: fullname
-        }),
-        new AmazonCognitoIdentity.CognitoUserAttribute({
-          Name: 'birthdate', Value: dob
-        })
-      ];
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const fullname = document.getElementById("fullname").value;
 
-      try {
-        console.log("Attempting registration...");
-        await window.auth.registerUser(email, password, attributeList);
-        alert('Registration successful! Please check your email to verify.');
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error("Registration failed:", error);
-        alert('Registration failed: ' + error.message);
-      }
-    });
-  </script>
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: fullname
+      });
+      alert("Registration successful! Please check your email to verify.");
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Registration failed: " + error.message);
+    }
+  });
+</script>
 </body>
 </html>
