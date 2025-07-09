@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="added firebase auth to searchpage">
-      <change beforePath="$PROJECT_DIR$/frontend/html/askai.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/askai.html" afterDir="false" />
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="added firebase auth to favorites">
+      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +169,7 @@
       <workItem from="1752010306955" duration="4770000" />
       <workItem from="1752016039894" duration="734000" />
       <workItem from="1752091071768" duration="425000" />
-      <workItem from="1752091511564" duration="4170000" />
+      <workItem from="1752091511564" duration="4504000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -531,7 +531,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752095580680</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="added firebase auth to askai">
+      <option name="closed" value="true" />
+      <created>1752095752714</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1752095752714</updated>
+    </task>
+    <task id="LOCAL-00047" summary="added firebase auth to favorites">
+      <option name="closed" value="true" />
+      <created>1752095815641</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1752095815641</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,8 +565,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated all stylesheet hyperlink references to updated directory." />
-    <MESSAGE value="flag images" />
     <MESSAGE value="flag images on index.html" />
     <MESSAGE value="food images for Indian Dishes" />
     <MESSAGE value="food images for Italian Dishes" />
@@ -574,6 +588,8 @@
     <MESSAGE value="added an id to the Welcome code header, and ${name} field to specify user's name." />
     <MESSAGE value="made searchpage, askai, and favorites hyper reference links inaccessible on the index until the user logs in. the icons will then be clickable." />
     <MESSAGE value="added firebase auth to searchpage" />
-    <option name="LAST_COMMIT_MESSAGE" value="added firebase auth to searchpage" />
+    <MESSAGE value="added firebase auth to askai" />
+    <MESSAGE value="added firebase auth to favorites" />
+    <option name="LAST_COMMIT_MESSAGE" value="added firebase auth to favorites" />
   </component>
 </project>
