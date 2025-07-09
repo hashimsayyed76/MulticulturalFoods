@@ -161,5 +161,31 @@
 
     renderFavorites();
 </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+        authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+        projectId: "multiculturalfoods-8f667",
+        storageBucket: "multiculturalfoods-8f667.appspot.com",
+        messagingSenderId: "935323823874",
+        appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+        measurementId: "G-JNVQVF2CJF"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            alert("Please log in to use the AI feature.");
+            window.location.href = "login.html";
+        }
+    });
+</script>
+
 </body>
 </html>
