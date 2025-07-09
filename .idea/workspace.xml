@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="added firebase auth to favorites">
-      <change beforePath="$PROJECT_DIR$/frontend/html/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/Index.html" afterDir="false" />
-    </list>
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="cleaned errors related to stylesheet" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,7 +167,7 @@
       <workItem from="1752010306955" duration="4770000" />
       <workItem from="1752016039894" duration="734000" />
       <workItem from="1752091071768" duration="425000" />
-      <workItem from="1752091511564" duration="4504000" />
+      <workItem from="1752091511564" duration="4808000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -547,7 +545,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752095815641</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="cleaned errors related to stylesheet">
+      <option name="closed" value="true" />
+      <created>1752096309404</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1752096309404</updated>
+    </task>
+    <task id="LOCAL-00049" summary="cleaned errors related to stylesheet">
+      <option name="closed" value="true" />
+      <created>1752096342139</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1752096342139</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -565,7 +579,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="flag images on index.html" />
     <MESSAGE value="food images for Indian Dishes" />
     <MESSAGE value="food images for Italian Dishes" />
     <MESSAGE value="food images for Thailand and Mexican Dishes." />
@@ -590,6 +603,7 @@
     <MESSAGE value="added firebase auth to searchpage" />
     <MESSAGE value="added firebase auth to askai" />
     <MESSAGE value="added firebase auth to favorites" />
-    <option name="LAST_COMMIT_MESSAGE" value="added firebase auth to favorites" />
+    <MESSAGE value="cleaned errors related to stylesheet" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned errors related to stylesheet" />
   </component>
 </project>
