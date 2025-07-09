@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Search - Multicultural Foods</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: #f8f8f8;
+      background: linear-gradient(to bottom, #f4f4f4, #eaeaea);
+      color: #333;
     }
 
     .sidebar {
@@ -23,6 +24,7 @@
       flex-direction: column;
       align-items: center;
       padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
 
     .sidebar a {
@@ -40,50 +42,75 @@
 
     .main-content {
       margin-left: 90px;
-      padding: 30px;
+      padding: 40px;
       max-width: 1000px;
     }
 
     h2 {
-      margin-bottom: 20px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #1f1f2e;
     }
 
     .search-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .search-box input,
     .search-box select {
-      padding: 10px;
-      font-size: 14px;
+      padding: 12px;
+      font-size: 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      min-width: 180px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .search-box input[disabled] {
-      background: #eee;
-      color: #999;
+      background: #f0f0f0;
+      color: #aaa;
     }
 
     .search-box button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: #4CAF50;
       color: white;
+      font-weight: 600;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: background 0.3s;
+    }
+
+    .search-box button:hover {
+      background: #43a047;
+    }
+
+    #searchResults {
+      margin-top: 20px;
     }
 
     .dish-item {
       display: flex;
       align-items: center;
-      gap: 15px;
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
+      gap: 20px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
       cursor: pointer;
+    }
+
+    .dish-item:hover {
+      transform: translateY(-3px);
     }
 
     .dish-item img {
@@ -91,6 +118,7 @@
       height: 90px;
       border-radius: 10px;
       object-fit: cover;
+      border: 2px solid #eee;
     }
 
     .dish-info {
@@ -98,26 +126,28 @@
     }
 
     .dish-name {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 18px;
+      margin-bottom: 4px;
     }
 
     .dish-meta {
       font-size: 14px;
-      color: #666;
+      color: #777;
     }
   </style>
 </head>
 <body>
 <div class="sidebar">
-  <a href="login.html">👤</a>
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html" class="disabled">🤖</a>
+  <a href="login.html" title="Login">👤</a>
+  <a href="index.html" title="Home">🏠</a>
+  <a href="searchpage.html" title="Search">🔍</a>
+  <a href="askai.html" title="Ask AI">🤖</a>
+  <a href="favorites.html" title="Favorites">❤️</a> <!-- ✅ ADDED THIS -->
 </div>
 
 <div class="main-content">
-  <h2>Search Dishes</h2>
+  <h2>Discover Global Flavors 🌎</h2>
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Type keyword or leave blank..." />
     <select id="searchFilter">
@@ -141,12 +171,11 @@
   const searchInput = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
 
-  // Disable or enable search input based on filter type
   filterType.addEventListener("change", async () => {
     const selectedFilter = filterType.value;
     dynamicSelect.innerHTML = `<option value="">Select Option</option>`;
     searchInput.disabled = (selectedFilter === "country" || selectedFilter === "category");
-    searchInput.value = ""; // clear input on change
+    searchInput.value = "";
 
     let url = "";
     if (selectedFilter === "country") {
@@ -170,7 +199,7 @@
   });
 
   async function performSearch() {
-    searchResults.innerHTML = "Loading...";
+    searchResults.innerHTML = "<p>Loading...</p>";
     let query = searchInput.value.trim();
     let filter = filterType.value;
     let selectedOption = dynamicSelect.value;
@@ -197,14 +226,14 @@
     }
 
     searchResults.innerHTML = meals.map(meal => `
-        <div class="dish-item" onclick="window.location.href='dish.html?idMeal=${meal.idMeal}'">
-          <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
-          <div class="dish-info">
-            <div class="dish-name">${meal.strMeal}</div>
-            <div class="dish-meta">Meal ID: ${meal.idMeal}</div>
-          </div>
+      <div class="dish-item" onclick="window.location.href='dish.html?idMeal=${meal.idMeal}'">
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+        <div class="dish-info">
+          <div class="dish-name">${meal.strMeal}</div>
+          <div class="dish-meta">Meal ID: ${meal.idMeal}</div>
         </div>
-      `).join('');
+      </div>
+    `).join('');
   }
 </script>
 </body>

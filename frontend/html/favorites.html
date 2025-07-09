@@ -13,6 +13,7 @@
             padding: 20px;
             color: #333;
         }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -23,12 +24,29 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 20px;
+            padding-top: 15px;
             box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
+
+        #logoContainer {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: default;
+        }
+
+        #logoContainer img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
         .sidebar a {
-            margin: 25px 0;
+            margin: 20px 0;
             font-size: 24px;
             color: #f0f0f0;
             text-decoration: none;
@@ -36,27 +54,32 @@
             justify-content: center;
             align-items: center;
         }
+
         .sidebar a:hover {
             color: #ffd369;
             transform: scale(1.2);
             transition: 0.3s ease;
         }
+
         .main-content {
             margin-left: 90px;
             max-width: 900px;
             margin-top: 20px;
         }
+
         h2 {
             margin-bottom: 20px;
             font-weight: 600;
             font-size: 28px;
             text-align: center;
         }
+
         .favorites-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
             gap: 20px;
         }
+
         .favorite-card {
             background: white;
             border-radius: 12px;
@@ -66,15 +89,18 @@
             user-select: none;
             transition: transform 0.2s ease;
         }
+
         .favorite-card:hover {
             transform: translateY(-5px);
         }
+
         .favorite-card img {
             width: 100%;
             height: 140px;
             object-fit: cover;
             display: block;
         }
+
         .favorite-info {
             padding: 12px 15px;
             font-size: 18px;
@@ -82,6 +108,7 @@
             text-align: center;
             color: #222;
         }
+
         .heart-icon {
             position: absolute;
             top: 12px;
@@ -103,9 +130,11 @@
 </head>
 <body>
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-    <div id="logoContainer" aria-label="Main logo" style="width: 60px; height: 60px; margin-bottom: 15px; overflow: hidden; border-radius: 12px; cursor: default;">
-        <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+    <!-- Logo container -->
+    <div id="logoContainer" aria-label="Main logo">
+        <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
     </div>
+
     <a href="index.html" title="Home" aria-label="Home">🏠</a>
     <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
     <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
@@ -114,7 +143,9 @@
 
 <main class="main-content" role="main">
     <h2>Your Favorite Dishes ❤️</h2>
-    <div class="favorites-grid" id="favoritesGrid"></div>
+    <div class="favorites-grid" id="favoritesGrid">
+        <!-- Favorite dish cards will be inserted here dynamically -->
+    </div>
 </main>
 
 <script>
@@ -129,29 +160,31 @@
         }
 
         favorites.forEach(dish => {
-            if (!dish || !dish.strMeal || !dish.strMealThumb || !dish.idMeal) return;
-
             const card = document.createElement('div');
             card.className = 'favorite-card';
 
             card.innerHTML = `
-          <img src="${dish.strMealThumb}" alt="${dish.strMeal}" />
-          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dish.strMeal} from favorites">❤️</div>
-          <div class="favorite-info">${dish.strMeal}</div>
-        `;
+                <img src="${dish.strMealThumb}" alt="${dish.strMeal}" />
+                <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dish.strMeal} from favorites">❤️</div>
+                <div class="favorite-info">${dish.strMeal}</div>
+            `;
 
-            // Remove from favorites on heart click
             card.querySelector('.heart-icon').addEventListener('click', () => {
-                favorites = favorites.filter(f => f.idMeal !== dish.idMeal);
+                favorites = favorites.filter(fav => fav.idMeal !== dish.idMeal);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 renderFavorites();
             });
 
-            // Keyboard accessibility
             card.querySelector('.heart-icon').addEventListener('keydown', e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     card.querySelector('.heart-icon').click();
+                }
+            });
+
+            card.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('heart-icon')) {
+                    window.location.href = 'dish.html?idMeal=' + dish.idMeal;
                 }
             });
 

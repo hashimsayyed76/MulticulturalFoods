@@ -25,6 +25,13 @@
       padding-top: 20px;
     }
 
+    .sidebar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
     .sidebar a {
       margin: 20px 0;
       font-size: 24px;
@@ -54,6 +61,7 @@
       font-size: 14px;
       transition: background-color 0.3s ease;
     }
+
     #goBackBtn:hover {
       background-color: #44475a;
     }
@@ -124,9 +132,13 @@
 </head>
 <body>
 <div class="sidebar">
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html">🤖</a>
+  <div id="logoContainer" style="width: 60px; height: 60px; margin-bottom: 15px; overflow: hidden; border-radius: 12px;">
+    <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
+  </div>
+  <a href="index.html" title="Home">🏠</a>
+  <a href="searchpage.html" title="Search">🔍</a>
+  <a href="askai.html" title="Ask AI">🤖</a>
+  <a href="favorites.html" title="Favorites">❤️</a>
 </div>
 
 <div class="main-content">
@@ -186,14 +198,18 @@
         }
         heart.setAttribute('role', 'button');
         heart.setAttribute('tabindex', '0');
-        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+        heart.setAttribute('aria-label', isFavorited(dish.idMeal)
+                ? `Remove ${dish.strMeal} from favorites`
+                : `Add ${dish.strMeal} to favorites`);
 
         heart.addEventListener('click', (event) => {
           event.stopPropagation();
           toggleFavorite(dish);
           heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
           heart.classList.toggle('favorited');
-          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+          heart.setAttribute('aria-label', isFavorited(dish.idMeal)
+                  ? `Remove ${dish.strMeal} from favorites`
+                  : `Add ${dish.strMeal} to favorites`);
         });
 
         heart.addEventListener('keydown', (event) => {
@@ -204,9 +220,9 @@
         });
 
         card.innerHTML = `
-            <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
-            <h4>${dish.strMeal}</h4>
-          `;
+          <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
+          <h4>${dish.strMeal}</h4>
+        `;
         card.appendChild(heart);
         container.appendChild(card);
       });
@@ -221,6 +237,8 @@
   });
 
   window.addEventListener('DOMContentLoaded', fetchGreekDishes);
+
 </script>
+
 </body>
 </html>

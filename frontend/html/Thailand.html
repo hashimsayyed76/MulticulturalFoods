@@ -23,8 +23,14 @@
       align-items: center;
       padding-top: 20px;
     }
+    .sidebar img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
     .sidebar a {
-      margin: 20px 0;
+      margin: 16px 0;
       font-size: 24px;
       color: white;
       text-decoration: none;
@@ -111,9 +117,11 @@
 </head>
 <body>
 <div class="sidebar">
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html">🤖</a>
+  <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Logo" />
+  <a href="index.html" title="Home">🏠</a>
+  <a href="searchpage.html" title="Search">🔍</a>
+  <a href="askai.html" title="Ask AI">🤖</a>
+  <a href="favorites.html" title="Favorites">❤️</a>
 </div>
 
 <div class="main-content">
@@ -151,8 +159,6 @@
       const dishes = data.meals || [];
 
       const container = document.getElementById('thaiDishes');
-      if (!container) return;
-
       container.innerHTML = '';
 
       dishes.forEach(dish => {
@@ -209,5 +215,6 @@
 
   window.addEventListener('DOMContentLoaded', fetchThaiDishes);
 </script>
+
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Italian Cuisine - Multicultural Foods</title>
   <link rel="stylesheet" href="/frontend/css/style.css" />
   <style>
@@ -11,7 +11,6 @@
       margin: 0;
       background: #f4f4f4;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
@@ -24,25 +23,27 @@
       align-items: center;
       padding-top: 20px;
     }
-
+    .sidebar img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
     .sidebar a {
-      margin: 20px 0;
+      margin: 16px 0;
       font-size: 24px;
       color: white;
       text-decoration: none;
       transition: 0.3s;
     }
-
     .sidebar a:hover {
       color: #ffd369;
       transform: scale(1.2);
     }
-
     .main-content {
       margin-left: 90px;
       padding: 30px;
     }
-
     #goBackBtn {
       margin-bottom: 15px;
       padding: 8px 16px;
@@ -57,17 +58,14 @@
     #goBackBtn:hover {
       background-color: #44475a;
     }
-
     h2 {
       margin-bottom: 20px;
     }
-
     .dish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
-
     .dish-card {
       background-color: #fff;
       border-radius: 10px;
@@ -79,11 +77,9 @@
       transition: transform 0.2s;
       user-select: none;
     }
-
     .dish-card:hover {
       transform: translateY(-5px);
     }
-
     .dish-card img {
       width: 100%;
       height: 140px;
@@ -91,7 +87,6 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
-
     .heart-icon {
       position: absolute;
       top: 10px;
@@ -109,13 +104,11 @@
       align-items: center;
       justify-content: center;
     }
-
     .heart-icon.favorited {
       color: #e63946;
       background: rgba(230, 57, 70, 0.9);
       box-shadow: 0 0 8px #e63946;
     }
-
     .heart-icon:hover {
       color: #e63946;
       transform: scale(1.2);
@@ -124,9 +117,11 @@
 </head>
 <body>
 <div class="sidebar">
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html">🤖</a>
+  <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Logo" />
+  <a href="index.html" title="Home">🏠</a>
+  <a href="searchpage.html" title="Search">🔍</a>
+  <a href="askai.html" title="Ask AI">🤖</a>
+  <a href="favorites.html" title="Favorites">❤️</a>
 </div>
 
 <div class="main-content">
@@ -164,8 +159,6 @@
       const dishes = data.meals || [];
 
       const container = document.getElementById('italianDishes');
-      if (!container) return;
-
       container.innerHTML = '';
 
       dishes.forEach(dish => {
@@ -222,5 +215,6 @@
 
   window.addEventListener('DOMContentLoaded', fetchItalianDishes);
 </script>
+
 </body>
 </html>

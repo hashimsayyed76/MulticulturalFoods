@@ -11,7 +11,6 @@
       margin: 0;
       background: #f4f4f4;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
@@ -24,25 +23,27 @@
       align-items: center;
       padding-top: 20px;
     }
-
+    .sidebar img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
     .sidebar a {
-      margin: 20px 0;
+      margin: 16px 0;
       font-size: 24px;
       color: white;
       text-decoration: none;
       transition: 0.3s;
     }
-
     .sidebar a:hover {
       color: #ffd369;
       transform: scale(1.2);
     }
-
     .main-content {
       margin-left: 90px;
       padding: 30px;
     }
-
     #goBackBtn {
       margin-bottom: 15px;
       padding: 8px 16px;
@@ -52,38 +53,27 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
-      transition: background-color 0.3s ease;
     }
     #goBackBtn:hover {
       background-color: #44475a;
     }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
     .dish-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
-
     .dish-card {
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
-      cursor: pointer;
       position: relative;
-      transition: transform 0.2s;
-      user-select: none;
+      cursor: pointer;
     }
-
     .dish-card:hover {
       transform: translateY(-5px);
     }
-
     .dish-card img {
       width: 100%;
       height: 140px;
@@ -91,42 +81,33 @@
       border-radius: 8px;
       margin-bottom: 10px;
     }
-
     .heart-icon {
       position: absolute;
       top: 10px;
       right: 10px;
-      font-size: 28px;
+      font-size: 26px;
       color: #bbb;
-      cursor: pointer;
-      user-select: none;
-      transition: color 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255,255,255,0.9);
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
-
     .heart-icon.favorited {
       color: #e63946;
-      background: rgba(230, 57, 70, 0.9);
-      box-shadow: 0 0 8px #e63946;
     }
-
     .heart-icon:hover {
-      color: #e63946;
       transform: scale(1.2);
     }
   </style>
 </head>
 <body>
 <div class="sidebar">
+  <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Logo" />
   <a href="index.html">🏠</a>
   <a href="searchpage.html">🔍</a>
   <a href="askai.html">🤖</a>
+  <a href="favorites.html">❤️</a>
 </div>
 
 <div class="main-content">
@@ -137,21 +118,16 @@
 
 <script>
   const favoritesKey = 'favorites';
-
-  // Load favorites from localStorage or empty array
   let favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
 
-  // Save favorites back to localStorage
   function saveFavorites() {
     localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  // Check if dish is in favorites
   function isFavorited(idMeal) {
     return favorites.some(fav => fav.idMeal === idMeal);
   }
 
-  // Toggle favorite status for a dish
   function toggleFavorite(dish) {
     const index = favorites.findIndex(fav => fav.idMeal === dish.idMeal);
     if (index > -1) {
@@ -166,68 +142,48 @@
     try {
       const res = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a=Indian');
       const data = await res.json();
-      const dishes = data.meals || [];
-
       const container = document.getElementById('indianDishes');
-      if (!container) return;
+      container.innerHTML = '';
 
-      container.innerHTML = ''; // Clear before inserting
-
-      dishes.forEach(dish => {
+      data.meals.forEach(dish => {
         const card = document.createElement('div');
         card.className = 'dish-card';
 
-        // Clicking on image or name takes you to dish detail page
-        card.onclick = (e) => {
+        card.onclick = e => {
           if (!e.target.classList.contains('heart-icon')) {
-            window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+            window.location.href = `dish.html?idMeal=${dish.idMeal}`;
           }
         };
 
-        // Create heart icon element
         const heart = document.createElement('span');
         heart.className = 'heart-icon';
         heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
-        if (isFavorited(dish.idMeal)) {
-          heart.classList.add('favorited');
-        }
-        heart.setAttribute('role', 'button');
-        heart.setAttribute('tabindex', '0');
-        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+        if (isFavorited(dish.idMeal)) heart.classList.add('favorited');
 
-        heart.addEventListener('click', (event) => {
-          event.stopPropagation();
+        heart.addEventListener('click', e => {
+          e.stopPropagation();
           toggleFavorite(dish);
           heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
           heart.classList.toggle('favorited');
-          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
-        });
-
-        heart.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            heart.click();
-          }
         });
 
         card.innerHTML = `
-            <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
-            <h4>${dish.strMeal}</h4>
-          `;
+          <img src="${dish.strMealThumb}" alt="${dish.strMeal}">
+          <h4>${dish.strMeal}</h4>`;
         card.appendChild(heart);
         container.appendChild(card);
       });
-    } catch (error) {
-      document.getElementById('indianDishes').innerHTML = "<p>Error loading dishes. Please try again later.</p>";
-      console.error('Error fetching dishes:', error);
+    } catch (err) {
+      document.getElementById('indianDishes').innerHTML = "<p>Error loading dishes.</p>";
     }
   }
 
-  document.getElementById('goBackBtn').addEventListener('click', () => {
+  document.getElementById('goBackBtn').onclick = () => {
     window.location.href = 'index.html';
-  });
+  };
 
   window.addEventListener('DOMContentLoaded', fetchIndianDishes);
 </script>
+
 </body>
 </html>

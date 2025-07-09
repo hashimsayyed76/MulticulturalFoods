@@ -23,8 +23,14 @@
       align-items: center;
       padding-top: 20px;
     }
+    .sidebar img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
     .sidebar a {
-      margin: 20px 0;
+      margin: 16px 0;
       font-size: 24px;
       color: white;
       text-decoration: none;
@@ -66,10 +72,8 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
-      cursor: pointer;
       position: relative;
-      transition: transform 0.2s;
-      user-select: none;
+      cursor: pointer;
     }
     .dish-card:hover {
       transform: translateY(-5px);
@@ -85,35 +89,29 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      font-size: 28px;
+      font-size: 26px;
       color: #bbb;
-      cursor: pointer;
-      user-select: none;
-      transition: color 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255,255,255,0.9);
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
     .heart-icon.favorited {
       color: #e63946;
-      background: rgba(230, 57, 70, 0.9);
-      box-shadow: 0 0 8px #e63946;
     }
     .heart-icon:hover {
-      color: #e63946;
       transform: scale(1.2);
     }
   </style>
 </head>
 <body>
 <div class="sidebar">
+  <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Logo" />
   <a href="index.html">🏠</a>
   <a href="searchpage.html">🔍</a>
   <a href="askai.html">🤖</a>
+  <a href="favorites.html">❤️</a>
 </div>
 
 <div class="main-content">
@@ -148,46 +146,29 @@
     try {
       const res = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a=Turkish');
       const data = await res.json();
-      const dishes = data.meals || [];
-
       const container = document.getElementById('turkishDishes');
-      if (!container) return;
-
       container.innerHTML = '';
 
-      dishes.forEach(dish => {
+      data.meals.forEach(dish => {
         const card = document.createElement('div');
         card.className = 'dish-card';
 
-        card.onclick = (e) => {
+        card.onclick = e => {
           if (!e.target.classList.contains('heart-icon')) {
-            window.location.href = 'dish.html?idMeal=' + dish.idMeal;
+            window.location.href = `dish.html?idMeal=${dish.idMeal}`;
           }
         };
 
         const heart = document.createElement('span');
         heart.className = 'heart-icon';
         heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
-        if (isFavorited(dish.idMeal)) {
-          heart.classList.add('favorited');
-        }
-        heart.setAttribute('role', 'button');
-        heart.setAttribute('tabindex', '0');
-        heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
+        if (isFavorited(dish.idMeal)) heart.classList.add('favorited');
 
-        heart.addEventListener('click', (event) => {
-          event.stopPropagation();
+        heart.addEventListener('click', e => {
+          e.stopPropagation();
           toggleFavorite(dish);
           heart.textContent = isFavorited(dish.idMeal) ? '❤️' : '♡';
           heart.classList.toggle('favorited');
-          heart.setAttribute('aria-label', isFavorited(dish.idMeal) ? `Remove ${dish.strMeal} from favorites` : `Add ${dish.strMeal} to favorites`);
-        });
-
-        heart.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            heart.click();
-          }
         });
 
         card.innerHTML = `
@@ -197,17 +178,18 @@
         card.appendChild(heart);
         container.appendChild(card);
       });
-    } catch (error) {
-      document.getElementById('turkishDishes').innerHTML = "<p>Could not load dishes. Please try again later.</p>";
-      console.error('Error fetching Turkish dishes:', error);
+    } catch (err) {
+      document.getElementById('turkishDishes').innerHTML = "<p>Error loading dishes. Please try again later.</p>";
+      console.error('Error:', err);
     }
   }
 
-  document.getElementById('goBackBtn').addEventListener('click', () => {
+  document.getElementById('goBackBtn').onclick = () => {
     window.location.href = 'index.html';
-  });
+  };
 
   window.addEventListener('DOMContentLoaded', fetchTurkishDishes);
 </script>
+
 </body>
 </html>
