@@ -266,9 +266,10 @@
   </div>
 
   <a href="index.html" title="Home" aria-label="Home">🏠</a>
-  <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
+  <a href="searchpage.html" id="searchLink" title="Search" aria-label="Search" class="tooltip" data-tooltip="Search">🔍</a>
   <a href="askai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
-  <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  <a href="favorites.html" id="favoritesLink" title="Favorites" aria-label="Favorites" class="tooltip" data-tooltip="Favorites">❤️</a>
+
 </div>
 
 <main class="main-content" role="main">
@@ -330,7 +331,9 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const searchLink = document.getElementById("searchLink");
   const askAiLink = document.getElementById("askAiLink");
+  const favoritesLink = document.getElementById("favoritesLink");
 
   // UI Setup
   const profileBtn = document.getElementById('profileBtn');
@@ -364,7 +367,10 @@
 
     if (user) {
       // Logged in view
+      searchLink.classList.remove("disabled");
       askAiLink.classList.remove("disabled");
+      favoritesLink.classList.remove("disabled");
+
 
       // Show welcome
       const welcomeElement = document.querySelector('.welcome-box');
@@ -390,7 +396,9 @@
       profileDropdown.appendChild(logoutBtn);
     } else {
       // Logged out view
+      searchLink.classList.add("disabled");
       askAiLink.classList.add("disabled");
+      favoritesLink.classList.add("disabled");
 
       const loginBtn = document.createElement("button");
       loginBtn.textContent = "Login";
