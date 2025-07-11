@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI" class="disabled">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites" class="disabled">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="form-container">
+      <h2>Welcome Back!</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-full">Login</button>
+      </form>
+      
+      <div style="text-align: center; margin-top: 20px;">
+        <p>Don't have an account? <a href="register.html" style="color: #4CAF50; text-decoration: none;">Register here</a></p>
+        <p><a href="#" id="forgotLink" style="color: #666; text-decoration: none;">Forgot password?</a></p>
+      </div>
+      
+      <div id="loginError" style="display: none; color: #e63946; text-align: center; margin-top: 15px;"></div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js"></script>
+  <script>
+    // Check if already logged in
+    if (localStorage.getItem('currentUser')) {
+      window.location.href = 'home.html';
+    }
+
+    // Login form handling
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      await handleLogin();
+    });
+
+    async function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('loginError');
+
+      try {
+        // Simple authentication check
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+          const currentUser = { ...user };
+          delete currentUser.password; // Don't store password
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          window.location.href = 'home.html';
+        } else {
+          throw new Error('Invalid email or password');
+        }
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    // Forgot password handler
+    document.getElementById('forgotLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      const email = prompt('Enter your email address:');
+      if (email) {
+        alert('If this email is registered, a password reset link has been sent.');
+      }
+    });
+  </script>
+</body>
+</html>

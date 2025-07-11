@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multicultural Foods - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <section class="hero-section">
+      <h1>Welcome to Multicultural Foods 🌍</h1>
+      <p>Discover authentic recipes and cultural stories from around the world</p>
+    </section>
+
+    <section class="info-section">
+      <h3>🍽️ Why Multicultural Foods Matter</h3>
+      <div class="info-box">
+        <p>Food is more than something we eat—it tells stories about where people come from and what they believe in. Every dish carries the history, traditions, and love of the people who created it. By exploring multicultural foods, we connect with different cultures and understand the beautiful diversity of our world.</p>
+      </div>
+
+      <h3>📲 What You Can Do with This App</h3>
+      <div class="info-box">
+        <ul>
+          <li>Browse dishes by country or ingredients</li>
+          <li>Learn the history and meaning behind each recipe</li>
+          <li>Ask our food-only AI chatbot for cooking help or tips</li>
+          <li>Save your favorite meals and update your profile</li>
+        </ul>
+      </div>
+
+      <div class="info-box">
+        <p><strong>MulticulturalFoods</strong> is a web-based app designed to introduce you to culturally significant dishes from around the globe. Join us on this delicious journey!</p>
+      </div>
+    </section>
+
+    <section class="welcome-box">
+      <h2>Explore Recipes from Around the World</h2>
+      <p>Click a country below to view its popular foods.</p>
+    </section>
+
+    <h3>🌐 Our Developers' Favorite Cuisines</h3>
+    <div class="countries-grid" id="countriesGrid">
+      <a href="country-greece.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Greek cuisine" />
+        <h4>Greek</h4>
+      </a>
+      <a href="country-india.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Indian cuisine" />
+        <h4>Indian</h4>
+      </a>
+      <a href="country-italy.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Italian cuisine" />
+        <h4>Italian</h4>
+      </a>
+      <a href="country-mexico.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Mexican cuisine" />
+        <h4>Mexican</h4>
+      </a>
+      <a href="country-thailand.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Thai cuisine" />
+        <h4>Thai</h4>
+      </a>
+      <a href="country-turkey.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Turkish cuisine" />
+        <h4>Turkish</h4>
+      </a>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js"></script>
+  <script>
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // Auth state management
+    function checkAuthState() {
+      const isLoggedIn = localStorage.getItem('currentUser') !== null;
+      
+      // Update UI based on login state
+      document.getElementById('askAiLink').classList.toggle('disabled', !isLoggedIn);
+      
+      if (isLoggedIn) {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        const welcomeElement = document.querySelector('.welcome-box');
+        if (welcomeElement && !welcomeElement.querySelector('.welcome-user')) {
+          welcomeElement.innerHTML += `<p class="welcome-user">Welcome, ${user.email}!</p>`;
+        }
+      }
+    }
+
+    // Navigation handlers
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+      alert('Settings functionality coming soon!');
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('currentUser');
+      checkAuthState();
+      window.location.href = 'login.html';
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      checkAuthState();
+    });
+  </script>
+</body>
+</html>

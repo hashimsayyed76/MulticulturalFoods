@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI" class="disabled">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites" class="disabled">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="form-container">
+      <h2>Create Your Account</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" required>
+        </div>
+        <button type="submit" class="btn btn-full">Create Account</button>
+      </form>
+      
+      <div style="text-align: center; margin-top: 20px;">
+        <p>Already have an account? <a href="login.html" style="color: #4CAF50; text-decoration: none;">Login here</a></p>
+      </div>
+      
+      <div id="registerError" style="display: none; color: #e63946; text-align: center; margin-top: 15px;"></div>
+      <div id="registerSuccess" style="display: none; color: #4CAF50; text-align: center; margin-top: 15px;"></div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js"></script>
+  <script>
+    // Check if already logged in
+    if (localStorage.getItem('currentUser')) {
+      window.location.href = 'home.html';
+    }
+
+    // Register form handling
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      await handleRegister();
+    });
+
+    async function handleRegister() {
+      const formData = {
+        fullname: document.getElementById('fullname').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        dob: document.getElementById('dob').value
+      };
+
+      const errorDiv = document.getElementById('registerError');
+      const successDiv = document.getElementById('registerSuccess');
+
+      try {
+        // Get existing users
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        
+        // Check if user already exists
+        const existingUser = users.find(user => user.email === formData.email);
+        if (existingUser) {
+          throw new Error('User already exists with this email');
+        }
+
+        // Create new user
+        const newUser = {
+          id: Date.now().toString(),
+          email: formData.email,
+          password: formData.password,
+          fullname: formData.fullname,
+          dob: formData.dob,
+          createdAt: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        successDiv.textContent = 'Account created successfully! You can now log in.';
+        successDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+        
+        // Clear form
+        document.getElementById('registerForm').reset();
+        
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+        
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.style.display = 'block';
+        successDiv.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
