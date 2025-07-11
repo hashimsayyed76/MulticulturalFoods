@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multicultural Foods - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="#" id="homeLink" title="Home" aria-label="Home">🏠</a>
+    <a href="#" id="searchLink" title="Search" aria-label="Search">🔍</a>
+    <a href="#" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
+    <a href="#" id="favoritesLink" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main" id="mainContent">
+    <!-- Content will be dynamically loaded here -->
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
