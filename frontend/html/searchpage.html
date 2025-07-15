@@ -4,243 +4,176 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Search - Multicultural Foods</title>
-  <link rel="stylesheet" href="../css/style.css" />
-  <style>
-    body {
-      background-image: url('/frontend/dishes/SearchDish.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
-
-    .search-wrapper {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    .search-section {
-      margin-bottom: 2rem;
-    }
-    .search-section h2 {
-      font-size: 24px;
-      margin-bottom: 1.5rem;
-    }
-    .search-box {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .search-box input[type="text"],
-    .search-box select {
-      padding: 12px;
-      flex: 1;
-      min-width: 240px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-    .search-box button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      transition: background-color 0.3s ease;
-    }
-    .search-box button:hover {
-      background-color: #3e9142;
-    }
-    .results {
-      margin-top: 2rem;
-    }
-    .dish-item {
-      padding: 12px;
-      border-bottom: 1px solid #ddd;
-    }
-    .dish-item:last-child {
-      border-bottom: none;
-    }
-    .dish-name {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-    .dish-meta {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 6px;
-    }
-    @media (max-width: 768px) {
-      .search-wrapper {
-        margin: 20px;
-        padding: 20px;
-      }
-    }
-    /* Disabled sidebar link style */
-    .sidebar a.disabled {
-      pointer-events: none;   /* Disable click */
-      color: #aaa;            /* Grey out text */
-      cursor: default;        /* Remove pointer cursor */
-      opacity: 0.6;           /* Slightly faded */
-      text-decoration: none;  /* Remove underline on hover */
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-<div class="sidebar">
-  <div class="profile-icon">
-    <a href="login.html">👤</a>
+<body class="gradient-background">
+
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div class="logo-container" aria-label="Main logo">
+    <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
   </div>
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html" class="disabled">🤖</a> <!-- Disabled Ask AI -->
-</div>
 
-<div class="main-content">
-  <div class="search-wrapper">
-    <div class="search-section">
-      <h2>Search Multicultural Dishes</h2>
-      <div class="search-box">
-        <input type="text" id="unifiedSearch" placeholder="Enter keywords, dish name, or country..." />
-        <select id="searchFilter">
-          <option value="">Filter by</option>
-          <option value="country">Country</option>
-          <option value="top">Top Rated</option>
-          <option value="contains">Contains</option>
-        </select>
-
-        <button onclick="performSearch()">Search</button>
-      </div>
-      <div class="results" id="searchResults"></div>
+  <div class="main-nav">
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <!-- Dynamic content populated by JavaScript -->
     </div>
+
+    <a href="index.html">🏠</a>
+    <a href="searchpage.html">🔍</a>
+    <a href="askai.html">🤖</a>
+    <a href="favorites.html">❤️</a>
   </div>
 </div>
 
+<main class="main-content" role="main">
+  <div class="page-header">
+    <h2>Search Dishes</h2>
+    <p>🔍 Find your perfect recipe from around the world</p>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Type keyword or leave blank..." />
+    <select id="searchFilter">
+      <option value="">Select Filter</option>
+      <option value="country">Country</option>
+      <option value="category">Category</option>
+      <option value="contains">Contains</option>
+    </select>
+    <select id="dynamicSelect">
+      <option value="">Select Option</option>
+    </select>
+    <button onclick="performSearch()">Search</button>
+  </div>
+
+  <div id="searchResults" class="search-results"></div>
+</main>
+
 <script>
-  // Sample data for dishes
-  const dishes = [
-    {
-      name: "Sushi",
-      country: "Japan",
-      dateAdded: "2023-01-10",
-      rating: 4.9,
-      description: "Delicious vinegared rice with seafood or vegetables."
-    },
-    {
-      name: "Tacos",
-      country: "Mexico",
-      dateAdded: "2022-10-05",
-      rating: 4.7,
-      description: "Corn or wheat tortilla folded with fillings like meat, beans, and salsa."
-    },
-    {
-      name: "Paella",
-      country: "Spain",
-      dateAdded: "2021-05-15",
-      rating: 4.5,
-      description: "Rice dish with saffron, vegetables, seafood, and meat."
-    },
-    {
-      name: "Biryani",
-      country: "India",
-      dateAdded: "2023-03-20",
-      rating: 4.8,
-      description: "Spiced rice with meat or vegetables cooked together."
-    },
-    {
-      name: "Baklava",
-      country: "Turkey",
-      dateAdded: "2020-12-01",
-      rating: 4.3,
-      description: "Sweet layered pastry with nuts and honey."
-    },
-    {
-      name: "Poutine",
-      country: "Canada",
-      dateAdded: "2022-06-30",
-      rating: 4.1,
-      description: "French fries topped with cheese curds and gravy."
+  const filterType = document.getElementById("searchFilter");
+  const dynamicSelect = document.getElementById("dynamicSelect");
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  // Disable or enable search input based on filter type
+  filterType.addEventListener("change", async () => {
+    const selectedFilter = filterType.value;
+    dynamicSelect.innerHTML = `<option value="">Select Option</option>`;
+    searchInput.disabled = (selectedFilter === "country" || selectedFilter === "category");
+    searchInput.value = ""; // clear input on change
+
+    let url = "";
+    if (selectedFilter === "country") {
+      url = "https://www.themealdb.com/api/json/v1/1/list.php?a=list";
+    } else if (selectedFilter === "category") {
+      url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
     }
-  ];
 
-  function performSearch() {
-    const query = document.getElementById("unifiedSearch").value.trim().toLowerCase();
-    const filter = document.getElementById("searchFilter").value;
-    const resultsDiv = document.getElementById("searchResults");
+    if (url) {
+      const res = await fetch(url);
+      const data = await res.json();
+      const items = data.meals || [];
+      items.forEach(item => {
+        const val = item.strArea || item.strCategory;
+        const opt = document.createElement("option");
+        opt.value = val;
+        opt.textContent = val;
+        dynamicSelect.appendChild(opt);
+      });
+    }
+  });
 
-    if (!query) {
-      resultsDiv.innerText = "Please enter a search term.";
+  async function performSearch() {
+    searchResults.innerHTML = "Loading...";
+    let query = searchInput.value.trim();
+    let filter = filterType.value;
+    let selectedOption = dynamicSelect.value;
+
+    let fetchURL = "";
+    if (filter === "country" && selectedOption) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(selectedOption)}`;
+    } else if (filter === "category" && selectedOption) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(selectedOption)}`;
+    } else if (filter === "contains" && query) {
+      fetchURL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`;
+    } else {
+      searchResults.innerHTML = "<p>Please provide valid input.</p>";
       return;
     }
 
-    // Filter dishes by search query matching name, country or description
-    let filteredDishes = dishes.filter(dish => {
-      const searchableText = (dish.name + " " + dish.country + " " + dish.description).toLowerCase();
-      if (filter === "contains") {
-        // strict substring match anywhere in text
-        return searchableText.includes(query);
-      } else {
-        // normal search: match query in name or country or description
-        return searchableText.indexOf(query) !== -1;
-      }
-    });
+    const res = await fetch(fetchURL);
+    const data = await res.json();
+    const meals = data.meals || [];
 
-    if (filteredDishes.length === 0) {
-      resultsDiv.innerText = `No results found for "${query}".`;
+    if (meals.length === 0) {
+      searchResults.innerHTML = "<p>No results found.</p>";
       return;
     }
 
-    // Apply sorting based on filter
-    switch(filter) {
-      case "old":
-        filteredDishes.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
-        break;
-      case "new":
-        filteredDishes.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        break;
-      case "country":
-        filteredDishes.sort((a, b) => a.country.localeCompare(b.country));
-        break;
-      case "top":
-        filteredDishes.sort((a, b) => b.rating - a.rating);
-        break;
-      case "contains":
-        // no additional sorting for contains filter
-        break;
-      default:
-        // no sorting if no filter or unknown filter
-        break;
-    }
-
-    // Render results as HTML list
-    resultsDiv.innerHTML = filteredDishes.map(dish => `
-        <div class="dish-item">
-          <div class="dish-name">${dish.name}</div>
-          <div class="dish-meta">Country: ${dish.country} | Added: ${dish.dateAdded} | Rating: ${dish.rating}</div>
-          <div class="dish-desc">${dish.description}</div>
+    searchResults.innerHTML = meals.map(meal => `
+        <div class="dish-item" onclick="window.location.href='dish.html?idMeal=${meal.idMeal}'">
+          <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+          <div class="dish-info">
+            <div class="dish-name">${meal.strMeal}</div>
+            <div class="dish-meta">Meal ID: ${meal.idMeal}</div>
+          </div>
         </div>
-      `).join("");
-  }
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.2.1/amazon-cognito-identity.min.js"></script>
-<script src="../js/auth.js"></script>
-<script>
-  if (!isUserLoggedIn()) {
-    alert("Please log in or register to access this page.");
-    window.location.href = "login.html";
+      `).join('');
   }
 </script>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+    authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+    projectId: "multiculturalfoods-8f667",
+    storageBucket: "multiculturalfoods-8f667.appspot.com",
+    messagingSenderId: "935323823874",
+    appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+    measurementId: "G-JNVQVF2CJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Dark mode functionality with Firebase storage
+  async function initializeDarkMode() {
+    const user = auth.currentUser;
+    let savedTheme = 'light';
+
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().theme) {
+          savedTheme = userDoc.data().theme;
+        }
+      } catch (error) {
+        savedTheme = localStorage.getItem('theme') || 'light';
+      }
+    } else {
+      savedTheme = localStorage.getItem('theme') || 'light';
+    }
+
+    document.body.classList.remove('light-mode', 'dark-mode');
+    document.body.classList.add(`${savedTheme}-mode`);
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    initializeDarkMode();
+    if (!user) {
+      alert("Please log in to access this page.");
+      window.location.href = "login.html";
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', initializeDarkMode);
+</script>
 
 </body>
 </html>
-

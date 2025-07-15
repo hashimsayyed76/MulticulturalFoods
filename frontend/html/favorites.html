@@ -4,140 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Favorites - Multicultural Foods</title>
-    <link rel="stylesheet" href="/frontend/css/style.css" />
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 70px;
-            background: #1f1f2e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .sidebar a {
-            margin: 25px 0;
-            font-size: 24px;
-            color: #f0f0f0;
-            text-decoration: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .sidebar a:hover {
-            color: #ffd369;
-            transform: scale(1.2);
-            transition: 0.3s ease;
-        }
-        .main-content {
-            margin-left: 90px;
-            max-width: 900px;
-            margin-top: 20px;
-        }
-        h2 {
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 28px;
-            text-align: center;
-        }
-        .favorites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 20px;
-        }
-        .favorite-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
-            position: relative;
-            user-select: none;
-            transition: transform 0.2s ease;
-        }
-        .favorite-card:hover {
-            transform: translateY(-5px);
-        }
-        .favorite-card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            display: block;
-        }
-        .favorite-info {
-            padding: 12px 15px;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
-            color: #222;
-        }
-        .heart-icon {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 28px;
-            color: #e63946;
-            cursor: pointer;
-            background: rgba(230, 57, 70, 0.9);
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px #e63946;
-            user-select: none;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="gradient-background">
+
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-    <a href="index.html" title="Home" aria-label="Home">🏠</a>
-    <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
-    <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
-    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+    <div class="logo-container" aria-label="Main logo">
+        <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
+    </div>
+
+    <div class="main-nav">
+        <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+        <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+            <!-- Dynamic content populated by JavaScript -->
+        </div>
+
+        <a href="index.html" title="Home" aria-label="Home">🏠</a>
+        <a href="searchpage.html" title="Search" aria-label="Search">🔍</a>
+        <a href="askai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+        <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+    </div>
 </div>
 
 <main class="main-content" role="main">
-    <h2>Your Favorite Dishes ❤️</h2>
-    <div class="favorites-grid" id="favoritesGrid">
-        <!-- Favorite dish cards will be inserted here dynamically -->
+    <div class="page-header">
+        <h2>Your Favorite Dishes</h2>
+        <p>❤️ All your saved recipes in one place</p>
     </div>
+
+    <div class="favorites-grid" id="favoritesGrid"></div>
 </main>
 
 <script>
-    // Map dish IDs to info: name and image path
-    const dishData = {
-        gyros: {
-            name: "Gyros",
-            img: "/frontend/dishes/gyros.jpg"
-        },
-        moussaka: {
-            name: "Moussaka",
-            img: "/frontend/dishes/moussaka.jpg"
-        },
-        souvlaki: {
-            name: "Souvlaki",
-            img: "/frontend/dishes/souvlaki.jpg"
-        },
-        greek_salad: {
-            name: "Greek Salad",
-            img: "/frontend/dishes/greek_salad.jpg"
-        }
-        // Add more dishes if you want, matching the IDs from other pages
-    };
-
     const favoritesGrid = document.getElementById('favoritesGrid');
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -148,25 +47,26 @@
             return;
         }
 
-        favorites.forEach(id => {
-            if (!dishData[id]) return; // Skip unknown IDs
+        favorites.forEach(dish => {
+            if (!dish || !dish.strMeal || !dish.strMealThumb || !dish.idMeal) return;
 
             const card = document.createElement('div');
             card.className = 'favorite-card';
 
             card.innerHTML = `
-          <img src="${dishData[id].img}" alt="${dishData[id].name}" />
-          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dishData[id].name} from favorites">❤️</div>
-          <div class="favorite-info">${dishData[id].name}</div>
+          <img src="${dish.strMealThumb}" alt="${dish.strMeal}" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Remove ${dish.strMeal} from favorites">❤️</div>
+          <div class="favorite-info">${dish.strMeal}</div>
         `;
 
-            // Remove favorite on heart click
+            // Remove from favorites on heart click
             card.querySelector('.heart-icon').addEventListener('click', () => {
-                favorites = favorites.filter(favId => favId !== id);
+                favorites = favorites.filter(f => f.idMeal !== dish.idMeal);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 renderFavorites();
             });
 
+            // Keyboard accessibility
             card.querySelector('.heart-icon').addEventListener('keydown', e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -180,5 +80,58 @@
 
     renderFavorites();
 </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+        authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+        projectId: "multiculturalfoods-8f667",
+        storageBucket: "multiculturalfoods-8f667.appspot.com",
+        messagingSenderId: "935323823874",
+        appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+        measurementId: "G-JNVQVF2CJF"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Dark mode functionality with Firebase storage
+    async function initializeDarkMode() {
+        const user = auth.currentUser;
+        let savedTheme = 'light';
+
+        if (user) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists() && userDoc.data().theme) {
+                    savedTheme = userDoc.data().theme;
+                }
+            } catch (error) {
+                savedTheme = localStorage.getItem('theme') || 'light';
+            }
+        } else {
+            savedTheme = localStorage.getItem('theme') || 'light';
+        }
+
+        document.body.classList.remove('light-mode', 'dark-mode');
+        document.body.classList.add(`${savedTheme}-mode`);
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        initializeDarkMode();
+        if (!user) {
+            alert("Please log in to view your favorites.");
+            window.location.href = "login.html";
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', initializeDarkMode);
+</script>
+
 </body>
 </html>
