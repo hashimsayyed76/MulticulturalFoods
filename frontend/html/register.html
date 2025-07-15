@@ -4,50 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Multicultural Foods</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
-  <style>
-    .register-container {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-    }
-    .submit-btn {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
-<body>
-<div class="sidebar">
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html" class="disabled">🤖</a>
+<body class="gradient-background">
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div class="logo-container" aria-label="Main logo">
+    <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
+  </div>
+
+  <div class="main-nav">
+    <a href="index.html" title="Home" aria-label="Home">🏠</a>
+  </div>
 </div>
 
-<div class="main-content">
+<main class="main-content">
   <div class="register-container">
     <h2>Create an Account</h2>
+    <p class="page-description">Join our community of food enthusiasts</p>
+
     <form id="registerForm">
       <div class="form-group">
         <label for="fullname">Full Name:</label>
@@ -67,47 +43,76 @@
       </div>
       <button type="submit" class="submit-btn">Register</button>
     </form>
-    <p>Already have an account? <a href="login.html">Login here</a></p>
+
+    <div class="form-links">
+      <p>Already have an account? <a href="login.html" class="form-link">Login here</a></p>
+    </div>
   </div>
-</div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-  import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
-    authDomain: "multiculturalfoods-8f667.firebaseapp.com",
-    projectId: "multiculturalfoods-8f667",
-    storageBucket: "multiculturalfoods-8f667.firebasestorage.app",
-    messagingSenderId: "935323823874",
-    appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
-    measurementId: "G-JNVQVF2CJF"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+      authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+      projectId: "multiculturalfoods-8f667",
+      storageBucket: "multiculturalfoods-8f667.firebasestorage.app",
+      messagingSenderId: "935323823874",
+      appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+      measurementId: "G-JNVQVF2CJF"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  document.getElementById("registerForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+    // Dark mode functionality with Firebase storage
+    async function initializeDarkMode() {
+      const user = auth.currentUser;
+      let savedTheme = 'light';
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const fullname = document.getElementById("fullname").value;
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists() && userDoc.data().theme) {
+            savedTheme = userDoc.data().theme;
+          }
+        } catch (error) {
+          savedTheme = localStorage.getItem('theme') || 'light';
+        }
+      } else {
+        savedTheme = localStorage.getItem('theme') || 'light';
+      }
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCredential.user, {
-        displayName: fullname
-      });
-      alert("Registration successful! Please check your email to verify.");
-      window.location.href = "login.html";
-    } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Registration failed: " + error.message);
+      document.body.classList.remove('light-mode', 'dark-mode');
+      document.body.classList.add(`${savedTheme}-mode`);
     }
-  });
-</script>
+
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const fullname = document.getElementById("fullname").value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, {
+          displayName: fullname
+        });
+        alert("Registration successful! Please check your email to verify.");
+        window.location.href = "login.html";
+      } catch (error) {
+        console.error("Registration failed:", error);
+        alert("Registration failed: " + error.message);
+      }
+    });
+
+    // Initialize dark mode on page load
+    document.addEventListener('DOMContentLoaded', initializeDarkMode);
+  </script>
 </body>
 </html>

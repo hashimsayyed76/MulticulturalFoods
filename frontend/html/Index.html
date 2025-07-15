@@ -5,256 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multicultural Foods - Home</title>
   <link rel="stylesheet" href="../css/style.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(120deg, rgba(253, 251, 251, 0.7), rgba(235, 237, 238, 0.7)), url('/frontend/dishes/FoodsBackground.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 70px;
-      background: #1f1f2e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 20px;
-      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-
-    #profileBtn {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      font-size: 28px;
-      color: #f0f0f0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .sidebar a,
-    .sidebar button {
-      margin: 25px 0;
-      font-size: 24px;
-      color: #f0f0f0;
-      background: none;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .sidebar a:hover:not(.disabled),
-    .sidebar button:hover {
-      transform: scale(1.2);
-      color: #ffd369;
-    }
-
-    .sidebar a.disabled {
-      color: #888 !important;
-      pointer-events: none;
-      opacity: 0.5;
-      filter: grayscale(100%);
-      cursor: default;
-    }
-
-    .sidebar a.tooltip::after,
-    .sidebar a.tooltip::before {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .sidebar a.tooltip:hover::after,
-    .sidebar a.tooltip:hover::before {
-      opacity: 1;
-    }
-
-    .sidebar a.tooltip::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 5px;
-      font-size: 13px;
-      white-space: nowrap;
-      z-index: 2000;
-    }
-
-    .sidebar a.tooltip::before {
-      content: "";
-      position: absolute;
-      bottom: 115%;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px;
-      border-style: solid;
-      border-color: #333 transparent transparent transparent;
-      z-index: 2000;
-    }
-
-    #profileDropdown {
-      position: absolute;
-      top: 60px;
-      left: 135%;
-      transform: translateX(-50%);
-      background: #1f1f2e;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      width: 200px;
-      display: none;
-      flex-direction: column;
-      padding: 10px 0;
-      z-index: 1500;
-      box-sizing: border-box;
-    }
-
-    #profileDropdown button {
-      background: none;
-      border: none;
-      color: #f0f0f0;
-      font-size: 14px;
-      padding: 12px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-      white-space: nowrap;
-    }
-
-    #profileDropdown button:hover {
-      background-color: #2d2d3a;
-      transform: translateX(3px);
-    }
-
-    .main-content {
-      margin-left: 90px;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: calc(100% - 90px);
-    }
-
-    .hero-section {
-      background: white;
-      padding: 40px 20px;
-      border-radius: 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      width: 100%;
-      text-align: center;
-    }
-
-    .hero-section h1 {
-      font-size: 36px;
-      font-weight: 600;
-      margin: 0;
-      color: #1f1f1f;
-    }
-
-    .welcome-box {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      text-align: center;
-      width: 100%;
-      margin-bottom: 30px;
-    }
-    #logoContainer {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 15px;
-      overflow: hidden;
-      border-radius: 12px;
-      cursor: default;
-    }
-
-    #logoContainer img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    h3 {
-      font-size: 20px;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .countries-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 20px;
-      width: 100%;
-    }
-
-    .country-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s;
-    }
-
-    .country-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .country-card img {
-      width: 50px;
-      margin-bottom: 10px;
-    }
-
-    .info-box {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .info-box p,
-    .info-box ul {
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .info-box ul {
-      padding-left: 20px;
-    }
-
-    .info-box li {
-      margin-bottom: 8px;
-    }
-  </style>
 </head>
-<body>
+<body class="food-background">
 
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-  <div id="logoContainer" aria-label="Main logo">
+  <div class="logo-container" aria-label="Main logo">
     <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
   </div>
 
@@ -265,7 +20,7 @@
     <button id="logoutBtn" role="menuitem">Logout</button>
   </div>
 
-  <a href="index.html" title="Home" aria-label="Home">🏠</a>
+  <a href="Index.html" title="Home" aria-label="Home">🏠</a>
   <a href="searchpage.html" id="searchLink" title="Search" aria-label="Search" class="tooltip" data-tooltip="Search">🔍</a>
   <a href="askai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
   <a href="favorites.html" id="favoritesLink" title="Favorites" aria-label="Favorites" class="tooltip" data-tooltip="Favorites">❤️</a>
@@ -278,12 +33,12 @@
   </section>
 
   <section class="info-section">
-    <h3>🍽️ Why Multicultural Foods Matter</h3>
+    <h3 class="section-title">🍽️ Why Multicultural Foods Matter</h3>
     <div class="info-box">
       <p>Food is more than something we eat—it tells stories about where people come from and what they believe in...</p>
     </div>
 
-    <h3>📲 What You Can Do with This App</h3>
+    <h3 class="section-title">📲 What You Can Do with This App</h3>
     <div class="info-box">
       <ul>
         <li>Browse dishes by country or ingredients</li>
@@ -300,10 +55,10 @@
 
   <section class="welcome-box">
     <h2>Explore Recipes from Around the World</h2>
-    <p>Click a country below to view its popular foods.</p>
+    <p class="page-description">Click a country below to view its popular foods.</p>
   </section>
 
-  <h3>🌐 Our Developers' Favorite Cuisines</h3>
+  <h3 class="section-title">🌐 Our Developers' Favorite Cuisines</h3>
   <div class="countries-grid">
     <div class="country-card"><a href="greece.html"><img src="/frontend/flags/greece.png" alt="Greek flag" /><h4>Greek</h4></a></div>
     <div class="country-card"><a href="india.html"><img src="/frontend/flags/india.png" alt="Indian flag" /><h4>Indian</h4></a></div>
@@ -317,6 +72,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
@@ -330,10 +86,34 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   const searchLink = document.getElementById("searchLink");
   const askAiLink = document.getElementById("askAiLink");
   const favoritesLink = document.getElementById("favoritesLink");
+
+  // Dark mode functionality with Firebase storage
+  async function initializeDarkMode() {
+    const user = auth.currentUser;
+    let savedTheme = 'light';
+
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().theme) {
+          savedTheme = userDoc.data().theme;
+        }
+      } catch (error) {
+        console.log('Could not load theme from Firebase, using localStorage');
+        savedTheme = localStorage.getItem('theme') || 'light';
+      }
+    } else {
+      savedTheme = localStorage.getItem('theme') || 'light';
+    }
+
+    document.body.classList.remove('light-mode', 'dark-mode');
+    document.body.classList.add(`${savedTheme}-mode`);
+  }
 
   // UI Setup
   const profileBtn = document.getElementById('profileBtn');
@@ -361,7 +141,10 @@
   });
 
   // Firebase auth state listener
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
+    // Initialize dark mode when auth state changes
+    await initializeDarkMode();
+
     const profileDropdown = document.getElementById("profileDropdown");
     profileDropdown.innerHTML = ""; // Clear existing buttons
 
@@ -371,9 +154,7 @@
       askAiLink.classList.remove("disabled");
       favoritesLink.classList.remove("disabled");
 
-
       // Show welcome
-      const welcomeElement = document.querySelector('.welcome-box');
       const headerText = document.getElementById("mainWelcomeText");
       if (headerText) {
         const name = user.displayName || user.email;
@@ -408,4 +189,9 @@
     }
   });
 
+  // Initialize dark mode on page load
+  document.addEventListener('DOMContentLoaded', initializeDarkMode);
 </script>
+
+</body>
+</html>

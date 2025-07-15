@@ -4,121 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Search - Multicultural Foods</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #f8f8f8;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 70px;
-      height: 100vh;
-      background: #1f1f2e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 20px;
-    }
-
-    .sidebar a {
-      margin: 20px 0;
-      font-size: 24px;
-      color: white;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .sidebar a:hover {
-      color: #ffd369;
-      transform: scale(1.2);
-    }
-
-    .main-content {
-      margin-left: 90px;
-      padding: 30px;
-      max-width: 1000px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    .search-box {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .search-box input,
-    .search-box select {
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    .search-box input[disabled] {
-      background: #eee;
-      color: #999;
-    }
-
-    .search-box button {
-      padding: 10px 20px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .dish-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-      cursor: pointer;
-    }
-
-    .dish-item img {
-      width: 90px;
-      height: 90px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .dish-info {
-      flex: 1;
-    }
-
-    .dish-name {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .dish-meta {
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
 </head>
-<body>
-<div class="sidebar">
-  <a href="login.html">👤</a>
-  <a href="index.html">🏠</a>
-  <a href="searchpage.html">🔍</a>
-  <a href="askai.html" class="disabled">🤖</a>
+<body class="gradient-background">
+
+<div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div class="logo-container" aria-label="Main logo">
+    <img src="/frontend/dishes/MulticulturalFoods.jpg" alt="Multicultural Foods Logo" />
+  </div>
+
+  <div class="main-nav">
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <!-- Dynamic content populated by JavaScript -->
+    </div>
+
+    <a href="index.html">🏠</a>
+    <a href="searchpage.html">🔍</a>
+    <a href="askai.html">🤖</a>
+    <a href="favorites.html">❤️</a>
+  </div>
 </div>
 
-<div class="main-content">
-  <h2>Search Dishes</h2>
+<main class="main-content" role="main">
+  <div class="page-header">
+    <h2>Search Dishes</h2>
+    <p>🔍 Find your perfect recipe from around the world</p>
+  </div>
+
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Type keyword or leave blank..." />
     <select id="searchFilter">
@@ -133,8 +47,8 @@
     <button onclick="performSearch()">Search</button>
   </div>
 
-  <div id="searchResults"></div>
-</div>
+  <div id="searchResults" class="search-results"></div>
+</main>
 
 <script>
   const filterType = document.getElementById("searchFilter");
@@ -207,13 +121,12 @@
         </div>
       `).join('');
   }
-
-
 </script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
@@ -227,13 +140,39 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Dark mode functionality with Firebase storage
+  async function initializeDarkMode() {
+    const user = auth.currentUser;
+    let savedTheme = 'light';
+
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().theme) {
+          savedTheme = userDoc.data().theme;
+        }
+      } catch (error) {
+        savedTheme = localStorage.getItem('theme') || 'light';
+      }
+    } else {
+      savedTheme = localStorage.getItem('theme') || 'light';
+    }
+
+    document.body.classList.remove('light-mode', 'dark-mode');
+    document.body.classList.add(`${savedTheme}-mode`);
+  }
 
   onAuthStateChanged(auth, (user) => {
+    initializeDarkMode();
     if (!user) {
       alert("Please log in to access this page.");
       window.location.href = "login.html";
     }
   });
+
+  document.addEventListener('DOMContentLoaded', initializeDarkMode);
 </script>
 
 </body>
