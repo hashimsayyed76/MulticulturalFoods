@@ -5,8 +5,16 @@
     <title>Settings</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
+    <script>
+        // Apply theme class immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.add(savedTheme + '-mode');
+        })();
+    </script>
 </head>
-<body class="gradient-background">
+<body>
+<!-- Remove gradient-background class from body -->
 
 <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
     <div class="logo-container" aria-label="Main logo">
@@ -46,179 +54,164 @@
             <button id="backBtn">Go Back to Dashboard</button>
         </div>
 
-        <script>
-            document.getElementById('backBtn').addEventListener('click', () => {
-                window.location.href = 'index.html';
-            });
-        </script>
+        <div id="confirmation"></div>
+    </div>
 
-        <script type="module">
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-            import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-            import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+    <script>
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
 
-            const firebaseConfig = {
-                apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
-                authDomain: "multiculturalfoods-8f667.firebaseapp.com",
-                projectId: "multiculturalfoods-8f667",
-                storageBucket: "multiculturalfoods-8f667.appspot.com",
-                messagingSenderId: "935323823874",
-                appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
-                measurementId: "G-JNVQVF2CJF"
-            };
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvXkkbC9NojdOL0xivRBG1cOut25EntCA",
+            authDomain: "multiculturalfoods-8f667.firebaseapp.com",
+            projectId: "multiculturalfoods-8f667",
+            storageBucket: "multiculturalfoods-8f667.appspot.com",
+            messagingSenderId: "935323823874",
+            appId: "1:935323823874:web:3aeacfef6f44f2842adc1b",
+            measurementId: "G-JNVQVF2CJF"
+        };
 
-            let currentUser = null;
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            // Initialize dark mode and load user data
-            async function initializeDarkMode(user = null) {
-                currentUser = user || auth.currentUser;
-                let savedTheme = 'light';
+        let currentUser = null;
 
-                if (currentUser) {
-                    try {
-                        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                        if (userDoc.exists() && userDoc.data().theme) {
-                            savedTheme = userDoc.data().theme;
-                        }
-                    } catch (error) {
-                        console.log('Could not load theme from Firebase, using localStorage');
-                        savedTheme = localStorage.getItem('theme') || 'light';
+        // Initialize dark mode and load user data
+        async function initializeDarkMode(user = null) {
+            currentUser = user || auth.currentUser;
+            let savedTheme = localStorage.getItem('theme') || 'light';
+
+            if (currentUser) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    if (userDoc.exists() && userDoc.data().theme) {
+                        savedTheme = userDoc.data().theme;
                     }
-                } else {
-                    savedTheme = localStorage.getItem('theme') || 'light';
-                }
-
-                document.body.classList.remove('light-mode', 'dark-mode');
-                document.body.classList.add(`${savedTheme}-mode`);
-
-                // Update the theme select dropdown
-                const themeSelect = document.getElementById('themeSelect');
-                if (themeSelect) {
-                    themeSelect.value = savedTheme;
+                } catch (error) {
+                    console.log('Could not load theme from Firebase, using localStorage');
                 }
             }
 
-            // Save user data to Firebase
-            async function saveUserDataToFirebase(userData) {
-                if (currentUser) {
-                    try {
-                        await setDoc(doc(db, 'users', currentUser.uid), userData, { merge: true });
-                        console.log('User data saved to Firebase successfully');
-                        return true;
-                    } catch (error) {
-                        console.error('Could not save to Firebase:', error);
-                        // Fallback to localStorage
-                        Object.keys(userData).forEach(key => {
-                            localStorage.setItem(key, userData[key]);
-                        });
-                        return false;
-                    }
-                } else {
-                    // Save to localStorage if not authenticated
-                    Object.keys(userData).forEach(key => {
-                        localStorage.setItem(key, userData[key]);
-                    });
+            // Remove all theme classes first
+            document.documentElement.classList.remove('light-mode', 'dark-mode');
+            // Add the current theme class
+            document.documentElement.classList.add(`${savedTheme}-mode`);
+            
+            // Update the theme select dropdown
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect) {
+                themeSelect.value = savedTheme;
+            }
+        }
+
+        // Save user data to Firebase
+        async function saveUserDataToFirebase(userData) {
+            if (currentUser) {
+                try {
+                    await setDoc(doc(db, 'users', currentUser.uid), userData, { merge: true });
+                    console.log('User data saved to Firebase successfully');
+                    return true;
+                } catch (error) {
+                    console.error('Could not save to Firebase:', error);
                     return false;
                 }
             }
+            return false;
+        }
 
-            // Load user data from Firebase or localStorage
-            async function loadUserData() {
-                let userData = {
-                    username: '',
-                    email: '',
-                    theme: 'light'
-                };
+        // Load user data from Firebase or localStorage
+        async function loadUserData() {
+            let userData = {
+                username: '',
+                email: '',
+                theme: localStorage.getItem('theme') || 'light'
+            };
 
-                if (currentUser) {
-                    try {
-                        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                        if (userDoc.exists()) {
-                            const data = userDoc.data();
-                            userData.username = data.username || currentUser.displayName || '';
-                            userData.email = data.email || currentUser.email || '';
-                            userData.theme = data.theme || 'light';
-                        } else {
-                            // Use auth data if no Firestore document exists
-                            userData.username = currentUser.displayName || '';
-                            userData.email = currentUser.email || '';
-                        }
-                    } catch (error) {
-                        console.log('Could not load from Firebase, using localStorage');
-                        userData.username = localStorage.getItem('username') || '';
-                        userData.email = localStorage.getItem('email') || '';
-                        userData.theme = localStorage.getItem('theme') || 'light';
+            if (currentUser) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        userData.username = data.username || currentUser.displayName || '';
+                        userData.email = data.email || currentUser.email || '';
+                        userData.theme = data.theme || 'light';
+                    } else {
+                        userData.username = currentUser.displayName || '';
+                        userData.email = currentUser.email || '';
                     }
-                } else {
-                    // Load from localStorage if not authenticated
-                    userData.username = localStorage.getItem('username') || '';
-                    userData.email = localStorage.getItem('email') || '';
-                    userData.theme = localStorage.getItem('theme') || 'light';
+                } catch (error) {
+                    console.log('Could not load from Firebase, using localStorage');
                 }
-
-                return userData;
             }
 
-            document.addEventListener('DOMContentLoaded', async () => {
-                const themeSelect = document.getElementById('themeSelect');
-                const usernameInput = document.getElementById('username');
-                const emailInput = document.getElementById('email');
-                const saveBtn = document.getElementById('saveBtn');
+            return userData;
+        }
 
-                // Wait for auth state to be determined
-                onAuthStateChanged(auth, async (user) => {
-                    currentUser = user;
-                    await initializeDarkMode(user);
+        document.addEventListener('DOMContentLoaded', async () => {
+            const themeSelect = document.getElementById('themeSelect');
+            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('email');
+            const saveBtn = document.getElementById('saveBtn');
+            const confirmation = document.getElementById('confirmation');
 
-                    // Load user data
-                    const userData = await loadUserData();
-                    usernameInput.value = userData.username;
-                    emailInput.value = userData.email;
-                    themeSelect.value = userData.theme;
-                });
-
-                // Handle theme change in real-time
-                themeSelect.addEventListener('change', () => {
-                    const selectedTheme = themeSelect.value;
-                    document.body.classList.remove('light-mode', 'dark-mode');
-                    document.body.classList.add(`${selectedTheme}-mode`);
-                });
-
-                // Handle save button click
-                saveBtn.addEventListener('click', async () => {
-                    const username = usernameInput.value;
-                    const email = emailInput.value;
-                    const theme = themeSelect.value;
-
-                    const userData = {
-                        username: username,
-                        email: email,
-                        theme: theme
-                    };
-
-                    // Save user data
-                    const saved = await saveUserDataToFirebase(userData);
-
-                    // Apply theme immediately
-                    document.body.classList.remove('light-mode', 'dark-mode');
-                    document.body.classList.add(`${theme}-mode`);
-
-                    // Also save to localStorage as backup
-                    localStorage.setItem('theme', theme);
-                    localStorage.setItem('username', username);
-                    localStorage.setItem('email', email);
-
-                    if (saved) {
-                        alert('Settings saved successfully to your account!');
-                    } else {
-                        alert('Settings saved locally! (Sign in to sync across devices)');
-                    }
-                });
+            // Wait for auth state to be determined
+            onAuthStateChanged(auth, async (user) => {
+                currentUser = user;
+                
+                // Load user data
+                const userData = await loadUserData();
+                usernameInput.value = userData.username;
+                emailInput.value = userData.email;
+                themeSelect.value = userData.theme;
             });
-        </script>
+
+            // Handle theme change in real-time
+            themeSelect.addEventListener('change', () => {
+                const selectedTheme = themeSelect.value;
+                document.documentElement.classList.remove('light-mode', 'dark-mode');
+                document.documentElement.classList.add(`${selectedTheme}-mode`);
+            });
+
+            // Handle save button click
+            saveBtn.addEventListener('click', async () => {
+                const username = usernameInput.value;
+                const email = emailInput.value;
+                const theme = themeSelect.value;
+
+                const userData = {
+                    username: username,
+                    email: email,
+                    theme: theme
+                };
+
+                // Save to localStorage immediately
+                localStorage.setItem('theme', theme);
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+
+                // Try to save to Firebase
+                const savedToFirebase = await saveUserDataToFirebase(userData);
+
+                // Update confirmation message
+                confirmation.style.display = 'block';
+                confirmation.textContent = savedToFirebase 
+                    ? 'Settings saved successfully to your account!' 
+                    : 'Settings saved locally! (Sign in to sync across devices)';
+                
+                // Hide confirmation after 3 seconds
+                setTimeout(() => {
+                    confirmation.style.display = 'none';
+                }, 3000);
+            });
+        });
+    </script>
 </body>
 </html>
