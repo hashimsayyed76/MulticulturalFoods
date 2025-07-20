@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="cleaned errors related to stylesheet">
+    <list default="true" id="ed6d4df1-f7a8-4736-a5eb-185070783ad9" name="Changes" comment="requirements file and updated ai_server.py logic for render backend deployment.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/html/askai.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/html/askai.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,14 +173,8 @@
       <workItem from="1752091511564" duration="4808000" />
       <workItem from="1752461121865" duration="69000" />
       <workItem from="1752612232949" duration="69000" />
-    </task>
-    <task id="LOCAL-00001" summary="init">
-      <option name="closed" value="true" />
-      <created>1749610480227</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1749610480227</updated>
+      <workItem from="1753034351510" duration="7000" />
+      <workItem from="1753034509631" duration="364000" />
     </task>
     <task id="LOCAL-00002" summary="updated HTML and CSS for unified look across all pages.">
       <option name="closed" value="true" />
@@ -565,7 +560,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752096342139</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="requirements file and updated ai_server.py logic for render backend deployment.">
+      <option name="closed" value="true" />
+      <created>1753033930937</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1753033930937</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -583,7 +586,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="food images for Indian Dishes" />
     <MESSAGE value="food images for Italian Dishes" />
     <MESSAGE value="food images for Thailand and Mexican Dishes." />
     <MESSAGE value="food images for Turkish Dishes." />
@@ -608,6 +610,7 @@
     <MESSAGE value="added firebase auth to askai" />
     <MESSAGE value="added firebase auth to favorites" />
     <MESSAGE value="cleaned errors related to stylesheet" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned errors related to stylesheet" />
+    <MESSAGE value="requirements file and updated ai_server.py logic for render backend deployment." />
+    <option name="LAST_COMMIT_MESSAGE" value="requirements file and updated ai_server.py logic for render backend deployment." />
   </component>
 </project>
