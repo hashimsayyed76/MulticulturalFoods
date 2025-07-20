@@ -15,7 +15,7 @@ body {
 /* Background variants */
 body.food-background {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)),
-  url('/frontend/dishes/FoodsBackground.jpg') no-repeat center center fixed;
+  url('dishes/MulticulturalFoods.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
