@@ -10,8 +10,10 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all origins
 
+# Set your OpenAI API key from environment variables
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Store conversation history per user
 session_memory = {}
 
 @app.route('/ask-ai', methods=['POST'])
@@ -20,18 +22,17 @@ def ask_ai():
     question = data.get('question', '')
     user_id = request.remote_addr
 
-    # Restrict to food-related questions only
+    # Block off-topic queries
     banned_keywords = ['weather', 'birthday', 'name', 'age', 'location', 'politics']
     if any(term in question.lower() for term in banned_keywords):
         return jsonify({
             'answer': "Sorry, I am trained to only assist with food-related questions and concerns. If this was a food-related question, please try again."
         })
 
-    # Initialize memory for user
+    # Track user messages for context
     if user_id not in session_memory:
         session_memory[user_id] = []
 
-    # Build conversation history
     session_memory[user_id].append({"role": "user", "content": question})
     messages = [{"role": "system", "content": "You are a friendly assistant that only answers questions about food, cooking, recipes, and cuisine."}] + session_memory[user_id]
 
@@ -48,7 +49,16 @@ def ask_ai():
         return jsonify({'answer': reply.strip()})
 
     except openai.error.OpenAIError as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f"OpenAI API error: {str(e)}"}), 500
 
+@app.route('/', methods=['GET'])
+def root():
+    return "MulticulturalFoods AI Server is running."
+
+# Required for gunicorn on Render
+if __name__ != '__main__':
+    application = app  # For gunicorn
+
+# For local dev only
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
