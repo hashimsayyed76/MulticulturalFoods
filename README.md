@@ -1,66 +1,169 @@
-# MulticulturalFoods 🍽️🌍
 
-## Overview
-**Multicultural Foods** is a Java-based desktop application built to introduce users to a rich variety of global cuisines. The app not only shares recipes, but also provides cultural background, historical context, and cooking instructions for popular dishes from around the world. Users can search for meals, explore food by country, and interact with a food-only AI assistant for help with ingredients, substitutions, or general cooking advice.
+# 🌍 Multicultural Foods Web Application
 
----
-
-## Key Features
-
-### 🔹 Home Page
-- Lists popular countries and their cuisines.
-- Highlights the purpose and value of multicultural food.
-- Displays an overview of the app's features and mission.
-
-### 🔹 Sidebar Navigation
-- Easy-to-use menu with buttons for:
-    - Home
-    - Search
-    - Ask AI (ChatGPT-powered food-only chatbot)
-
-### 🔹 AI Integration
-- Built-in chatbot that only answers food-related questions.
-- Filters out unrelated topics and responds politely when off-topic questions are detected.
-
-### 🔹 Profile Dropdown
-- Allows users to edit:
-    - Full Name
-    - Email Address
-    - Phone Number
-    - Date of Birth
-    - Password (with secure reset form)
+**Multicultural Foods** is a culturally-focused web application that allows users to explore recipes from around the world. It aims to educate users on traditional dishes, their origins, and cultural significance. This project also features a custom AI chatbot that answers food-related questions only — deployed using Flask and OpenAI on Render, while Firebase handles frontend hosting and authentication.
 
 ---
 
-## Technologies Used
+## 🧠 Purpose
 
-| Component        | Stack / Tool                    |
-|------------------|---------------------------------|
-| Language         | Java / JavaScript (Finalizing)  |
-| AI Integration   | OpenAI ChatGPT API (restricted) |
-| Backend (Optional) | Firebase or AWS (TBD)           |
-| Database         | SQL                             |
-| IDE              | IntelliJ IDEA / Eclipse         |
+The purpose of this project is to:
+- Promote cultural awareness through cuisine.
+- Provide educational insights into the history and meaning behind different dishes.
+- Offer an engaging platform with an AI assistant restricted to food-related topics.
+- Enable users to browse, search, and save meals, and manage personal profiles.
 
 ---
 
-## Getting Started
+## 🛠️ Technologies Used
 
-1. Clone the repository:
+### 💻 Frontend:
+- **HTML, CSS, JavaScript**
+- **Firebase Authentication** for secure login/register
+- **Firebase Hosting** for web deployment
+
+### 🧠 Backend:
+- **Python (Flask), Gunicorn, and OpenAI** for AI-API support
+- **Render** for backend deployment of Flask (always enabled)
+- **Flask-CORS** for cross-origin support
+- **Dotenv** to securely load API keys
+
+---
+
+## 🚀 Live URLs
+
+- **Frontend (Firebase):**  
+  [https://multiculturalfoods-8f667.web.app](https://multiculturalfoods-8f667.web.app)
+
+- **Backend AI Server (Render):**  
+  [https://multiculturalfoods.onrender.com](https://multiculturalfoods.onrender.com)
+
+---
+
+## 🔧 Running Locally
+
+### ✅ Prerequisites
+
+- Python 3.10+
+- Node.js and Firebase CLI (for frontend, optional)
+- An OpenAI API key (for backend)
+
+### 📦 Backend Setup (Flask AI Server)
+
+1. Clone the repo and navigate to the `backend` folder:
+
+   ```bash
+   git clone https://github.com/hashimsayyed76/MulticulturalFoods.git
+   cd multiculturalfoods/backend
    ```
-   git clone https://github.com/hashimsayyed76/multicultural-foods.git
-2. Open the project in your IDE of choice (IntelliJ recommended). 
-3. Run HomePage.java to launch the interface.
-4. (Optional) Configure backend with Firebase or AWS for data storage.
 
-Team Members:
+2. Create and activate a virtual environment:
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Create a `.env` file with your OpenAI key:
+
+   ```
+   OPENAI_API_KEY=your_openai_key_here
+   ```
+
+5. Run the Flask app locally:
+
+   ```bash
+   python ai_server.py
+   ```
+
+   Access the API at:  
+   `http://localhost:5000/ask-ai`
+
+---
+
+### 🌐 Frontend Setup (Optional Local Testing)
+
+1. Navigate to the frontend directory:
+
+   ```bash
+   cd ../frontend/html
+   ```
+
+2. Open `index.html` in your browser directly or use a local server (e.g., `Live Server` in VS Code).
+
+3. Make sure `askai.html` fetches the correct backend:
+
+   ```javascript
+   const BACKEND_URL = "https://multiculturalfoods.onrender.com/ask-ai";
+   ```
+
+---
+
+## 🧠 AI Chatbot Behavior
+
+- Accepts only food/cooking/recipe-related questions.
+- Filters out off-topic questions using a list of banned keywords.
+- Maintains user session context per IP using `request.remote_addr`.
+- Returns helpful, informative, and polite food-specific answers via GPT-4o.
+
+---
+
+## 📁 Project Structure
 
 ```
-Moeez Zahid
-Hashim S. Shaukat
-Umer Kamran
+MulticulturalFoods/
+│
+├── backend/
+│   ├── ai_server.py (Flask Backend)
+│   ├── requirements.txt
+│   └── .env (No API Key in here, may need to contact Administrator for Key to run in Local. Secret protected for security measures).
+│
+├── frontend/
+│   └── html/ (contains all HTML redirects)
+│       ├── css/ (contains stylesheet)
+|       ├── dishes/ (contains hardcoded images for index, includes background and logo in folder)
+|       ├── flags/ (contains hardcoded images for index for countries)
+│       └── js/ (contains authentication for console validation of scripts)
 ```
 
-Purpose:
+---
 
-This app was created as a BCS430 Senior Project at Farmingdale State College. Our goal is to educate users about the connection between food and culture, and provide an interactive, easy-to-use platform for culinary exploration.
+## 🔐 Environment Variables
+
+| Key             | Description                |
+|----------------|----------------------------|
+| OPENAI_API_KEY | Your OpenAI API Key (GPT-4o) |
+
+---
+
+## ✨ Features
+
+- 🔐 Secure user auth (Firebase)
+- 🌎 Browse cuisines by country
+- 🍽 Learn dish history & origins
+- 🤖 AI food assistant
+- 💾 Save meals and manage profile
+- ⚡ Fully deployed using Render + Firebase
+
+---
+
+## 🧪 Future Enhancements
+
+- Add support for user-generated recipes
+- Introduce cuisine recommendation engine
+- Enable multilingual support for international users
+- Enhance AI to track deeper context with longer history
+
+---
+
+## 🤝 Contributors
+
+- Moeez Zahid  
+- Hashim S.  
+- Umer K.
