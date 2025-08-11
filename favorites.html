@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="ai-container">
+      <h2>Your Favorite Dishes ❤️</h2>
+      <div class="dish-grid" id="favoritesGrid">
+        <!-- Favorites will be loaded here -->
+      </div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+    import { protectRoute } from './src/auth/authGuard.js';
+    
+    // Check if user is logged in
+    if (!protectRoute()) {
+      // The protectRoute function will handle the redirect
+      throw new Error('Authentication required');
+    }
+    
+    // Dish data mapping
+    const dishData = {
+      gyros: {
+        name: "Gyros",
+        img: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Traditional Greek dish with seasoned meat in pita bread"
+      },
+      moussaka: {
+        name: "Moussaka",
+        img: "https://images.pexels.com/photos/5949888/pexels-photo-5949888.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Layered Greek casserole with eggplant and meat sauce"
+      },
+      souvlaki: {
+        name: "Souvlaki",
+        img: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Grilled meat skewers, a Greek street food favorite"
+      },
+      greek_salad: {
+        name: "Greek Salad",
+        img: "https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Fresh salad with tomatoes, olives, and feta cheese"
+      },
+      butter_chicken: {
+        name: "Butter Chicken",
+        img: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Creamy Indian curry with tender chicken"
+      },
+      biryani: {
+        name: "Biryani",
+        img: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop",
+        description: "Aromatic rice dish with spices and meat"
+      }
+    };
+
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // Load and render favorites
+    function renderFavorites() {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const favoritesGrid = document.getElementById('favoritesGrid');
+      
+      if (favorites.length === 0) {
+        favoritesGrid.innerHTML = `
+          <div class="info-box">
+            <p style="text-align: center; font-size: 18px; color: #666;">
+              You haven't added any favorite dishes yet! 
+              <br><br>
+              Explore our country pages and click the heart icon on dishes you love to add them here.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      favoritesGrid.innerHTML = favorites.map(dishId => {
+        const dish = dishData[dishId];
+        if (!dish) return '';
+        
+        return `
+          <div class="dish-card" data-id="${dishId}">
+            <img src="${dish.img}" alt="${dish.name}" />
+            <div class="heart-icon favorited" role="button" tabindex="0" aria-label="Remove ${dish.name} from favorites">❤️</div>
+            <div class="dish-info">
+              <h4>${dish.name}</h4>
+              <p>${dish.description}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Add event listeners for heart icons
+      document.querySelectorAll('.heart-icon').forEach(heart => {
+        heart.addEventListener('click', function() {
+          const dishCard = this.closest('.dish-card');
+          const dishId = dishCard.dataset.id;
+          removeFavorite(dishId);
+        });
+      });
+    }
+
+    function removeFavorite(dishId) {
+      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      favorites = favorites.filter(id => id !== dishId);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      renderFavorites();
+    }
+
+    // Navigation handlers
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+      window.location.href = 'settings.html';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      const auth = new AuthManager();
+      auth.logout()
+        .then(() => {
+          window.location.href = 'login.html';
+        })
+        .catch(error => {
+          console.error('Logout error:', error);
+        });
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      renderFavorites();
+    });
+  </script>
+</body>
+</html>

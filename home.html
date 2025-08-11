@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multicultural Foods - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="auth-buttons">
+      <a href="login.html" class="btn btn-login">Login</a>
+      <a href="register.html" class="btn btn-register">Register</a>
+    </div>
+    
+    <section class="hero-section">
+      <h1 id="welcomeHeading">Welcome to Multicultural Foods 🌍</h1>
+      <p>Discover authentic recipes and cultural stories from around the world</p>
+    </section>
+
+    <section class="info-section">
+      <h3>🍽️ Why Multicultural Foods Matter</h3>
+      <div class="info-box">
+        <p>Food is more than something we eat—it tells stories about where people come from and what they believe in. Every dish carries the history, traditions, and love of the people who created it. By exploring multicultural foods, we connect with different cultures and understand the beautiful diversity of our world.</p>
+      </div>
+
+      <h3>📲 What You Can Do with This App</h3>
+      <div class="info-box">
+        <ul>
+          <li>Browse dishes by country or ingredients</li>
+          <li>Learn the history and meaning behind each recipe</li>
+          <li>Ask our food-only AI chatbot for cooking help or tips</li>
+          <li>Save your favorite meals and update your profile</li>
+        </ul>
+      </div>
+
+      <div class="info-box">
+        <p><strong>MulticulturalFoods</strong> is a web-based app designed to introduce you to culturally significant dishes from around the globe. Join us on this delicious journey!</p>
+      </div>
+    </section>
+
+    <section class="welcome-box">
+      <h2>Explore Recipes from Around the World</h2>
+      <p>Click a country below to view its popular foods.</p>
+    </section>
+
+    <h3>🌐 Our Developers' Favorite Cuisines</h3>
+    <div class="countries-grid" id="countriesGrid">
+      <a href="country-greece.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Greek cuisine" />
+        <h4>Greek</h4>
+      </a>
+      <a href="country-india.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Indian cuisine" />
+        <h4>Indian</h4>
+      </a>
+      <a href="country-italy.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Italian cuisine" />
+        <h4>Italian</h4>
+      </a>
+      <a href="country-mexico.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Mexican cuisine" />
+        <h4>Mexican</h4>
+      </a>
+      <a href="country-thailand.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Thai cuisine" />
+        <h4>Thai</h4>
+      </a>
+      <a href="country-turkey.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Turkish cuisine" />
+        <h4>Turkish</h4>
+      </a>
+      <a href="country-mexico.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Mexican cuisine" />
+        <h4>Mexican</h4>
+      </a>
+      <a href="country-thailand.html" class="country-card">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Thai cuisine" />
+        <h4>Thai</h4>
+      </a>
+      <a href="country-turkey.html" class="country-card">
+        <img src="https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=100&h=67&fit=crop" alt="Turkish cuisine" />
+        <h4>Turkish</h4>
+      </a>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+
+    // Auth state management
+    function checkAuthState() {
+      const auth = new AuthManager();
+      const isLoggedIn = auth.isLoggedIn();
+      
+      // Update UI based on login state
+      document.getElementById('askAiLink').classList.toggle('disabled', !isLoggedIn);
+      
+      if (isLoggedIn) {
+        let user = auth.getCurrentUser();
+        
+        // If user is null but we're logged in, try to get from localStorage
+        if (!user) {
+          const storedUser = localStorage.getItem('currentUser');
+          if (storedUser) {
+            try {
+              user = JSON.parse(storedUser);
+            } catch (e) {
+              console.error('Error parsing stored user data:', e);
+            }
+          }
+        }
+        
+        // Only display welcome message if we have valid user data
+        const welcomeElement = document.querySelector('.welcome-box');
+        if (welcomeElement && !welcomeElement.querySelector('.welcome-user') && user && user.email) {
+          // Update the welcome heading with user's name if available
+          const welcomeHeading = document.getElementById('welcomeHeading');
+          if (welcomeHeading) {
+            const userName = user.displayName || user.email.split('@')[0];
+            welcomeHeading.textContent = `Welcome to Multicultural Foods, ${userName} 🌍`;
+          }
+          welcomeElement.innerHTML += `<p class="welcome-user">Logged in as: ${user.email}</p>`;
+        }
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      checkAuthState();
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      checkAuthState();
+    });
+  </script>
+</body>
+</html>

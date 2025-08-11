@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" id="askAiLink" title="Ask AI" aria-label="Ask AI" class="tooltip" data-tooltip="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="ai-container">
+      <h2>Settings</h2>
+      
+      <div class="settings-section">
+        <h3>Appearance</h3>
+        <div class="settings-option">
+          <div class="settings-label">
+            <span>Dark Mode</span>
+            <p class="settings-description">Switch between light and dark theme</p>
+          </div>
+          <div class="settings-control">
+            <button id="darkModeBtn" class="btn">Toggle Dark Mode</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Account</h3>
+        <div class="settings-option">
+          <div class="settings-label">
+            <span>Logout</span>
+            <p class="settings-description">Sign out of your account</p>
+          </div>
+          <div class="settings-control">
+            <button id="logoutBtnSettings" class="btn btn-secondary">Logout</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h3>About</h3>
+        <div class="info-box">
+          <p>MulticulturalFoods v1.0</p>
+          <p>A project by Farmingdale State College BCS430 Senior Project</p>
+          <p>© 2025 Hashim Sayyed</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+    
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // Auth state management
+    async function checkAuthState() {
+      const auth = new AuthManager();
+      const isLoggedIn = auth.isLoggedIn();
+      
+      // Update UI based on login state
+      document.getElementById('askAiLink').classList.toggle('disabled', !isLoggedIn);
+    }
+
+    // Dark mode toggle
+    document.getElementById('darkModeBtn').addEventListener('click', function() {
+      const isDark = window.toggleDarkMode();
+      this.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    });
+
+    // Navigation handlers
+    document.getElementById('logoutBtnSettings').addEventListener('click', async function() {
+      const auth = new AuthManager();
+      try {
+        await auth.logout();
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error('Logout error:', error);
+        alert('Error logging out. Please try again.');
+      }
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      checkAuthState();
+      
+      // Update dark mode button text based on current state
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      document.getElementById('darkModeBtn').textContent = isDarkMode ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    });
+  </script>
+</body>
+</html>

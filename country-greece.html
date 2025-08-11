@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greek Cuisine - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="ai-container">
+      <h2>Popular Greek Dishes 🇬🇷</h2>
+      <div class="dish-grid" id="dishGrid">
+        <div class="dish-card" data-id="gyros">
+          <img src="https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" alt="Gyros" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Add Gyros to favorites">♡</div>
+          <div class="dish-info">
+            <h4>Gyros</h4>
+            <p>Traditional Greek dish with seasoned meat wrapped in pita bread with vegetables and tzatziki sauce.</p>
+          </div>
+        </div>
+        <div class="dish-card" data-id="moussaka">
+          <img src="https://images.pexels.com/photos/5949888/pexels-photo-5949888.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" alt="Moussaka" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Add Moussaka to favorites">♡</div>
+          <div class="dish-info">
+            <h4>Moussaka</h4>
+            <p>Layered Greek casserole with eggplant, meat sauce, and béchamel sauce.</p>
+          </div>
+        </div>
+        <div class="dish-card" data-id="souvlaki">
+          <img src="https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" alt="Souvlaki" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Add Souvlaki to favorites">♡</div>
+          <div class="dish-info">
+            <h4>Souvlaki</h4>
+            <p>Grilled meat skewers, a popular Greek street food served with pita and vegetables.</p>
+          </div>
+        </div>
+        <div class="dish-card" data-id="greek_salad">
+          <img src="https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" alt="Greek Salad" />
+          <div class="heart-icon" role="button" tabindex="0" aria-label="Add Greek Salad to favorites">♡</div>
+          <div class="dish-info">
+            <h4>Greek Salad</h4>
+            <p>Fresh salad with tomatoes, cucumbers, olives, and feta cheese dressed with olive oil.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+    
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // Favorites functionality
+    function updateHeartIcons() {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const hearts = document.querySelectorAll('.heart-icon');
+      
+      hearts.forEach(heart => {
+        const dishId = heart.parentElement.dataset.id;
+        if (favorites.includes(dishId)) {
+          heart.textContent = '❤️';
+          heart.classList.add('favorited');
+          heart.setAttribute('aria-label', `Remove ${dishId} from favorites`);
+        } else {
+          heart.textContent = '♡';
+          heart.classList.remove('favorited');
+          heart.setAttribute('aria-label', `Add ${dishId} to favorites`);
+        }
+      });
+    }
+
+    function toggleFavorite(dishId, heartElement) {
+      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const index = favorites.indexOf(dishId);
+
+      if (index > -1) {
+        favorites.splice(index, 1);
+        heartElement.textContent = '♡';
+        heartElement.classList.remove('favorited');
+      } else {
+        favorites.push(dishId);
+        heartElement.textContent = '❤️';
+        heartElement.classList.add('favorited');
+      }
+
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    // Event listeners
+    document.getElementById('dishGrid').addEventListener('click', function(e) {
+      if (e.target.classList.contains('heart-icon')) {
+        const dishCard = e.target.closest('.dish-card');
+        const dishId = dishCard.dataset.id;
+        toggleFavorite(dishId, e.target);
+      }
+    });
+
+    // Navigation handlers
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+      window.location.href = 'settings.html';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      const auth = new AuthManager();
+      auth.logout()
+        .then(() => {
+          window.location.href = 'login.html';
+        })
+        .catch(error => {
+          console.error('Logout error:', error);
+        });
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      updateHeartIcons();
+    });
+  </script>
+</body>
+</html>

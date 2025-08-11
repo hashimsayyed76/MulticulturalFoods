@@ -1,0 +1,16 @@
+{
+  "name": "multicultural-foods",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start-backend": "cd backend && python server.py",
+    "install-backend": "cd backend && pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

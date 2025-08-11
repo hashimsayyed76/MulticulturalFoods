@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="search-wrapper">
+      <h2>Search Multicultural Dishes</h2>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Enter keywords, dish name, or country..." />
+        <select id="searchFilter">
+          <option value="">Filter by</option>
+          <option value="country">Country</option>
+          <option value="top">Top Rated</option>
+          <option value="contains">Contains</option>
+        </select>
+        <button class="btn" id="searchBtn">Search</button>
+      </div>
+      <div class="search-results" id="searchResults">
+        <p>Enter a search term to find delicious dishes from around the world!</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+    import { protectRoute } from './src/auth/authGuard.js';
+    
+    // Check if user is logged in
+    if (!protectRoute()) {
+      // The protectRoute function will handle the redirect
+      throw new Error('Authentication required');
+    }
+    
+    // Sample data for dishes
+    const dishes = [
+      {
+        name: "Sushi",
+        country: "Japan",
+        dateAdded: "2023-01-10",
+        rating: 4.9,
+        description: "Delicious vinegared rice with seafood or vegetables."
+      },
+      {
+        name: "Tacos",
+        country: "Mexico",
+        dateAdded: "2022-10-05",
+        rating: 4.7,
+        description: "Corn or wheat tortilla folded with fillings like meat, beans, and salsa."
+      },
+      {
+        name: "Paella",
+        country: "Spain",
+        dateAdded: "2021-05-15",
+        rating: 4.5,
+        description: "Rice dish with saffron, vegetables, seafood, and meat."
+      },
+      {
+        name: "Biryani",
+        country: "India",
+        dateAdded: "2023-03-20",
+        rating: 4.8,
+        description: "Spiced rice with meat or vegetables cooked together."
+      },
+      {
+        name: "Baklava",
+        country: "Turkey",
+        dateAdded: "2020-12-01",
+        rating: 4.3,
+        description: "Sweet layered pastry with nuts and honey."
+      },
+      {
+        name: "Poutine",
+        country: "Canada",
+        dateAdded: "2022-06-30",
+        rating: 4.1,
+        description: "French fries topped with cheese curds and gravy."
+      }
+    ];
+
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // Search functionality
+    function performSearch() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const filter = document.getElementById('searchFilter').value;
+      const resultsDiv = document.getElementById('searchResults');
+
+      if (!query) {
+        resultsDiv.innerHTML = '<p>Please enter a search term.</p>';
+        return;
+      }
+
+      // Filter dishes
+      let filteredDishes = dishes.filter(dish => {
+        const searchableText = (dish.name + " " + dish.country + " " + dish.description).toLowerCase();
+        return searchableText.includes(query);
+      });
+
+      if (filteredDishes.length === 0) {
+        resultsDiv.innerHTML = `<p>No results found for "${query}".</p>`;
+        return;
+      }
+
+      // Apply sorting
+      switch(filter) {
+        case "country":
+          filteredDishes.sort((a, b) => a.country.localeCompare(b.country));
+          break;
+        case "top":
+          filteredDishes.sort((a, b) => b.rating - a.rating);
+          break;
+      }
+
+      // Render results
+      resultsDiv.innerHTML = filteredDishes.map(dish => `
+        <div class="result-item">
+          <h4>${dish.name}</h4>
+          <div class="result-meta">
+            Country: ${dish.country} | Added: ${dish.dateAdded} | Rating: ${dish.rating}⭐
+          </div>
+          <div class="result-description">${dish.description}</div>
+        </div>
+      `).join('');
+    }
+
+    // Event listeners
+    document.getElementById('searchBtn').addEventListener('click', performSearch);
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // Navigation handlers
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+      window.location.href = 'settings.html';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      const auth = new AuthManager();
+      auth.logout()
+        .then(() => {
+          window.location.href = 'login.html';
+        })
+        .catch(error => {
+          console.error('Logout error:', error);
+        });
+    });
+  </script>
+</body>
+</html>

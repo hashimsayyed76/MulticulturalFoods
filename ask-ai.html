@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ask AI - Multicultural Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <script src="src/darkMode.js" type="module"></script>
+</head>
+<body>
+  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+    <div id="logoContainer" aria-label="Main logo">
+      <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Multicultural Foods Logo" />
+    </div>
+    
+    <button id="profileBtn" title="Profile" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">👤</button>
+    <div id="profileDropdown" role="menu" aria-labelledby="profileBtn">
+      <button id="settingsBtn" role="menuitem">Settings</button>
+      <button id="logoutBtn" role="menuitem">Logout</button>
+    </div>
+    
+    <a href="home.html" title="Home" aria-label="Home">🏠</a>
+    <a href="search.html" title="Search" aria-label="Search">🔍</a>
+    <a href="ask-ai.html" title="Ask AI" aria-label="Ask AI">🤖</a>
+    <a href="favorites.html" title="Favorites" aria-label="Favorites">❤️</a>
+  </div>
+
+  <main class="main-content" role="main">
+    <div class="ai-container">
+      <h2>Ask Our Food AI 🍽️</h2>
+      <form id="aiForm">
+        <div class="form-group">
+          <label for="question">What would you like to know about food today?</label>
+          <textarea id="question" name="question" rows="5" 
+                    placeholder="Ask about recipes, cooking techniques, ingredients, cultural food traditions, or anything food-related!" 
+                    required></textarea>
+        </div>
+        <button type="submit" class="btn btn-full">Ask AI</button>
+      </form>
+
+      <div class="ai-response" id="responseBox" style="display: none;">
+        <strong>AI Response:</strong>
+        <p id="aiOutput"></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="src/auth/auth.js" type="module"></script>
+  <script type="module">
+    import { AuthManager } from './src/auth/auth.js';
+    import { protectRoute } from './src/auth/authGuard.js';
+    
+    // Check if user is logged in
+    function checkAuth() {
+      return protectRoute();
+    }
+
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+      profileBtn.setAttribute('aria-expanded', !isExpanded);
+      profileDropdown.style.display = isExpanded ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function() {
+      profileBtn.setAttribute('aria-expanded', 'false');
+      profileDropdown.style.display = 'none';
+    });
+
+    // AI Form handling
+    document.getElementById('aiForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      await handleAIQuery();
+    });
+
+    async function handleAIQuery() {
+      const question = document.getElementById('question').value.trim();
+      const output = document.getElementById('aiOutput');
+      const responseBox = document.getElementById('responseBox');
+
+      if (!question) {
+        output.textContent = "Please enter a food-related question.";
+        responseBox.style.display = 'block';
+        return;
+      }
+
+      // Show loading state
+      output.innerHTML = '<div class="loading"></div> Thinking...';
+      responseBox.style.display = 'block';
+
+      try {
+        // Try to connect to backend API
+        const response = await fetch('http://localhost:5000/ask-ai', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ question: question })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // Format the response with better readability
+          const formattedAnswer = formatAIResponse(data.answer);
+          output.innerHTML = formattedAnswer;
+        } else {
+          throw new Error('API request failed');
+        }
+      } catch (error) {
+        // Fallback to mock response
+        console.log('Using fallback response');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const mockResponse = generateMockResponse(question);
+        // Format the mock response with better readability
+        const formattedAnswer = formatAIResponse(mockResponse);
+        output.innerHTML = formattedAnswer;
+      }
+    }
+
+    // Function to format AI responses for better readability
+    function formatAIResponse(text) {
+      // Convert lists to bullet points
+      text = text.replace(/(\d+\.\s+[^\n]+)/g, '<li>$1</li>');
+      text = text.replace(/(\n\s*-\s+[^\n]+)/g, '<li>$1</li>');
+      
+      // Wrap lists in ul tags
+      if (text.includes('<li>')) {
+        text = text.replace(/<li>(.+?)(<li>|$)/gs, '<li>$1</li>$2');
+        text = '<p>' + text.replace(/(<li>.+?<\/li>)+/gs, '<ul>$&</ul>') + '</p>';
+      } else {
+        // If no lists, just wrap paragraphs
+        text = '<p>' + text.replace(/\n\n/g, '</p><p>') + '</p>';
+      }
+      
+      // Make recipe titles and section headers bold
+      text = text.replace(/\b(Ingredients|Instructions|Steps|Recipe|Preparation|Cooking|Serving|Tips):/g, '<strong>$1:</strong>');
+      
+      // Add spacing between paragraphs
+      text = text.replace(/<\/p><p>/g, '</p><br><p>');
+      
+      return text;
+    }
+
+    function generateMockResponse(question) {
+      const lowerQuestion = question.toLowerCase();
+      
+      if (lowerQuestion.includes('recipe') || lowerQuestion.includes('cook')) {
+        return "I'd be happy to help with cooking! For specific recipes, I recommend starting with fresh ingredients and following traditional preparation methods.\n\n- Use quality ingredients\n- Follow authentic techniques\n- Respect traditional methods\n\nWhat type of cuisine are you interested in? I can provide tips on techniques, ingredient substitutions, and cultural cooking methods.";
+      }
+      
+      if (lowerQuestion.includes('ingredient') || lowerQuestion.includes('substitute')) {
+        return "Great question about ingredients! Many ingredients can be substituted based on dietary needs or availability.\n\n1. Greek yogurt can replace sour cream\n2. Coconut milk works instead of dairy milk\n3. Applesauce can substitute for oil in baking\n4. Nutritional yeast adds cheesy flavor without dairy\n\nWhat specific ingredient are you looking to substitute?";
+      }
+      
+      if (lowerQuestion.includes('culture') || lowerQuestion.includes('tradition')) {
+        return "Food traditions are fascinating! Every culture has unique cooking methods, ingredients, and meal customs that have been passed down through generations. These traditions often reflect the geography, climate, and history of a region.\n\nSome examples include:\n\n- Japanese tea ceremonies representing mindfulness and respect\n- Italian Sunday family dinners celebrating togetherness\n- Mexican Day of the Dead food offerings honoring ancestors\n- Indian spice traditions dating back thousands of years\n\nWhich cultural food tradition would you like to learn more about?";
+      }
+      
+      if (lowerQuestion.includes('spice') || lowerQuestion.includes('flavor')) {
+        return "Spices and flavors are the heart of multicultural cooking! Different regions use unique spice combinations that define their cuisine.\n\nSignature spice blends around the world:\n\n1. Indian cuisine: garam masala, curry powder\n2. Middle Eastern cuisine: za'atar, baharat\n3. French cooking: herbes de Provence\n4. Chinese cuisine: five spice powder\n5. Ethiopian cuisine: berbere\n\nThe key is balancing flavors and understanding how spices complement each other.";
+      }
+      
+      // Default response
+      return "That's an interesting food question! I'm here to help with all things culinary.\n\nI can assist with:\n\n- Recipes and cooking techniques\n- Ingredient information and substitutions\n- Cultural food traditions and history\n- Culinary tips and kitchen hacks\n- Dietary considerations\n\nCould you provide a bit more detail about what you'd like to know? I'm excited to share some delicious knowledge with you!";
+    }
+
+    // Navigation handlers
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+      window.location.href = 'settings.html';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      const auth = new AuthManager();
+      auth.logout()
+        .then(() => {
+          window.location.href = 'login.html';
+        })
+        .catch(error => {
+          console.error('Logout error:', error);
+        });
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+    });
+  </script>
+</body>
+</html>

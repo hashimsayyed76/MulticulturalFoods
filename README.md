@@ -1,169 +1,193 @@
+# MulticulturalFoods 🍽️🌍
 
-# 🌍 Multicultural Foods Web Application
+A modern web application that introduces users to authentic global cuisines, featuring cultural backgrounds, recipes, and an AI-powered food assistant.
 
-**Multicultural Foods** is a culturally-focused web application that allows users to explore recipes from around the world. It aims to educate users on traditional dishes, their origins, and cultural significance. This project also features a custom AI chatbot that answers food-related questions only — deployed using Flask and OpenAI on Render, while Firebase handles frontend hosting and authentication.
+## Features
 
----
+### 🔹 **Explore Global Cuisines**
+- Browse dishes from Greece, India, Italy, Mexico, Thailand, and Turkey
+- Learn about cultural significance and cooking traditions
+- High-quality food photography and detailed descriptions
 
-## 🧠 Purpose
+### 🔹 **Smart Search**
+- Search by dish name, country, or ingredients
+- Filter results by rating, country, or content
+- Discover new recipes based on your preferences
 
-The purpose of this project is to:
-- Promote cultural awareness through cuisine.
-- Provide educational insights into the history and meaning behind different dishes.
-- Offer an engaging platform with an AI assistant restricted to food-related topics.
-- Enable users to browse, search, and save meals, and manage personal profiles.
+### 🔹 **AI Food Assistant**
+- Chat with our food-focused AI for cooking tips
+- Get ingredient substitution suggestions
+- Learn about cultural food traditions
+- Receive personalized recipe recommendations
 
----
+### 🔹 **Personal Features**
+- Save favorite dishes to your collection
+- User authentication and profiles
+- Responsive design for all devices
 
-## 🛠️ Technologies Used
+## Technology Stack
 
-### 💻 Frontend:
-- **HTML, CSS, JavaScript**
-- **Firebase Authentication** for secure login/register
-- **Firebase Hosting** for web deployment
+### Frontend
+- **Vanilla JavaScript** with modern ES6+ features
+- **Vite** for fast development and building
+- **CSS3** with custom properties and modern layouts
+- **Responsive Design** with mobile-first approach
 
-### 🧠 Backend:
-- **Python (Flask), Gunicorn, and OpenAI** for AI-API support
-- **Render** for backend deployment of Flask (always enabled)
-- **Flask-CORS** for cross-origin support
-- **Dotenv** to securely load API keys
+### Backend
+- **Python Flask** for API endpoints
+- **OpenAI GPT** integration for AI assistant
+- **CORS** enabled for cross-origin requests
+- **Environment-based configuration**
 
----
+## Getting Started
 
-## 🚀 Live URLs
+### Prerequisites
+- Node.js (v16 or higher)
+- Python 3.8+
+- OpenAI API key (optional, has fallback responses)
 
-- **Frontend (Firebase):**  
-  [https://multiculturalfoods-8f667.web.app](https://multiculturalfoods-8f667.web.app)
+### Installation
 
-- **Backend AI Server (Render):**  
-  [https://multiculturalfoods.onrender.com](https://multiculturalfoods.onrender.com)
-
----
-
-## 🔧 Running Locally
-
-### ✅ Prerequisites
-
-- Python 3.10+
-- Node.js and Firebase CLI (for frontend, optional)
-- An OpenAI API key (for backend)
-
-### 📦 Backend Setup (Flask AI Server)
-
-1. Clone the repo and navigate to the `backend` folder:
-
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/hashimsayyed76/MulticulturalFoods.git
-   cd multiculturalfoods/backend
+   git clone <repository-url>
+   cd MulticulturalFoods
    ```
 
-2. Create and activate a virtual environment:
-
+2. **Install frontend dependencies**
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   npm install
    ```
 
-3. Install dependencies:
-
+3. **Install backend dependencies**
    ```bash
-   pip install -r requirements.txt
+   npm run install-backend
    ```
 
-4. Create a `.env` file with your OpenAI key:
-
-   ```
-   OPENAI_API_KEY=your_openai_key_here
-   ```
-
-5. Run the Flask app locally:
-
+4. **Set up environment variables**
    ```bash
-   python ai_server.py
+   cp .env.example .env
+   # Edit .env and add your OpenAI API key
    ```
 
-   Access the API at:  
-   `http://localhost:5000/ask-ai`
+### Development
 
----
-
-### 🌐 Frontend Setup (Optional Local Testing)
-
-1. Navigate to the frontend directory:
-
+1. **Start the frontend development server**
    ```bash
-   cd ../frontend/html
+   npm run dev
    ```
 
-2. Open `index.html` in your browser directly or use a local server (e.g., `Live Server` in VS Code).
-
-3. Make sure `askai.html` fetches the correct backend:
-
-   ```javascript
-   const BACKEND_URL = "https://multiculturalfoods.onrender.com/ask-ai";
+2. **Start the backend server** (in a new terminal)
+   ```bash
+   npm run start-backend
    ```
 
----
+3. **Open your browser**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5000
 
-## 🧠 AI Chatbot Behavior
-
-- Accepts only food/cooking/recipe-related questions.
-- Filters out off-topic questions using a list of banned keywords.
-- Maintains user session context per IP using `request.remote_addr`.
-- Returns helpful, informative, and polite food-specific answers via GPT-4o.
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 MulticulturalFoods/
-│
+├── src/
+│   ├── auth/           # Authentication management
+│   ├── pages/          # Page components
+│   ├── router/         # Client-side routing
+│   ├── main.js         # Application entry point
+│   └── style.css       # Global styles
 ├── backend/
-│   ├── ai_server.py (Flask Backend)
-│   ├── requirements.txt
-│   └── .env (No API Key in here, may need to contact Administrator for Key to run in Local. Secret protected for security measures).
-│
-├── frontend/
-│   └── html/ (contains all HTML redirects)
-│       ├── css/ (contains stylesheet)
-|       ├── dishes/ (contains hardcoded images for index, includes background and logo in folder)
-|       ├── flags/ (contains hardcoded images for index for countries)
-│       └── js/ (contains authentication for console validation of scripts)
+│   ├── server.py       # Flask API server
+│   └── requirements.txt # Python dependencies
+├── index.html          # Main HTML template
+└── package.json        # Node.js configuration
 ```
 
----
+## API Endpoints
 
-## 🔐 Environment Variables
+### `/ask-ai` (POST)
+Ask the AI assistant food-related questions.
 
-| Key             | Description                |
-|----------------|----------------------------|
-| OPENAI_API_KEY | Your OpenAI API Key (GPT-4o) |
+**Request:**
+```json
+{
+  "question": "How do I make authentic Greek moussaka?"
+}
+```
 
----
+**Response:**
+```json
+{
+  "answer": "To make authentic Greek moussaka, you'll need..."
+}
+```
 
-## ✨ Features
+### `/health` (GET)
+Check if the backend server is running.
 
-- 🔐 Secure user auth (Firebase)
-- 🌎 Browse cuisines by country
-- 🍽 Learn dish history & origins
-- 🤖 AI food assistant
-- 💾 Save meals and manage profile
-- ⚡ Fully deployed using Render + Firebase
+## Deployment Options
 
----
+### Frontend Only
+- **Netlify**: Drag and drop the `dist` folder after running `npm run build`
+- **Vercel**: Connect your GitHub repository
+- **GitHub Pages**: Enable in repository settings
 
-## 🧪 Future Enhancements
+### Full Stack
+- **Heroku**: Deploy both frontend and backend
+- **Railway**: Modern deployment platform
+- **DigitalOcean App Platform**: Scalable hosting
 
-- Add support for user-generated recipes
-- Introduce cuisine recommendation engine
-- Enable multilingual support for international users
-- Enhance AI to track deeper context with longer history
+### Desktop Application
+- **Electron**: Convert to desktop app
+- **PyInstaller**: Create executable with Python backend
 
----
+## Features in Detail
 
-## 🤝 Contributors
+### Authentication System
+- Local storage-based user management
+- Registration with email validation
+- Password reset functionality
+- Session persistence
 
-- Moeez Zahid  
-- Hashim S.  
-- Umer K.
+### Favorites System
+- Heart icon interactions
+- Local storage persistence
+- Dynamic favorites page
+- Easy removal from favorites
+
+### Responsive Design
+- Mobile-first approach
+- Tablet and desktop optimizations
+- Touch-friendly interactions
+- Accessible navigation
+
+### AI Integration
+- Food-focused responses only
+- Fallback responses when API unavailable
+- Context-aware suggestions
+- Cultural cooking knowledge
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Team
+
+- **Moeez Zahid** - Developer
+- **Hashim S. Shaukat** - Developer  
+- **Umer Kamran** - Developer
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Food images from [Pexels](https://pexels.com)
+- Icons and emojis for cultural representation
+- OpenAI for AI assistant capabilities
+- BCS430 Senior Project at Farmingdale State College
