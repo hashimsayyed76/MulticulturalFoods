@@ -11,6 +11,6 @@
     "install-backend": "cd backend && pip install -r requirements.txt"
   },
   "devDependencies": {
-    "vite": "^5.0.0"
+    "vite": "^5.4.19"
   }
 }
